@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useAuth } from '@/features/auth/AuthProvider';
+import { PasswordField } from '@/features/auth/PasswordField';
 
 /**
  * Doctor application. Captures email + password + PRC ID now; the full intake
@@ -70,14 +71,12 @@ export default function DoctorRegisterScreen() {
           required
         />
 
-        <label htmlFor="password">{t('auth.field.password')}</label>
-        <input
+        <PasswordField
           id="password"
-          type="password"
+          labelKey="auth.field.password"
           autoComplete="new-password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
+          onChange={setPassword}
           minLength={8}
         />
 

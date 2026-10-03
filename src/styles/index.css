@@ -1,5 +1,10 @@
-/* CareLink base styles. Mobile-first (360px). Keep it simple for now. */
+/* CareLink base styles. Mobile-first (360px). */
+/* tokens.css must be imported before Tailwind so the var() tokens exist. */
 @import './tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 *,
 *::before,
@@ -277,4 +282,26 @@ input {
   font-weight: 600;
   color: var(--cl-text-muted);
   margin-top: -8px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Password field with show/hide toggle
+ * ------------------------------------------------------------------------- */
+.carelink-password {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.carelink-password__input {
+  flex: 1;
+}
+
+.carelink-password__toggle {
+  flex: 0 0 auto;
+  background: transparent;
+  color: var(--cl-primary);
+  border: 1px solid var(--cl-border);
+  padding: 0 12px;
+  white-space: nowrap;
 }

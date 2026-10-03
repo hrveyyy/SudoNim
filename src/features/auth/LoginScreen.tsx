@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth, roleHome, type user_role } from '@/features/auth/AuthProvider';
+import { PasswordField } from '@/features/auth/PasswordField';
 
 export interface LoginScreenProps {
   /** The role this portal is for. Only this role is allowed through. */
@@ -70,14 +71,12 @@ export function LoginScreen({ expectedRole, portalKey, registerTo }: LoginScreen
           required
         />
 
-        <label htmlFor="password">{t('auth.field.password')}</label>
-        <input
+        <PasswordField
           id="password"
-          type="password"
+          labelKey="auth.field.password"
           autoComplete="current-password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
+          onChange={setPassword}
         />
 
         {error && (

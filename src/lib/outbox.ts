@@ -17,8 +17,11 @@ import { supabase } from '@/lib/supabase';
  *    `advance_referral` RPC (kind: 'rpc'); never a direct status write here.
  */
 
+/** Tables the offline layer writes/reads. Matches generated table names. */
+type sync_table = 'checkups' | 'patients' | 'households' | 'referrals';
+
 /** Maps an outbox kind to its target table (for table inserts). */
-const KIND_TABLE: Record<Exclude<outbox_kind, 'rpc'>, string> = {
+const KIND_TABLE: Record<Exclude<outbox_kind, 'rpc'>, sync_table> = {
   checkup: 'checkups',
   patient: 'patients',
   household: 'households',

@@ -28,7 +28,19 @@
   "auth": {
     "field": {
       "email": "Email",
-      "password": "Password"
+      "password": "Password",
+      "surname": "Apelyido",
+      "first_name": "Pangalan",
+      "sex": "Kasarian",
+      "birthdate": "Kapanganakan",
+      "show": "Ipakita",
+      "hide": "Itago",
+      "show_password": "Ipakita ang password",
+      "hide_password": "Itago ang password"
+    },
+    "sex": {
+      "male": "Lalaki",
+      "female": "Babae"
     },
     "action": {
       "sign_out": "Mag-sign out"
@@ -61,7 +73,8 @@
       "submitting": "Nagrerehistro…",
       "link": "Magrehistro",
       "have_account": "May account na?",
-      "pending": "Nagawa na ang iyong account. May barangay health worker na magbe-verify ng iyong pagkakakilanlan nang personal bago mo makita ang iyong rekord."
+      "pending": "Nagawa na ang iyong account. May barangay health worker na magbe-verify ng iyong pagkakakilanlan nang personal bago mo makita ang iyong rekord.",
+      "pairing_note": "Ang iyong apelyido at kapanganakan ang magse-set ng iyong access key. Hihingin ito ng doktor pagkatapos i-scan ang iyong QR code."
     },
     "doctor": {
       "title": "Pagpaparehistro ng doktor",
@@ -76,16 +89,180 @@
       "body": "Ang iyong account ay naghihintay ng personal na verification mula sa isang barangay health worker."
     }
   },
+  "common": {
+    "loading": "Naglo-load…",
+    "saving": "Sine-save…",
+    "toggle_language": "Palitan ang wika",
+    "cancel": "Kanselahin"
+  },
+  "nav": {
+    "masterlist": "Masterlist",
+    "referrals": "Mga referral",
+    "id_cards": "ID card",
+    "dashboard": "Dashboard",
+    "sync": "Sync",
+    "patients": "Mga pasyente",
+    "scan": "I-scan",
+    "prescriptions": "Mga reseta",
+    "health_card": "Health card",
+    "visits": "Mga pagpunta",
+    "notes": "Mga tala",
+    "access_history": "Kasaysayan ng access",
+    "consents": "Mga pahintulot",
+    "doctor_approvals": "Pag-apruba ng doktor",
+    "bhw_seed": "Mag-seed ng BHW",
+    "reports": "Mga ulat",
+    "audit": "Audit"
+  },
   "masterlist": {
     "title": "Masterlist",
-    "network": "Network",
-    "pending": "naghihintay",
-    "failed": "nabigo",
-    "patients": "Mga pasyente",
-    "empty": "Wala pang naka-cache na pasyente. Mag-sync para i-load ang listahan ng iyong barangay.",
+    "code": "Patient code",
     "code_pending": "naghihintay ng code",
-    "demo": {
-      "enqueue_checkup": "Mag-enqueue ng demo check-up"
+    "empty": "Walang nahanap na pasyente.",
+    "search_placeholder": "Maghanap ng pangalan o code",
+    "filter_label": "Filter ng verification",
+    "filter": { "all": "Lahat", "verified": "Verified", "unverified": "Hindi pa verified" },
+    "new_patient": "Bagong pasyente",
+    "export_csv": "I-export CSV",
+    "export_confirm": "May pangalan ng pasyente ang export na ito. Ituloy?",
+    "open": "Buksan",
+    "col": { "name": "Pangalan", "code": "Code", "status": "Status", "actions": "Aksyon" }
+  },
+  "patients": {
+    "new": { "title": "Irehistro ang residente", "submit": "Irehistro" },
+    "record": {
+      "title": "Rekord ng pasyente",
+      "verify": "I-verify nang personal",
+      "new_checkup": "Bagong check-up",
+      "new_referral": "Mag-refer",
+      "timeline": "Kasaysayan ng check-up",
+      "no_checkups": "Wala pang naitalang check-up."
     }
+  },
+  "checkups": {
+    "new": { "title": "Bagong check-up", "submit": "I-save ang check-up" },
+    "preview": "Preview ng risk",
+    "preview_note": "Preview lamang. Ang server ang kukompyut ng opisyal na resulta.",
+    "field": {
+      "systolic": "Systolic",
+      "diastolic": "Diastolic",
+      "bp": "Presyon ng dugo",
+      "fasting_glucose": "Fasting glucose",
+      "notes": "Mga tala"
+    },
+    "outcome": {
+      "normal": "Normal",
+      "monitor": "Bantayan",
+      "needs_referral": "Kailangang i-refer",
+      "unknown": "Hindi pa na-screen"
+    }
+  },
+  "referrals": {
+    "title": "Mga referral",
+    "empty": "Wala pang referral.",
+    "no_reason": "Walang ibinigay na dahilan",
+    "new": { "title": "Bagong referral", "submit": "Ipadala ang referral" },
+    "detail": { "title": "Referral" },
+    "field": { "reason": "Dahilan" },
+    "advance_to": "Markahan bilang {{status}}",
+    "cancel": "Kanselahin ang referral",
+    "status": {
+      "sent": "Naipadala",
+      "received": "Natanggap",
+      "seen": "Nakita",
+      "follow_up_set": "May follow-up",
+      "closed": "Sarado",
+      "cancelled": "Kinansela"
+    }
+  },
+  "idcards": {
+    "title": "ID card",
+    "online_only": "Kailangan ng koneksyon para mag-print ng ID card (ang QR ay pinipirmahan sa server).",
+    "pick_patient": "Pumili ng pasyente",
+    "preview": "Preview ng card",
+    "print": "I-print ang card",
+    "print_confirm": "Ipinapakita ng card ang pangalan ng pasyente. I-print na?",
+    "sign_failed": "Hindi ma-sign ang QR. Subukan ulit."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "kpi": {
+      "patients": "Mga pasyente",
+      "verified": "Verified",
+      "needs_referral": "Kailangang i-refer",
+      "open_referrals": "Bukas na referral"
+    }
+  },
+  "reports": {
+    "title": "Buwanang ulat",
+    "col": { "outcome": "Resulta", "count": "Bilang" }
+  },
+  "prescriptions": {
+    "title": "Reseta",
+    "demo_notice": "Demo na reseta. Hindi para sa klinikal o legal na gamit.",
+    "no_controlled": "Hindi sinusuportahan ang controlled at delikadong gamot.",
+    "patient": "Pasyente",
+    "license": "License no.",
+    "issued_at": "Petsa",
+    "cancelled": "Kinansela ang resetang ito.",
+    "list_title": "Mga reseta",
+    "empty": "Wala pang reseta.",
+    "view": "Tingnan",
+    "print": "I-print",
+    "new": { "title": "Bagong reseta", "submit": "Mag-isyu ng reseta", "add_item": "Magdagdag ng gamot", "follow_up": "Petsa ng follow-up" },
+    "item": {
+      "drug": "Gamot",
+      "strength": "Lakas",
+      "dosage": "Dosage",
+      "frequency": "Dalas",
+      "duration": "Tagal",
+      "instructions": "Panuto"
+    }
+  },
+  "scan": {
+    "title": "I-scan ang QR ng pasyente",
+    "start_camera": "Buksan ang camera",
+    "stop_camera": "Isara ang camera",
+    "manual": "Ilagay ang code nang manu-mano",
+    "manual_placeholder": "Patient code",
+    "resolve": "Hanapin",
+    "resolve_failed": "Hindi ma-resolve ang QR na ito.",
+    "pairing": {
+      "title": "Kumpirmahin ang pagkakakilanlan ng pasyente",
+      "intro": "Hingin sa pasyente ang kanyang apelyido at kapanganakan.",
+      "surname": "Apelyido",
+      "birthdate": "Kapanganakan",
+      "submit": "I-unlock ang rekord",
+      "failed": "Hindi tugma ang apelyido at kapanganakan.",
+      "locked": "Masyadong maraming pagsubok. Subukan ulit mamaya."
+    },
+    "open_record": "Buksan ang rekord"
+  },
+  "notes": {
+    "new": { "title": "Tala ng pagbisita", "submit": "I-save ang tala" },
+    "patient_instructions": "Panuto para sa pasyente",
+    "clinical_note": "Klinikal na tala (doktor + pasyente lamang)",
+    "follow_up": "Magtakda ng follow-up",
+    "follow_up_date": "Petsa ng follow-up",
+    "empty": "Wala pang tala."
+  },
+  "citizen": {
+    "health_card": { "title": "Aking health card", "reset_qr": "I-reset ang aking QR" },
+    "visits": { "title": "Aking mga pagbisita", "empty": "Wala pang pagbisita." },
+    "access": { "title": "Sino ang tumingin sa aking rekord", "empty": "Walang naitalang access." },
+    "consents": { "title": "Mga pahintulot", "empty": "Wala pang pahintulot.", "revoke": "Bawiin", "grant": "Ibigay" }
+  },
+  "admin": {
+    "approvals": {
+      "title": "Pag-apruba ng doktor",
+      "empty": "Walang nakabinbing aplikasyon.",
+      "approve": "Aprubahan",
+      "reject": "Tanggihan",
+      "prc": "PRC",
+      "status": "Status"
+    },
+    "seed": { "title": "Mag-seed ng BHW", "user_id": "Auth user ID", "barangay": "Barangay", "full_name": "Buong pangalan", "submit": "Gumawa ng BHW" },
+    "reports": { "title": "Mga pinagsama-samang ulat" },
+    "audit": { "title": "Audit log", "empty": "Walang audit entry.", "action": "Aksyon", "actor": "User ID", "when": "Kailan" }
   }
 }

@@ -5,7 +5,7 @@ import type {
   checkups_row,
   referrals_row,
   risk_rules_row,
-} from '@/types/database';
+} from '@/types/rows';
 
 /**
  * The single place in the app that defines the Dexie (IndexedDB) schema.

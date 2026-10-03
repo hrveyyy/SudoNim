@@ -28,7 +28,19 @@
   "auth": {
     "field": {
       "email": "Email",
-      "password": "Password"
+      "password": "Password",
+      "surname": "Surname",
+      "first_name": "First name",
+      "sex": "Sex",
+      "birthdate": "Birthdate",
+      "show": "Show",
+      "hide": "Hide",
+      "show_password": "Show password",
+      "hide_password": "Hide password"
+    },
+    "sex": {
+      "male": "Male",
+      "female": "Female"
     },
     "action": {
       "sign_out": "Sign out"
@@ -61,7 +73,8 @@
       "submitting": "Registering…",
       "link": "Register",
       "have_account": "Already have an account?",
-      "pending": "Your account was created. A barangay health worker will verify your identity in person before you can see your record."
+      "pending": "Your account was created. A barangay health worker will verify your identity in person before you can see your record.",
+      "pairing_note": "Your surname and birthdate set up your access key. A doctor will ask for them after scanning your QR code."
     },
     "doctor": {
       "title": "Doctor registration",
@@ -76,16 +89,180 @@
       "body": "Your account is awaiting in-person verification by a barangay health worker."
     }
   },
+  "common": {
+    "loading": "Loading…",
+    "saving": "Saving…",
+    "toggle_language": "Toggle language",
+    "cancel": "Cancel"
+  },
+  "nav": {
+    "masterlist": "Masterlist",
+    "referrals": "Referrals",
+    "id_cards": "ID cards",
+    "dashboard": "Dashboard",
+    "sync": "Sync",
+    "patients": "Patients",
+    "scan": "Scan",
+    "prescriptions": "Prescriptions",
+    "health_card": "Health card",
+    "visits": "Visits",
+    "notes": "Notes",
+    "access_history": "Access history",
+    "consents": "Consents",
+    "doctor_approvals": "Doctor approvals",
+    "bhw_seed": "Seed BHW",
+    "reports": "Reports",
+    "audit": "Audit"
+  },
   "masterlist": {
     "title": "Masterlist",
-    "network": "Network",
-    "pending": "pending",
-    "failed": "failed",
-    "patients": "Patients",
-    "empty": "No patients cached yet. Sync to load your barangay's list.",
+    "code": "Patient code",
     "code_pending": "code pending",
-    "demo": {
-      "enqueue_checkup": "Enqueue demo check-up"
+    "empty": "No patients found.",
+    "search_placeholder": "Search name or code",
+    "filter_label": "Verification filter",
+    "filter": { "all": "All", "verified": "Verified", "unverified": "Unverified" },
+    "new_patient": "New patient",
+    "export_csv": "Export CSV",
+    "export_confirm": "This export contains patient names. Continue?",
+    "open": "Open",
+    "col": { "name": "Name", "code": "Code", "status": "Status", "actions": "Actions" }
+  },
+  "patients": {
+    "new": { "title": "Register resident", "submit": "Register" },
+    "record": {
+      "title": "Patient record",
+      "verify": "Verify in person",
+      "new_checkup": "New check-up",
+      "new_referral": "Refer",
+      "timeline": "Check-up history",
+      "no_checkups": "No check-ups recorded yet."
     }
+  },
+  "checkups": {
+    "new": { "title": "New check-up", "submit": "Save check-up" },
+    "preview": "Risk preview",
+    "preview_note": "Preview only. The server computes the official result.",
+    "field": {
+      "systolic": "Systolic",
+      "diastolic": "Diastolic",
+      "bp": "Blood pressure",
+      "fasting_glucose": "Fasting glucose",
+      "notes": "Notes"
+    },
+    "outcome": {
+      "normal": "Normal",
+      "monitor": "Monitor",
+      "needs_referral": "Needs referral",
+      "unknown": "Not screened"
+    }
+  },
+  "referrals": {
+    "title": "Referrals",
+    "empty": "No referrals yet.",
+    "no_reason": "No reason given",
+    "new": { "title": "New referral", "submit": "Send referral" },
+    "detail": { "title": "Referral" },
+    "field": { "reason": "Reason" },
+    "advance_to": "Mark as {{status}}",
+    "cancel": "Cancel referral",
+    "status": {
+      "sent": "Sent",
+      "received": "Received",
+      "seen": "Seen",
+      "follow_up_set": "Follow-up set",
+      "closed": "Closed",
+      "cancelled": "Cancelled"
+    }
+  },
+  "idcards": {
+    "title": "ID cards",
+    "online_only": "Printing ID cards requires a connection (the QR is signed on the server).",
+    "pick_patient": "Choose a patient",
+    "preview": "Card preview",
+    "print": "Print card",
+    "print_confirm": "This card shows the patient's name. Print now?",
+    "sign_failed": "Could not sign the QR. Try again."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "kpi": {
+      "patients": "Patients",
+      "verified": "Verified",
+      "needs_referral": "Needs referral",
+      "open_referrals": "Open referrals"
+    }
+  },
+  "reports": {
+    "title": "Monthly report",
+    "col": { "outcome": "Outcome", "count": "Count" }
+  },
+  "prescriptions": {
+    "title": "Prescription",
+    "demo_notice": "Demo prescription. Not for clinical or legal use.",
+    "no_controlled": "Controlled and dangerous drugs are not supported.",
+    "patient": "Patient",
+    "license": "License no.",
+    "issued_at": "Issued",
+    "cancelled": "This prescription was cancelled.",
+    "list_title": "Prescriptions",
+    "empty": "No prescriptions yet.",
+    "view": "View",
+    "print": "Print",
+    "new": { "title": "New prescription", "submit": "Issue prescription", "add_item": "Add medicine", "follow_up": "Follow-up date" },
+    "item": {
+      "drug": "Medicine",
+      "strength": "Strength",
+      "dosage": "Dosage",
+      "frequency": "Frequency",
+      "duration": "Duration",
+      "instructions": "Instructions"
+    }
+  },
+  "scan": {
+    "title": "Scan patient QR",
+    "start_camera": "Start camera",
+    "stop_camera": "Stop camera",
+    "manual": "Enter code manually",
+    "manual_placeholder": "Patient code",
+    "resolve": "Look up",
+    "resolve_failed": "Could not resolve this QR.",
+    "pairing": {
+      "title": "Confirm patient identity",
+      "intro": "Ask the patient for their surname and birthdate.",
+      "surname": "Surname",
+      "birthdate": "Birthdate",
+      "submit": "Unlock record",
+      "failed": "The surname and birthdate did not match.",
+      "locked": "Too many attempts. Try again later."
+    },
+    "open_record": "Open record"
+  },
+  "notes": {
+    "new": { "title": "Visit note", "submit": "Save note" },
+    "patient_instructions": "Instructions for the patient",
+    "clinical_note": "Clinical note (doctor + patient only)",
+    "follow_up": "Set a follow-up",
+    "follow_up_date": "Follow-up date",
+    "empty": "No notes yet."
+  },
+  "citizen": {
+    "health_card": { "title": "My health card", "reset_qr": "Reset my QR" },
+    "visits": { "title": "My visits", "empty": "No visits yet." },
+    "access": { "title": "Who viewed my record", "empty": "No access recorded yet." },
+    "consents": { "title": "Consents", "empty": "No consents yet.", "revoke": "Revoke", "grant": "Grant" }
+  },
+  "admin": {
+    "approvals": {
+      "title": "Doctor approvals",
+      "empty": "No pending applications.",
+      "approve": "Approve",
+      "reject": "Reject",
+      "prc": "PRC",
+      "status": "Status"
+    },
+    "seed": { "title": "Seed BHW", "user_id": "Auth user ID", "barangay": "Barangay", "full_name": "Full name", "submit": "Create BHW" },
+    "reports": { "title": "Aggregate reports" },
+    "audit": { "title": "Audit log", "empty": "No audit entries.", "action": "Action", "actor": "User ID", "when": "When" }
   }
 }

@@ -38,16 +38,24 @@ export interface auth_state {
     password: string,
     expectedRole: user_role,
   ) => Promise<{ error: string | null; wrongPortal: boolean }>;
-  signUpCitizen: (
-    email: string,
-    password: string,
-  ) => Promise<{ error: string | null }>;
+  signUpCitizen: (args: citizen_signup) => Promise<{ error: string | null }>;
   signUpDoctor: (
     email: string,
     password: string,
     prcId: string,
   ) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
+}
+
+/** Fields collected at citizen self-registration. */
+export interface citizen_signup {
+  email: string;
+  password: string;
+  surname: string;
+  first_name: string;
+  sex: 'male' | 'female';
+  /** yyyy-MM-dd. */
+  birthdate: string;
 }
 
 const AuthContext = createContext<auth_state | null>(null);
@@ -121,11 +129,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
         return { error: null, wrongPortal: false };
       },
-      async signUpCitizen(email, password) {
-        // Minimal self-registration. The citizen stays `unverified` until a
-        // BHW verifies in person (register_citizen / verify_citizen RPCs,
-        // added in a later migration). We do not create a profile here.
-        const { error } = await supabase.auth.signUp({ email, password });
+      async signUpCitizen(args) {
+        // Self-registration collects name/sex/birthdate — the pairing-key basis
+        // is surname + birthdate. We stash these in user metadata; the account
+        // stays `unverified` until a BHW verifies in person and links/creates
+        // the patient row (verify_citizen / register_citizen). No profile is
+        // created here. Birthdate in metadata is not a public-facing field.
+        const { error } = await supabase.auth.signUp({
+          email: args.email,
+          password: args.password,
+          options: {
+            data: {
+              intended_role: 'citizen',
+              surname: args.surname,
+              first_name: args.first_name,
+              sex: args.sex,
+              birthdate: args.birthdate,
+            },
+          },
+        });
         return { error: error ? error.message : null };
       },
       async signUpDoctor(email, password, prcId) {
