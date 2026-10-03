@@ -39,7 +39,14 @@
       "submitting": "Signing in…",
       "link": "Sign in",
       "no_account": "No account yet?",
-      "wrong_portal": "This account can't sign in here. Please use the correct portal from the home page."
+      "wrong_portal": "This account can't sign in here. Please use the correct portal from the home page.",
+      "failed": "We couldn't sign you in. Check your email and password and try again.",
+      "locked": "Too many attempts. Try again in {{minutes}} minutes."
+    },
+    "error": {
+      "email_required": "Email is required.",
+      "email_invalid": "Enter a valid email address.",
+      "password_required": "Password is required."
     },
     "portal": {
       "citizen": "Citizen / Patient",
@@ -49,11 +56,27 @@
     },
     "landing": {
       "title": "Welcome to CareLink",
-      "subtitle": "Choose how you want to sign in.",
-      "citizen_hint": "View your health card, prescriptions, and record access.",
-      "staff_hint": "Screen residents and manage your barangay masterlist.",
-      "doctor_hint": "Open patient records by QR scan and pairing key.",
+      "intro": "One shared health record that follows the patient, from the barangay health center to the hospital.",
+      "cta": "Get started",
       "back": "Back to home"
+    },
+    "status": {
+      "title": "Are you new to CareLink?",
+      "new": "New to CareLink",
+      "returning": "I already have an account",
+      "back": "Back"
+    },
+    "role": {
+      "title": "Choose your role",
+      "citizen": "Citizen / Patient",
+      "physician": "Doctor",
+      "barangay_staff": "Barangay Health Worker",
+      "back": "Back"
+    },
+    "bhw": {
+      "seeded_title": "Barangay Health Worker accounts are created by an administrator",
+      "seeded_body": "You can't register as a barangay health worker here. An administrator sets up your account and assigns your barangay. Ask your administrator for sign-in details.",
+      "back": "Back"
     },
     "register": {
       "title": "Create your account",

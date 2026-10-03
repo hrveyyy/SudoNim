@@ -6,6 +6,16 @@
         "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
         "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
         "timestamp": 1791062142691
+      },
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062158815
+      },
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062315219
       }
     ],
     "2. Add i18n keys for the new flow (en + fil)": [
@@ -13,6 +23,16 @@
         "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
         "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
         "timestamp": 1791062142878
+      },
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062328000
+      },
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062499051
       }
     ],
     "3.1 Create `src/features/auth/SignInForm.tsx` (named export) with `{ expectedRole, onBack? }`": [
@@ -20,6 +40,16 @@
         "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
         "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
         "timestamp": 1791062143110
+      },
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062512505
+      },
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062769401
       }
     ],
     "3.2 Add per-email client-side lockout to SignInForm": [
@@ -27,6 +57,16 @@
         "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
         "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
         "timestamp": 1791062143333
+      },
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062775189
+      },
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062946532
       }
     ],
     "3.3 Write Vitest + Testing Library unit tests for SignInForm and the Zod schema": [
@@ -34,6 +74,16 @@
         "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
         "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
         "timestamp": 1791062143529
+      },
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062985730
+      },
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791063235130
       }
     ],
     "4.1 Create step components `src/features/auth/steps/StatusStep.tsx`, `RoleStep.tsx`, and `BhwSeededNotice.tsx` (named exports)": [
@@ -41,6 +91,11 @@
         "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
         "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
         "timestamp": 1791062143730
+      },
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791063248198
       }
     ],
     "4.2 Create `src/features/auth/LoginPage.tsx` (default export) implementing the wizard state machine": [
@@ -83,6 +138,13 @@
         "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
         "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
         "timestamp": 1791062145419
+      }
+    ],
+    "3. Extract the role-pinned sign-in form into SignInForm with React Hook Form + Zod": [
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791063235493
       }
     ]
   }

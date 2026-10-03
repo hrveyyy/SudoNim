@@ -36,32 +36,32 @@ graph TD
 
 ## Tasks
 
-- [~] 1. Add forms tooling dependencies
+- [x] 1. Add forms tooling dependencies
   - Install `react-hook-form`, `zod`, and `@hookform/resolvers` with npm at pinned versions and commit the updated lockfile
   - Verify `npm run typecheck` and `npm run build` still pass after install
   - _Requirements: 7.2_
 
-- [~] 2. Add i18n keys for the new flow (en + fil)
+- [x] 2. Add i18n keys for the new flow (en + fil)
   - Add the new `auth.landing.cta`, `auth.landing.intro`, `auth.status.*`, `auth.role.*`, `auth.login.failed`, `auth.login.locked`, `auth.error.*`, and `auth.bhw.*` keys to `src/lib/i18n/en.json`
   - Mirror every new key in `src/lib/i18n/fil.json` (Filipino values; English remains the runtime fallback)
   - Retire or repurpose the old three-option landing keys (`auth.landing.subtitle`, `auth.landing.*_hint`) no longer referenced
   - _Requirements: 7.6, 7.8_
 
-- [ ] 3. Extract the role-pinned sign-in form into SignInForm with React Hook Form + Zod
-  - [~] 3.1 Create `src/features/auth/SignInForm.tsx` (named export) with `{ expectedRole, onBack? }`
+- [x] 3. Extract the role-pinned sign-in form into SignInForm with React Hook Form + Zod
+  - [x] 3.1 Create `src/features/auth/SignInForm.tsx` (named export) with `{ expectedRole, onBack? }`
     - Define the `sign_in_schema` Zod object (email required + valid, password required) and wire `useForm` with `zodResolver`
     - Call `signInAs(email.trim(), password, expectedRole)`; on `wrongPortal` show `auth.login.wrong_portal`, on error show `auth.login.failed` and clear only the password, on success navigate to `/` for the guard-driven redirect
     - Render all field and form errors in a `role="alert"` container; keep every control at a 44px minimum touch target
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 7.2, 7.3, 7.7_
-  - [~] 3.2 Add per-email client-side lockout to SignInForm
+  - [x] 3.2 Add per-email client-side lockout to SignInForm
     - Track consecutive failures per normalized email; at 5 failures block submissions for 15 minutes and show `auth.login.locked` with remaining minutes; reset on success
     - _Requirements: 4.8_
-  - [~] 3.3 Write Vitest + Testing Library unit tests for SignInForm and the Zod schema
+  - [x] 3.3 Write Vitest + Testing Library unit tests for SignInForm and the Zod schema
     - Cover empty email, empty password, malformed email, wrong-portal, auth-failure (password cleared, email retained), and lockout-after-5-failures
     - _Requirements: 4.5, 4.6, 4.7, 4.8, 7.2_
 
 - [ ] 4. Build the LoginPage wizard
-  - [~] 4.1 Create step components `src/features/auth/steps/StatusStep.tsx`, `RoleStep.tsx`, and `BhwSeededNotice.tsx` (named exports)
+  - [-] 4.1 Create step components `src/features/auth/steps/StatusStep.tsx`, `RoleStep.tsx`, and `BhwSeededNotice.tsx` (named exports)
     - StatusStep: two mutually exclusive choices (new/returning), nothing pre-selected, back-to-landing control, all text via i18n
     - RoleStep: exactly citizen/physician/barangay_staff (no admin), back-to-status control, all text via i18n
     - BhwSeededNotice: `auth.bhw.seeded_*` message plus a 44px back-to-role control

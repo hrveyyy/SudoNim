@@ -39,7 +39,14 @@
       "submitting": "Nagsi-sign in…",
       "link": "Mag-sign in",
       "no_account": "Wala pang account?",
-      "wrong_portal": "Hindi maaaring mag-sign in dito ang account na ito. Gamitin ang tamang portal mula sa home page."
+      "wrong_portal": "Hindi maaaring mag-sign in dito ang account na ito. Gamitin ang tamang portal mula sa home page.",
+      "failed": "Hindi ka namin ma-sign in. Suriin ang iyong email at password at subukang muli.",
+      "locked": "Masyadong maraming pagsubok. Subukang muli pagkalipas ng {{minutes}} minuto."
+    },
+    "error": {
+      "email_required": "Kailangan ang email.",
+      "email_invalid": "Maglagay ng wastong email address.",
+      "password_required": "Kailangan ang password."
     },
     "portal": {
       "citizen": "Mamamayan / Pasyente",
@@ -49,11 +56,27 @@
     },
     "landing": {
       "title": "Maligayang pagdating sa CareLink",
-      "subtitle": "Piliin kung paano ka mag-sign in.",
-      "citizen_hint": "Tingnan ang iyong health card, reseta, at access sa rekord.",
-      "staff_hint": "Mag-screen ng residente at pamahalaan ang masterlist ng barangay.",
-      "doctor_hint": "Buksan ang rekord ng pasyente sa pamamagitan ng QR scan at pairing key.",
+      "intro": "Isang ibinabahaging rekord ng kalusugan na sumusunod sa pasyente, mula sa barangay health center hanggang sa ospital.",
+      "cta": "Magsimula",
       "back": "Bumalik sa home"
+    },
+    "status": {
+      "title": "Bago ka ba sa CareLink?",
+      "new": "Bago sa CareLink",
+      "returning": "May account na ako",
+      "back": "Bumalik"
+    },
+    "role": {
+      "title": "Piliin ang iyong tungkulin",
+      "citizen": "Mamamayan / Pasyente",
+      "physician": "Doktor",
+      "barangay_staff": "Barangay Health Worker",
+      "back": "Bumalik"
+    },
+    "bhw": {
+      "seeded_title": "Ang mga account ng Barangay Health Worker ay ginagawa ng administrator",
+      "seeded_body": "Hindi ka maaaring magrehistro bilang barangay health worker dito. Ang administrator ang gumagawa ng iyong account at nagtatalaga ng iyong barangay. Humingi ng detalye sa pag-sign in sa iyong administrator.",
+      "back": "Bumalik"
     },
     "register": {
       "title": "Gumawa ng account",
