@@ -1,0 +1,26 @@
+# Dependencies
+node_modules
+
+# Build output
+dist
+dist-ssr
+*.local
+
+# Environment — never commit real values
+.env
+.env.*
+!.env.example
+
+# Logs / scratch
+*.log
+npm-install.log
+tsc.log
+test.log
+
+# Editor / OS
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+
+# Test / coverage
+coverage

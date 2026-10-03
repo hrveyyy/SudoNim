@@ -1,0 +1,26 @@
+{
+  "sync": {
+    "status": {
+      "all_synced": "All synced",
+      "offline_waiting_one": "Offline, 1 change waiting",
+      "offline_waiting_other": "Offline, {{count}} changes waiting",
+      "online_waiting_one": "1 change waiting to sync",
+      "online_waiting_other": "{{count}} changes waiting to sync",
+      "syncing": "Syncing…"
+    },
+    "action": {
+      "sync_now": "Sync now"
+    },
+    "failed": {
+      "one": "1 change could not sync",
+      "other": "{{count}} changes could not sync",
+      "hint": "These need attention. Open Sync to review."
+    },
+    "conflict": {
+      "title": "Some changes were updated on the server",
+      "last_write_wins": "A newer version of this record was synced from the server and replaced your local copy.",
+      "referral_status_server": "Referral status is set online by the server and cannot be changed offline.",
+      "dismiss": "Dismiss"
+    }
+  }
+}
