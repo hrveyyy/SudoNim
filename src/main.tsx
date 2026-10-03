@@ -1,8 +1,8 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import '@/lib/i18n';
+import { App } from '@/app/App';
 import { registerSyncTriggers } from '@/features/sync';
-import { SyncDemo } from '@/features/sync/SyncDemo';
+import '@/styles/index.css';
 
 // Wire the offline-first flush triggers (app start, online event, Background Sync).
 registerSyncTriggers();
@@ -12,6 +12,6 @@ if (!rootEl) throw new Error('root element not found');
 
 createRoot(rootEl).render(
   <StrictMode>
-    <SyncDemo />
+    <App />
   </StrictMode>,
 );

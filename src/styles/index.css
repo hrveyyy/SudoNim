@@ -1,0 +1,280 @@
+/* CareLink base styles. Mobile-first (360px). Keep it simple for now. */
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--cl-font-body);
+  background: var(--cl-bg);
+  color: var(--cl-text);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--cl-font-heading);
+  line-height: 1.2;
+  margin: 0 0 0.5em;
+}
+
+a {
+  color: var(--cl-primary);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Visible focus for keyboard users (WCAG 2.1 AA). */
+:focus-visible {
+  outline: 2px solid var(--cl-focus);
+  outline-offset: 2px;
+}
+
+/* Buttons / inputs */
+button {
+  font: inherit;
+  min-height: var(--cl-touch);
+  padding: 0 16px;
+  border: 1px solid var(--cl-primary);
+  border-radius: var(--cl-radius);
+  background: var(--cl-primary);
+  color: #fff;
+  cursor: pointer;
+}
+button:hover:not(:disabled) {
+  filter: brightness(1.05);
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input {
+  font: inherit;
+  min-height: var(--cl-touch);
+  padding: 0 12px;
+  border: 1px solid var(--cl-border);
+  border-radius: var(--cl-radius);
+  background: var(--cl-surface);
+  color: var(--cl-text);
+  width: 100%;
+}
+
+/* ---------------------------------------------------------------------------
+ * Auth screens (login / register / pending)
+ * ------------------------------------------------------------------------- */
+.carelink-auth {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 32px 20px;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.carelink-auth h1 {
+  text-align: center;
+}
+
+.carelink-auth__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cl-gap);
+  background: var(--cl-surface);
+  border: 1px solid var(--cl-border);
+  border-radius: var(--cl-radius);
+  padding: 20px;
+}
+
+.carelink-auth__form label {
+  font-size: 0.9rem;
+  color: var(--cl-text-muted);
+}
+
+.carelink-auth__form button {
+  margin-top: 8px;
+}
+
+.carelink-auth__error {
+  color: var(--cl-needs-referral-red);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.carelink-auth__alt {
+  text-align: center;
+  margin-top: 16px;
+  color: var(--cl-text-muted);
+}
+
+/* ---------------------------------------------------------------------------
+ * Sync banner
+ * ------------------------------------------------------------------------- */
+.carelink-sync-banner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--cl-gap);
+  padding: 10px 14px;
+  border-radius: var(--cl-radius);
+  border: 1px solid var(--cl-border);
+  background: var(--cl-surface);
+}
+
+.carelink-sync-banner__status {
+  font-weight: 600;
+}
+
+/* Status conveyed by text; color only reinforces (never color-only). */
+.carelink-sync-banner[data-tone='ok'] {
+  border-left: 4px solid var(--cl-screened-green);
+}
+.carelink-sync-banner[data-tone='pending'] {
+  border-left: 4px solid var(--cl-monitor-amber);
+}
+.carelink-sync-banner[data-tone='offline'] {
+  border-left: 4px solid var(--cl-text-muted);
+}
+.carelink-sync-banner[data-tone='danger'] {
+  border-left: 4px solid var(--cl-needs-referral-red);
+}
+
+.carelink-sync-banner__failed {
+  color: var(--cl-needs-referral-red);
+  font-size: 0.9rem;
+  flex-basis: 100%;
+}
+
+.carelink-sync-banner__action {
+  margin-left: auto;
+  background: transparent;
+  color: var(--cl-primary);
+}
+
+/* ---------------------------------------------------------------------------
+ * Conflict notice
+ * ------------------------------------------------------------------------- */
+.carelink-conflict-notice {
+  border: 1px solid var(--cl-monitor-amber);
+  border-left: 4px solid var(--cl-monitor-amber);
+  border-radius: var(--cl-radius);
+  background: var(--cl-surface);
+  padding: 12px 14px;
+  margin: 12px 0;
+}
+
+.carelink-conflict-notice__title {
+  font-weight: 600;
+  margin: 0 0 4px;
+}
+
+.carelink-conflict-notice__body {
+  margin: 0 0 8px;
+  color: var(--cl-text-muted);
+}
+
+.carelink-conflict-notice__dismiss {
+  background: transparent;
+  color: var(--cl-primary);
+  border-color: var(--cl-border);
+  padding: 0 12px;
+}
+
+/* Respect reduced-motion preference. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Generic page container (staff screens for now)
+ * ------------------------------------------------------------------------- */
+.carelink-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.carelink-page ul {
+  padding-left: 1.2em;
+}
+
+.carelink-page li {
+  padding: 2px 0;
+}
+
+/* ---------------------------------------------------------------------------
+ * Landing role chooser
+ * ------------------------------------------------------------------------- */
+.carelink-landing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cl-gap);
+  margin-top: 20px;
+}
+
+.carelink-landing__option {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  min-height: var(--cl-touch);
+  border: 1px solid var(--cl-border);
+  border-left: 4px solid var(--cl-border);
+  border-radius: var(--cl-radius);
+  background: var(--cl-surface);
+  color: var(--cl-text);
+  text-decoration: none;
+}
+.carelink-landing__option:hover {
+  text-decoration: none;
+  filter: brightness(1.02);
+}
+
+/* Role badge colors: patients = green, staff = teal, hospital/doctor = blue. */
+.carelink-landing__option[data-role='citizen'] {
+  border-left-color: var(--cl-screened-green);
+}
+.carelink-landing__option[data-role='barangay_staff'] {
+  border-left-color: var(--cl-teal);
+}
+.carelink-landing__option[data-role='physician'] {
+  border-left-color: var(--cl-primary);
+}
+
+.carelink-landing__label {
+  font-weight: 600;
+  font-family: var(--cl-font-heading);
+}
+
+.carelink-landing__hint {
+  font-size: 0.9rem;
+  color: var(--cl-text-muted);
+}
+
+/* Portal label on each login screen */
+.carelink-auth__portal {
+  text-align: center;
+  font-weight: 600;
+  color: var(--cl-text-muted);
+  margin-top: -8px;
+}

@@ -1,5 +1,7 @@
 {
   "sync": {
+    "online": "online",
+    "offline": "offline",
     "status": {
       "all_synced": "All synced",
       "offline_waiting_one": "Offline, 1 change waiting",
@@ -21,6 +23,69 @@
       "last_write_wins": "A newer version of this record was synced from the server and replaced your local copy.",
       "referral_status_server": "Referral status is set online by the server and cannot be changed offline.",
       "dismiss": "Dismiss"
+    }
+  },
+  "auth": {
+    "field": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "action": {
+      "sign_out": "Sign out"
+    },
+    "login": {
+      "title": "Sign in",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "link": "Sign in",
+      "no_account": "No account yet?",
+      "wrong_portal": "This account can't sign in here. Please use the correct portal from the home page."
+    },
+    "portal": {
+      "citizen": "Citizen / Patient",
+      "staff": "Barangay Health Worker",
+      "doctor": "Doctor",
+      "admin": "Administrator"
+    },
+    "landing": {
+      "title": "Welcome to CareLink",
+      "subtitle": "Choose how you want to sign in.",
+      "citizen_hint": "View your health card, prescriptions, and record access.",
+      "staff_hint": "Screen residents and manage your barangay masterlist.",
+      "doctor_hint": "Open patient records by QR scan and pairing key.",
+      "back": "Back to home"
+    },
+    "register": {
+      "title": "Create your account",
+      "submit": "Register",
+      "submitting": "Registering…",
+      "link": "Register",
+      "have_account": "Already have an account?",
+      "pending": "Your account was created. A barangay health worker will verify your identity in person before you can see your record."
+    },
+    "doctor": {
+      "title": "Doctor registration",
+      "subtitle": "Apply with your PRC license. An administrator reviews every application before access is granted.",
+      "prc_id": "PRC license number",
+      "submit": "Submit application",
+      "submitting": "Submitting…",
+      "pending": "Your application was received. An administrator will review your PRC license and documents. You'll be able to sign in once approved."
+    },
+    "pending": {
+      "title": "Pending verification",
+      "body": "Your account is awaiting in-person verification by a barangay health worker."
+    }
+  },
+  "masterlist": {
+    "title": "Masterlist",
+    "network": "Network",
+    "pending": "pending",
+    "failed": "failed",
+    "patients": "Patients",
+    "empty": "No patients cached yet. Sync to load your barangay's list.",
+    "code_pending": "code pending",
+    "demo": {
+      "enqueue_checkup": "Enqueue demo check-up"
     }
   }
 }

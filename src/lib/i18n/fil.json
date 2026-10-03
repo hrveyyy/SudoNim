@@ -1,5 +1,7 @@
 {
   "sync": {
+    "online": "online",
+    "offline": "offline",
     "status": {
       "all_synced": "Naka-sync na lahat",
       "offline_waiting_one": "Offline, 1 pagbabago ang naghihintay",
@@ -21,6 +23,69 @@
       "last_write_wins": "May mas bagong bersyon ng rekord na ito mula sa server na pumalit sa iyong lokal na kopya.",
       "referral_status_server": "Ang status ng referral ay itinatakda online ng server at hindi mababago offline.",
       "dismiss": "Isara"
+    }
+  },
+  "auth": {
+    "field": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "action": {
+      "sign_out": "Mag-sign out"
+    },
+    "login": {
+      "title": "Mag-sign in",
+      "submit": "Mag-sign in",
+      "submitting": "Nagsi-sign in…",
+      "link": "Mag-sign in",
+      "no_account": "Wala pang account?",
+      "wrong_portal": "Hindi maaaring mag-sign in dito ang account na ito. Gamitin ang tamang portal mula sa home page."
+    },
+    "portal": {
+      "citizen": "Mamamayan / Pasyente",
+      "staff": "Barangay Health Worker",
+      "doctor": "Doktor",
+      "admin": "Administrator"
+    },
+    "landing": {
+      "title": "Maligayang pagdating sa CareLink",
+      "subtitle": "Piliin kung paano ka mag-sign in.",
+      "citizen_hint": "Tingnan ang iyong health card, reseta, at access sa rekord.",
+      "staff_hint": "Mag-screen ng residente at pamahalaan ang masterlist ng barangay.",
+      "doctor_hint": "Buksan ang rekord ng pasyente sa pamamagitan ng QR scan at pairing key.",
+      "back": "Bumalik sa home"
+    },
+    "register": {
+      "title": "Gumawa ng account",
+      "submit": "Magrehistro",
+      "submitting": "Nagrerehistro…",
+      "link": "Magrehistro",
+      "have_account": "May account na?",
+      "pending": "Nagawa na ang iyong account. May barangay health worker na magbe-verify ng iyong pagkakakilanlan nang personal bago mo makita ang iyong rekord."
+    },
+    "doctor": {
+      "title": "Pagpaparehistro ng doktor",
+      "subtitle": "Mag-apply gamit ang iyong PRC license. May administrator na magrerepaso ng bawat aplikasyon bago bigyan ng access.",
+      "prc_id": "PRC license number",
+      "submit": "Isumite ang aplikasyon",
+      "submitting": "Isinusumite…",
+      "pending": "Natanggap na ang iyong aplikasyon. Rerepasuhin ng administrator ang iyong PRC license at mga dokumento. Makaka-sign in ka na kapag naaprubahan."
+    },
+    "pending": {
+      "title": "Naghihintay ng verification",
+      "body": "Ang iyong account ay naghihintay ng personal na verification mula sa isang barangay health worker."
+    }
+  },
+  "masterlist": {
+    "title": "Masterlist",
+    "network": "Network",
+    "pending": "naghihintay",
+    "failed": "nabigo",
+    "patients": "Mga pasyente",
+    "empty": "Wala pang naka-cache na pasyente. Mag-sync para i-load ang listahan ng iyong barangay.",
+    "code_pending": "naghihintay ng code",
+    "demo": {
+      "enqueue_checkup": "Mag-enqueue ng demo check-up"
     }
   }
 }

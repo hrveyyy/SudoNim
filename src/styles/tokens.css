@@ -1,0 +1,46 @@
+/* CareLink design tokens — light and dark themes.
+ * Colors and fonts come from the product/tech steering. Simple for now;
+ * shadcn/ui tokens can layer on later. */
+
+:root {
+  /* Brand (light) */
+  --cl-primary: #1b6fd1;
+  --cl-teal: #0e9a9a;
+  --cl-screened-green: #2fae68;
+  --cl-monitor-amber: #e39a0b;
+  --cl-needs-referral-red: #d6403a;
+
+  /* Surfaces (light) */
+  --cl-bg: #f6f8fb;
+  --cl-surface: #ffffff;
+  --cl-text: #16202b;
+  --cl-text-muted: #566273;
+  --cl-border: #d7dee7;
+  --cl-focus: var(--cl-primary);
+
+  /* Fonts */
+  --cl-font-heading: 'Bricolage Grotesque', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --cl-font-body: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Spacing / shape */
+  --cl-radius: 10px;
+  --cl-gap: 12px;
+  --cl-touch: 44px; /* minimum touch target */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cl-primary: #2f7be0;
+    --cl-teal: #2cc3c0;
+    --cl-screened-green: #34b873;
+    --cl-monitor-amber: #f0b13a;
+    --cl-needs-referral-red: #f0645e;
+
+    --cl-bg: #0f151c;
+    --cl-surface: #16202b;
+    --cl-text: #e8edf3;
+    --cl-text-muted: #9aa7b6;
+    --cl-border: #2a3645;
+    --cl-focus: var(--cl-primary);
+  }
+}
