@@ -1,0 +1,89 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Add forms tooling dependencies": [
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062142691
+      }
+    ],
+    "2. Add i18n keys for the new flow (en + fil)": [
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062142878
+      }
+    ],
+    "3.1 Create `src/features/auth/SignInForm.tsx` (named export) with `{ expectedRole, onBack? }`": [
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062143110
+      }
+    ],
+    "3.2 Add per-email client-side lockout to SignInForm": [
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062143333
+      }
+    ],
+    "3.3 Write Vitest + Testing Library unit tests for SignInForm and the Zod schema": [
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062143529
+      }
+    ],
+    "4.1 Create step components `src/features/auth/steps/StatusStep.tsx`, `RoleStep.tsx`, and `BhwSeededNotice.tsx` (named exports)": [
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062143730
+      }
+    ],
+    "4.2 Create `src/features/auth/LoginPage.tsx` (default export) implementing the wizard state machine": [
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062144343
+      }
+    ],
+    "4.3 Write Vitest + Testing Library unit tests for the wizard state machine": [
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062144534
+      }
+    ],
+    "5. Redesign the Landing page": [
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062144752
+      }
+    ],
+    "6. Rewire the router and remove superseded screens": [
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062144969
+      }
+    ],
+    "7. Update the steering documents to the new flow": [
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062145251
+      }
+    ],
+    "8. End-to-end and accessibility verification": [
+      {
+        "executionId": "c97dd094-5218-459d-8268-ce88c812863f",
+        "chatSessionId": "sess_881bcf76-5e3c-4b96-84e6-b82130816a07",
+        "timestamp": 1791062145419
+      }
+    ]
+  }
+}
