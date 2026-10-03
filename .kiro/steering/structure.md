@@ -21,18 +21,18 @@ carelink/
 │  │  ├─ providers.tsx              # QueryClient, Auth, I18n, Theme, Sync
 │  │  └─ guards/RequireRole.tsx
 │  ├─ features/
-│  │  ├─ auth/                      # login, claim account, role redirect
-│  │  ├─ masterlist/                # table, search, filters, export, patient panel, register
-│  │  ├─ checkups/                  # form, live risk preview, result
-│  │  ├─ patients/                  # record view, timeline, tests done, trend
+│  │  ├─ auth/                      # single login, citizen self-register, doctor register + PRC docs, role redirect
+│  │  ├─ masterlist/                # table, search, filters, export, patient panel, register, verify, merge duplicates
+│  │  ├─ checkups/                  # form, live risk preview, result, normal/needs-referral tag
+│  │  ├─ patients/                  # record view, timeline, tests done, trend, pairing-key gate
 │  │  ├─ referrals/                 # create, list, detail, stepper, actions
-│  │  ├─ scan/                      # camera scanner, manual lookup, result
+│  │  ├─ scan/                      # camera scanner, manual lookup, pairing-key challenge, result
 │  │  ├─ dashboard/                 # staff KPIs, coverage, needs-attention, report
-│  │  ├─ citizen/                   # health card, prescriptions, visits, access history, consent
-│  │  ├─ admin/                     # users, facilities, risk rules, audit viewer
+│  │  ├─ citizen/                   # health card, prescriptions, visits, access history, consent, print
+│  │  ├─ admin/                     # doctor approvals, BHW seeding, aggregate reports, pseudonymized audit viewer
 │  │  ├─ sync/                      # outbox, status banner, conflict notices
 │  │  ├─ idcards/                   # single and batch ID-card print, print log
-│  │  └─ prescriptions/             # doctor form, pharmacist view, citizen view, print
+│  │  └─ prescriptions/             # doctor form, doctor notes (instructions + clinical), citizen view, print
 │  ├─ components/
 │  │  ├─ ui/                        # shadcn/ui primitives
 │  │  ├─ layout/                    # AppShell, TopBar, BottomNav, SideNav
@@ -75,7 +75,7 @@ carelink/
 - Database objects: snake_case tables, columns, enums, and RPC names. Migrations are numbered, for example `0002_add_something.sql`.
 - Edge Function folders: kebab-case, matching the function name (`resolve-qr`).
 - i18n keys: dot-separated, grouped by feature (for example `masterlist.filters.purok`).
-- Role names in code: `admin`, `barangay_staff`, `physician`, `pharmacist`, `citizen`.
+- Role names in code: `admin`, `barangay_staff`, `physician`, `citizen`. No pharmacist role.
 
 ## Import patterns
 
@@ -106,18 +106,17 @@ Role-guarded route groups, lazy loaded per role.
 
 | Role | Routes |
 |---|---|
-| Public | `/login`, `/activate`, `/q/:payload` |
-| Barangay staff (`/staff/...`) | `masterlist`, `households/new`, `patients/:id`, `checkups/new?patient=`, `id-cards`, `referrals`, `referrals/:id`, `dashboard`, `reports`, `sync` |
-| Physician (`/doctor/...`) | `scan`, `patients`, `patients/:id`, `patients/:id/prescriptions/new`, `prescriptions`, `prescriptions/:id`, `referrals`, `referrals/:id` |
-| Pharmacist (`/pharmacy/...`) | `scan`, `patients/:id` (limited view) |
-| Citizen (`/me/...`) | `/me`, `prescriptions`, `prescriptions/:id`, `visits`, `access-history`, `consents` |
-| Admin (`/admin/...`) | `users`, `facilities`, `risk-rules`, `audit` |
+| Public | `/login` (single email + password form; server routes by role, no role selector), `/register` (citizen self-register: name, sex, birthdate), `/register/doctor` (email + PRC ID + supporting documents, pending admin approval), `/activate`, `/q/:payload` |
+| Barangay staff (`/staff/...`) | `masterlist`, `households/new`, `patients/:id`, `patients/new` (create account for unregistered resident), `checkups/new?patient=`, `id-cards`, `prescriptions/print` (assisted print), `referrals`, `referrals/:id`, `dashboard`, `reports`, `sync` |
+| Physician (`/doctor/...`) | `scan` (QR + pairing-key challenge), `patients`, `patients/:id`, `patients/:id/prescriptions/new`, `patients/:id/notes/new`, `prescriptions`, `prescriptions/:id`, `referrals`, `referrals/:id` |
+| Citizen (`/me/...`) | `/me`, `prescriptions`, `prescriptions/:id`, `visits`, `notes` (own visit notes/instructions), `access-history`, `consents` |
+| Admin (`/admin/...`) | `doctor-approvals`, `bhw-seed`, `reports` (aggregate only, userID only), `audit` (pseudonymized) |
 
-Sign-in redirects: `barangay_staff` -> `/staff/masterlist`, `physician` -> `/doctor/scan`, `pharmacist` -> `/pharmacy/scan`, `citizen` -> `/me`, `admin` -> `/admin/users`.
+Sign-in redirects: `barangay_staff` -> `/staff/masterlist`, `physician` -> `/doctor/scan`, `citizen` -> `/me`, `admin` -> `/admin/doctor-approvals`. Unverified citizens land on a pending-verification screen; rejected doctors see a rejection notice.
 
 ## Architectural decisions to preserve
 
-- Staff features are offline-first (IndexedDB plus outbox). Doctor, pharmacist, and citizen features read from Supabase directly.
-- Access control is enforced in the database (RLS and RPCs). The UI role guards are convenience only, never the security boundary.
-- Prescriptions are immutable after issue. To change one, cancel it and issue a new one.
-- The pharmacist view has no diagnosis data by construction (no diagnosis field exists on prescriptions).
+- Staff features are offline-first (IndexedDB plus outbox). Doctor and citizen features read from Supabase directly.
+- Access control is enforced in the database (RLS and RPCs). The UI role guards are convenience only, never the security boundary. Every physician record open additionally requires the server-verified pairing key.
+- Prescriptions are immutable after issue. To change one, cancel it and issue a new one. They are view-or-print only; there is no dispensing flow.
+- Doctor's notes are split: `patient_instructions` (patient, BHW, doctor) and `clinical_note` (doctor + patient only).
