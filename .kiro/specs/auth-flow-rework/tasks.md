@@ -61,12 +61,12 @@ graph TD
     - _Requirements: 4.5, 4.6, 4.7, 4.8, 7.2_
 
 - [ ] 4. Build the LoginPage wizard
-  - [-] 4.1 Create step components `src/features/auth/steps/StatusStep.tsx`, `RoleStep.tsx`, and `BhwSeededNotice.tsx` (named exports)
+  - [x] 4.1 Create step components `src/features/auth/steps/StatusStep.tsx`, `RoleStep.tsx`, and `BhwSeededNotice.tsx` (named exports)
     - StatusStep: two mutually exclusive choices (new/returning), nothing pre-selected, back-to-landing control, all text via i18n
     - RoleStep: exactly citizen/physician/barangay_staff (no admin), back-to-status control, all text via i18n
     - BhwSeededNotice: `auth.bhw.seeded_*` message plus a 44px back-to-role control
     - _Requirements: 2.1, 2.2, 2.4, 2.5, 3.1, 3.2, 3.4, 3.5, 5.3, 5.4_
-  - [~] 4.2 Create `src/features/auth/LoginPage.tsx` (default export) implementing the wizard state machine
+  - [x] 4.2 Create `src/features/auth/LoginPage.tsx` (default export) implementing the wizard state machine
     - Hold `{ status, step }` in component memory; initial step is `status`
     - Status select -> role step (status retained); role step guard resets to status when status is null
     - Returning + role -> render `SignInForm`; new + citizen -> `navigate('/register')`; new + physician -> `navigate('/register/doctor')`; new + barangay_staff -> BhwSeededNotice
