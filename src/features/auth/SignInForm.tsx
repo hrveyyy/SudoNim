@@ -4,7 +4,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { AlertCircle, Loader2 } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { useAuth, type user_role } from '@/features/auth/AuthProvider';
+import { StepBackButton } from '@/features/auth/steps/StepBackButton';
 
 /** Per-email attempt record for the client-side lockout. */
 interface lockout_entry {
@@ -123,57 +130,77 @@ export function SignInForm({ expectedRole, onBack }: SignInFormProps) {
   const passwordError = errors.password?.message;
   const formError = errors.root?.message;
 
+  // Admin has no auth.role.* entry (it is never a public choice).
+  const roleLabel =
+    expectedRole === 'admin' ? t('auth.portal.admin') : t(`auth.role.${expectedRole}`);
+
   return (
-    <form onSubmit={onSubmit} className="carelink-auth__form" noValidate>
-      <h1>{t('auth.login.title')}</h1>
+    <section className="motion-safe:duration-300 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2">
+      {onBack && <StepBackButton label={t('auth.role.back')} onClick={onBack} />}
 
-      <label htmlFor="signin-email">{t('auth.field.email')}</label>
-      <input
-        id="signin-email"
-        type="email"
-        autoComplete="email"
-        aria-invalid={emailError ? true : undefined}
-        aria-describedby={emailError ? 'signin-email-error' : undefined}
-        style={{ minHeight: 44 }}
-        {...register('email')}
-      />
-      {emailError && (
-        <p id="signin-email-error" role="alert" className="carelink-auth__error">
-          {t(emailError)}
-        </p>
-      )}
+      <Card>
+        <CardHeader>
+          <CardTitle>{t('auth.login.title')}</CardTitle>
+          <CardDescription data-role={expectedRole}>
+            {t('auth.login.as_role', { role: roleLabel })}
+          </CardDescription>
+        </CardHeader>
 
-      <label htmlFor="signin-password">{t('auth.field.password')}</label>
-      <input
-        id="signin-password"
-        type="password"
-        autoComplete="current-password"
-        aria-invalid={passwordError ? true : undefined}
-        aria-describedby={passwordError ? 'signin-password-error' : undefined}
-        style={{ minHeight: 44 }}
-        {...register('password')}
-      />
-      {passwordError && (
-        <p id="signin-password-error" role="alert" className="carelink-auth__error">
-          {t(passwordError)}
-        </p>
-      )}
+        <CardContent>
+          <form onSubmit={onSubmit} className="space-y-5" noValidate>
+            <div className="space-y-2">
+              <Label htmlFor="signin-email">{t('auth.field.email')}</Label>
+              <Input
+                id="signin-email"
+                type="email"
+                inputMode="email"
+                autoComplete="email"
+                aria-invalid={emailError ? true : undefined}
+                aria-describedby={emailError ? 'signin-email-error' : undefined}
+                {...register('email')}
+              />
+              {emailError && (
+                <p id="signin-email-error" role="alert" className="text-sm font-medium text-destructive">
+                  {t(emailError)}
+                </p>
+              )}
+            </div>
 
-      {formError && (
-        <p role="alert" className="carelink-auth__error">
-          {formError}
-        </p>
-      )}
+            <div className="space-y-2">
+              <Label htmlFor="signin-password">{t('auth.field.password')}</Label>
+              <Input
+                id="signin-password"
+                type="password"
+                autoComplete="current-password"
+                aria-invalid={passwordError ? true : undefined}
+                aria-describedby={passwordError ? 'signin-password-error' : undefined}
+                {...register('password')}
+              />
+              {passwordError && (
+                <p
+                  id="signin-password-error"
+                  role="alert"
+                  className="text-sm font-medium text-destructive"
+                >
+                  {t(passwordError)}
+                </p>
+              )}
+            </div>
 
-      <button type="submit" disabled={isSubmitting} style={{ minHeight: 44 }}>
-        {isSubmitting ? t('auth.login.submitting') : t('auth.login.submit')}
-      </button>
+            {formError && (
+              <Alert role="alert" variant="destructive">
+                <AlertCircle aria-hidden="true" className="size-4" />
+                <AlertDescription>{formError}</AlertDescription>
+              </Alert>
+            )}
 
-      {onBack && (
-        <button type="button" onClick={onBack} style={{ minHeight: 44 }}>
-          {t('auth.role.back')}
-        </button>
-      )}
-    </form>
+            <Button type="submit" disabled={isSubmitting} className="w-full">
+              {isSubmitting && <Loader2 aria-hidden="true" className="animate-spin" />}
+              {isSubmitting ? t('auth.login.submitting') : t('auth.login.submit')}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </section>
   );
 }

@@ -5,6 +5,7 @@ import { SignInForm } from '@/features/auth/SignInForm';
 import { StatusStep, type visitor_status } from '@/features/auth/steps/StatusStep';
 import { RoleStep, type selectable_role } from '@/features/auth/steps/RoleStep';
 import { BhwSeededNotice } from '@/features/auth/steps/BhwSeededNotice';
+import { AuthLayout } from '@/features/auth/AuthLayout';
 
 /**
  * One stage of the login wizard. The `signin` step carries the pinned role so
@@ -91,14 +92,23 @@ export default function LoginPage() {
       ? { kind: 'status' }
       : state.step;
 
-  switch (step.kind) {
-    case 'status':
-      return <StatusStep onSelect={selectStatus} onBack={backToLanding} />;
-    case 'role':
-      return <RoleStep onSelect={selectRole} onBack={backToStatus} />;
-    case 'signin':
-      return <SignInForm expectedRole={step.role} onBack={backToRole} />;
-    case 'bhw_seeded':
-      return <BhwSeededNotice onBack={backToRole} />;
-  }
+  const content = (() => {
+    switch (step.kind) {
+      case 'status':
+        return <StatusStep onSelect={selectStatus} onBack={backToLanding} />;
+      case 'role':
+        return <RoleStep onSelect={selectRole} onBack={backToStatus} status={state.status} />;
+      case 'signin':
+        return <SignInForm expectedRole={step.role} onBack={backToRole} />;
+      case 'bhw_seeded':
+        return <BhwSeededNotice onBack={backToRole} />;
+    }
+  })();
+
+  // `key` remounts the step so its enter animation replays on every transition.
+  return (
+    <AuthLayout>
+      <div key={step.kind}>{content}</div>
+    </AuthLayout>
+  );
 }

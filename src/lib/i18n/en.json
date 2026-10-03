@@ -28,7 +28,8 @@
   "auth": {
     "field": {
       "email": "Email",
-      "password": "Password"
+      "password": "Password",
+      "password_hint": "At least 8 characters."
     },
     "action": {
       "sign_out": "Sign out"
@@ -41,7 +42,8 @@
       "no_account": "No account yet?",
       "wrong_portal": "This account can't sign in here. Please use the correct portal from the home page.",
       "failed": "We couldn't sign you in. Check your email and password and try again.",
-      "locked": "Too many attempts. Try again in {{minutes}} minutes."
+      "locked": "Too many attempts. Try again in {{minutes}} minutes.",
+      "as_role": "Signing in as {{role}}"
     },
     "error": {
       "email_required": "Email is required.",
@@ -58,20 +60,32 @@
       "title": "Welcome to CareLink",
       "intro": "One shared health record that follows the patient, from the barangay health center to the hospital.",
       "cta": "Get started",
-      "back": "Back to home"
+      "back": "Back to home",
+      "feature_record": "One health record, opened with your QR card",
+      "feature_screening": "Free screening at your barangay health center",
+      "feature_privacy": "You see who opened your record, and when",
+      "disclaimer": "CareLink is a screening and care-coordination aid, not a diagnostic tool."
     },
     "status": {
       "title": "Are you new to CareLink?",
       "new": "New to CareLink",
       "returning": "I already have an account",
-      "back": "Back"
+      "back": "Back",
+      "subtitle": "We will point you to the right place.",
+      "new_hint": "Create an account or apply for access",
+      "returning_hint": "Sign in with your email and password"
     },
     "role": {
       "title": "Choose your role",
       "citizen": "Citizen / Patient",
       "physician": "Doctor",
       "barangay_staff": "Barangay Health Worker",
-      "back": "Back"
+      "back": "Back",
+      "subtitle_new": "Tell us who you are so we can set up the right account.",
+      "subtitle_returning": "Choose the account you want to sign in to.",
+      "citizen_hint": "Your health card, prescriptions, and visits",
+      "physician_hint": "Open records by QR scan and pairing key",
+      "barangay_staff_hint": "Screen residents and manage your masterlist"
     },
     "bhw": {
       "seeded_title": "Barangay Health Worker accounts are created by an administrator",
@@ -84,7 +98,8 @@
       "submitting": "Registering…",
       "link": "Register",
       "have_account": "Already have an account?",
-      "pending": "Your account was created. A barangay health worker will verify your identity in person before you can see your record."
+      "pending": "Your account was created. A barangay health worker will verify your identity in person before you can see your record.",
+      "subtitle": "A barangay health worker will verify you in person before your record opens."
     },
     "doctor": {
       "title": "Doctor registration",
@@ -97,6 +112,9 @@
     "pending": {
       "title": "Pending verification",
       "body": "Your account is awaiting in-person verification by a barangay health worker."
+    },
+    "wizard": {
+      "step": "Step {{current}} of {{total}}"
     }
   },
   "masterlist": {
@@ -110,5 +128,8 @@
     "demo": {
       "enqueue_checkup": "Enqueue demo check-up"
     }
+  },
+  "app": {
+    "name": "CareLink"
   }
 }

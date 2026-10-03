@@ -1,4 +1,5 @@
 import { SignInForm } from '@/features/auth/SignInForm';
+import { AuthLayout } from '@/features/auth/AuthLayout';
 
 // Admin portal is URL-only: it is deliberately NOT linked from the landing
 // page, the login wizard, or any other screen. Reachable only by typing
@@ -11,8 +12,8 @@ import { SignInForm } from '@/features/auth/SignInForm';
 // roleHome('admin') = '/admin/doctor-approvals'.
 export default function AdminLogin() {
   return (
-    <main className="carelink-auth">
+    <AuthLayout>
       <SignInForm expectedRole="admin" />
-    </main>
+    </AuthLayout>
   );
 }

@@ -1,4 +1,9 @@
 import { useTranslation } from 'react-i18next';
+import { HeartHandshake, Stethoscope, UserRound, type LucideIcon } from 'lucide-react';
+import { ChoiceCard } from '@/features/auth/steps/ChoiceCard';
+import { StepBackButton } from '@/features/auth/steps/StepBackButton';
+import { StepIndicator } from '@/features/auth/steps/StepIndicator';
+import type { visitor_status } from '@/features/auth/steps/StatusStep';
 
 /** Selectable role in the public flow. Admin is intentionally excluded. */
 export type selectable_role = 'citizen' | 'physician' | 'barangay_staff';
@@ -8,7 +13,19 @@ export interface RoleStepProps {
   onSelect: (role: selectable_role) => void;
   /** Returns to the status step; the previously selected status is preserved. */
   onBack: () => void;
+  /** The status chosen in the previous step; tunes the subtitle copy. */
+  status?: visitor_status | null;
 }
+
+/**
+ * Role accents follow the steering role badges: patients = green,
+ * barangay staff = teal, hospital/doctor = blue. Text always carries the role.
+ */
+const ROLES: { role: selectable_role; icon: LucideIcon; accent: string }[] = [
+  { role: 'citizen', icon: UserRound, accent: 'bg-screened/10 text-screened' },
+  { role: 'physician', icon: Stethoscope, accent: 'bg-primary/10 text-primary' },
+  { role: 'barangay_staff', icon: HeartHandshake, accent: 'bg-teal/10 text-teal' },
+];
 
 /**
  * Role_Step: presents exactly three role choices (citizen, physician,
@@ -16,48 +33,38 @@ export interface RoleStepProps {
  * admin sign-in is reachable only via the unlinked /admin/login route. A back
  * control returns the visitor to the status step. All text is i18n-resolved.
  */
-export function RoleStep({ onSelect, onBack }: RoleStepProps) {
+export function RoleStep({ onSelect, onBack, status }: RoleStepProps) {
   const { t } = useTranslation();
 
   return (
-    <section className="carelink-auth" aria-labelledby="role-step-title">
-      <h1 id="role-step-title">{t('auth.role.title')}</h1>
+    <section
+      aria-labelledby="role-step-title"
+      className="motion-safe:duration-300 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2"
+    >
+      <StepBackButton label={t('auth.role.back')} onClick={onBack} />
+      <StepIndicator current={2} total={2} />
 
-      <div className="carelink-landing" role="group" aria-labelledby="role-step-title">
-        <button
-          type="button"
-          className="carelink-landing__option"
-          data-role="citizen"
-          onClick={() => onSelect('citizen')}
-          style={{ minHeight: 44 }}
-        >
-          {t('auth.role.citizen')}
-        </button>
+      <h1 id="role-step-title" className="font-heading text-3xl font-bold tracking-tight">
+        {t('auth.role.title')}
+      </h1>
+      <p className="mt-2 text-muted-foreground">
+        {status === 'new' ? t('auth.role.subtitle_new') : t('auth.role.subtitle_returning')}
+      </p>
 
-        <button
-          type="button"
-          className="carelink-landing__option"
-          data-role="physician"
-          onClick={() => onSelect('physician')}
-          style={{ minHeight: 44 }}
-        >
-          {t('auth.role.physician')}
-        </button>
-
-        <button
-          type="button"
-          className="carelink-landing__option"
-          data-role="barangay_staff"
-          onClick={() => onSelect('barangay_staff')}
-          style={{ minHeight: 44 }}
-        >
-          {t('auth.role.barangay_staff')}
-        </button>
+      <div role="group" aria-labelledby="role-step-title" className="mt-6 space-y-3">
+        {ROLES.map(({ role, icon, accent }) => (
+          <ChoiceCard
+            key={role}
+            id={`role-${role}`}
+            value={role}
+            icon={icon}
+            label={t(`auth.role.${role}`)}
+            hint={t(`auth.role.${role}_hint`)}
+            accentClassName={accent}
+            onClick={() => onSelect(role)}
+          />
+        ))}
       </div>
-
-      <button type="button" onClick={onBack} style={{ minHeight: 44 }}>
-        {t('auth.role.back')}
-      </button>
     </section>
   );
 }

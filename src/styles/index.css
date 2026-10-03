@@ -1,51 +1,51 @@
-/* CareLink base styles. Mobile-first (360px). Keep it simple for now. */
+/* CareLink base styles. Mobile-first (360px). */
 @import './tokens.css';
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+    line-height: 1.5;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-heading;
+    line-height: 1.2;
+  }
+
+  /* Visible focus for keyboard users (WCAG 2.1 AA). */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
 }
 
-html,
-body,
-#root {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: var(--cl-font-body);
-  background: var(--cl-bg);
-  color: var(--cl-text);
-  -webkit-font-smoothing: antialiased;
-  line-height: 1.5;
-}
-
-h1,
-h2,
-h3 {
-  font-family: var(--cl-font-heading);
-  line-height: 1.2;
-  margin: 0 0 0.5em;
-}
-
-a {
+/* ---------------------------------------------------------------------------
+ * Legacy plain-CSS screens (masterlist, sync banner, conflict notice).
+ * Scoped with :where() so specificity matches the old element selectors and
+ * these rules never leak into shadcn/ui components on the auth screens.
+ * ------------------------------------------------------------------------- */
+:where(.carelink-page, .carelink-sync-banner, .carelink-conflict-notice) a {
   color: var(--cl-primary);
   text-decoration: none;
 }
-a:hover {
-  text-decoration: underline;
-}
 
-/* Visible focus for keyboard users (WCAG 2.1 AA). */
-:focus-visible {
-  outline: 2px solid var(--cl-focus);
-  outline-offset: 2px;
-}
-
-/* Buttons / inputs */
-button {
+:where(.carelink-page, .carelink-sync-banner, .carelink-conflict-notice) button {
   font: inherit;
   min-height: var(--cl-touch);
   padding: 0 16px;
@@ -55,15 +55,15 @@ button {
   color: #fff;
   cursor: pointer;
 }
-button:hover:not(:disabled) {
+:where(.carelink-page, .carelink-sync-banner, .carelink-conflict-notice) button:hover:not(:disabled) {
   filter: brightness(1.05);
 }
-button:disabled {
+:where(.carelink-page, .carelink-sync-banner, .carelink-conflict-notice) button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-input {
+:where(.carelink-page) input {
   font: inherit;
   min-height: var(--cl-touch);
   padding: 0 12px;
@@ -72,54 +72,6 @@ input {
   background: var(--cl-surface);
   color: var(--cl-text);
   width: 100%;
-}
-
-/* ---------------------------------------------------------------------------
- * Auth screens (login / register / pending)
- * ------------------------------------------------------------------------- */
-.carelink-auth {
-  max-width: 420px;
-  margin: 0 auto;
-  padding: 32px 20px;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.carelink-auth h1 {
-  text-align: center;
-}
-
-.carelink-auth__form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--cl-gap);
-  background: var(--cl-surface);
-  border: 1px solid var(--cl-border);
-  border-radius: var(--cl-radius);
-  padding: 20px;
-}
-
-.carelink-auth__form label {
-  font-size: 0.9rem;
-  color: var(--cl-text-muted);
-}
-
-.carelink-auth__form button {
-  margin-top: 8px;
-}
-
-.carelink-auth__error {
-  color: var(--cl-needs-referral-red);
-  margin: 0;
-  font-size: 0.9rem;
-}
-
-.carelink-auth__alt {
-  text-align: center;
-  margin-top: 16px;
-  color: var(--cl-text-muted);
 }
 
 /* ---------------------------------------------------------------------------
@@ -195,16 +147,6 @@ input {
   padding: 0 12px;
 }
 
-/* Respect reduced-motion preference. */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    transition-duration: 0.001ms !important;
-  }
-}
-
 /* ---------------------------------------------------------------------------
  * Generic page container (staff screens for now)
  * ------------------------------------------------------------------------- */
@@ -214,7 +156,21 @@ input {
   padding: 20px;
 }
 
+/* Preflight resets heading sizes and list bullets; restore them here. */
+.carelink-page h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 0.5em;
+}
+
+.carelink-page h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5em;
+}
+
 .carelink-page ul {
+  list-style: disc;
   padding-left: 1.2em;
 }
 
@@ -222,59 +178,12 @@ input {
   padding: 2px 0;
 }
 
-/* ---------------------------------------------------------------------------
- * Landing role chooser
- * ------------------------------------------------------------------------- */
-.carelink-landing {
-  display: flex;
-  flex-direction: column;
-  gap: var(--cl-gap);
-  margin-top: 20px;
-}
-
-.carelink-landing__option {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 16px;
-  min-height: var(--cl-touch);
-  border: 1px solid var(--cl-border);
-  border-left: 4px solid var(--cl-border);
-  border-radius: var(--cl-radius);
-  background: var(--cl-surface);
-  color: var(--cl-text);
-  text-decoration: none;
-}
-.carelink-landing__option:hover {
-  text-decoration: none;
-  filter: brightness(1.02);
-}
-
-/* Role badge colors: patients = green, staff = teal, hospital/doctor = blue. */
-.carelink-landing__option[data-role='citizen'] {
-  border-left-color: var(--cl-screened-green);
-}
-.carelink-landing__option[data-role='barangay_staff'] {
-  border-left-color: var(--cl-teal);
-}
-.carelink-landing__option[data-role='physician'] {
-  border-left-color: var(--cl-primary);
-}
-
-.carelink-landing__label {
-  font-weight: 600;
-  font-family: var(--cl-font-heading);
-}
-
-.carelink-landing__hint {
-  font-size: 0.9rem;
-  color: var(--cl-text-muted);
-}
-
-/* Portal label on each login screen */
-.carelink-auth__portal {
-  text-align: center;
-  font-weight: 600;
-  color: var(--cl-text-muted);
-  margin-top: -8px;
+/* Respect reduced-motion preference. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
 }

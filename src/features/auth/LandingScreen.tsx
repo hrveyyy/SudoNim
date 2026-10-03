@@ -1,6 +1,15 @@
 import { useTranslation } from 'react-i18next';
 import { Link, Navigate } from 'react-router-dom';
+import { ArrowRight, ClipboardCheck, QrCode, ShieldCheck, type LucideIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { useAuth, roleHome } from '@/features/auth/AuthProvider';
+import { AuthLayout } from '@/features/auth/AuthLayout';
+
+const FEATURES: { icon: LucideIcon; key: string }[] = [
+  { icon: QrCode, key: 'auth.landing.feature_record' },
+  { icon: ClipboardCheck, key: 'auth.landing.feature_screening' },
+  { icon: ShieldCheck, key: 'auth.landing.feature_privacy' },
+];
 
 /**
  * Public landing. A product intro and a single primary call to action that
@@ -22,13 +31,44 @@ export default function LandingScreen() {
   }
 
   return (
-    <main className="carelink-auth">
-      <h1>{t('auth.landing.title')}</h1>
-      <p className="carelink-auth__alt">{t('auth.landing.intro')}</p>
+    <AuthLayout>
+      <section
+        aria-labelledby="landing-title"
+        className="flex flex-1 flex-col justify-center motion-safe:duration-500 motion-safe:animate-in motion-safe:fade-in"
+      >
+        <h1
+          id="landing-title"
+          className="font-heading text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl"
+        >
+          {t('auth.landing.title')}
+        </h1>
+        <p className="mt-4 text-lg text-muted-foreground">{t('auth.landing.intro')}</p>
 
-      <Link className="carelink-landing__cta" to="/login" style={{ minHeight: 44 }}>
-        {t('auth.landing.cta')}
-      </Link>
-    </main>
+        <ul className="mt-8 space-y-3">
+          {FEATURES.map(({ icon: Icon, key }) => (
+            <li key={key} className="flex items-center gap-3">
+              <span
+                aria-hidden="true"
+                className="flex size-10 shrink-0 items-center justify-center rounded-full bg-card text-primary shadow-sm ring-1 ring-border"
+              >
+                <Icon className="size-5" />
+              </span>
+              <span className="text-sm font-medium">{t(key)}</span>
+            </li>
+          ))}
+        </ul>
+
+        <Button asChild size="lg" className="mt-10 w-full">
+          <Link to="/login">
+            {t('auth.landing.cta')}
+            <ArrowRight aria-hidden="true" />
+          </Link>
+        </Button>
+
+        <p className="mt-6 text-center text-xs text-muted-foreground">
+          {t('auth.landing.disclaimer')}
+        </p>
+      </section>
+    </AuthLayout>
   );
 }

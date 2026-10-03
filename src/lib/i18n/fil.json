@@ -28,7 +28,8 @@
   "auth": {
     "field": {
       "email": "Email",
-      "password": "Password"
+      "password": "Password",
+      "password_hint": "Hindi bababa sa 8 character."
     },
     "action": {
       "sign_out": "Mag-sign out"
@@ -41,7 +42,8 @@
       "no_account": "Wala pang account?",
       "wrong_portal": "Hindi maaaring mag-sign in dito ang account na ito. Gamitin ang tamang portal mula sa home page.",
       "failed": "Hindi ka namin ma-sign in. Suriin ang iyong email at password at subukang muli.",
-      "locked": "Masyadong maraming pagsubok. Subukang muli pagkalipas ng {{minutes}} minuto."
+      "locked": "Masyadong maraming pagsubok. Subukang muli pagkalipas ng {{minutes}} minuto.",
+      "as_role": "Nagsi-sign in bilang {{role}}"
     },
     "error": {
       "email_required": "Kailangan ang email.",
@@ -58,20 +60,32 @@
       "title": "Maligayang pagdating sa CareLink",
       "intro": "Isang ibinabahaging rekord ng kalusugan na sumusunod sa pasyente, mula sa barangay health center hanggang sa ospital.",
       "cta": "Magsimula",
-      "back": "Bumalik sa home"
+      "back": "Bumalik sa home",
+      "feature_record": "Isang rekord ng kalusugan, binubuksan gamit ang iyong QR card",
+      "feature_screening": "Libreng screening sa iyong barangay health center",
+      "feature_privacy": "Makikita mo kung sino ang nagbukas ng iyong rekord, at kailan",
+      "disclaimer": "Ang CareLink ay pantulong sa screening at koordinasyon ng pangangalaga, hindi kasangkapan sa pag-diagnose."
     },
     "status": {
       "title": "Bago ka ba sa CareLink?",
       "new": "Bago sa CareLink",
       "returning": "May account na ako",
-      "back": "Bumalik"
+      "back": "Bumalik",
+      "subtitle": "Ituturo ka namin sa tamang lugar.",
+      "new_hint": "Gumawa ng account o mag-apply para sa access",
+      "returning_hint": "Mag-sign in gamit ang iyong email at password"
     },
     "role": {
       "title": "Piliin ang iyong tungkulin",
       "citizen": "Mamamayan / Pasyente",
       "physician": "Doktor",
       "barangay_staff": "Barangay Health Worker",
-      "back": "Bumalik"
+      "back": "Bumalik",
+      "subtitle_new": "Sabihin sa amin kung sino ka para maihanda ang tamang account.",
+      "subtitle_returning": "Piliin ang account na gusto mong pasukan.",
+      "citizen_hint": "Ang iyong health card, mga reseta, at mga pagbisita",
+      "physician_hint": "Buksan ang rekord sa QR scan at pairing key",
+      "barangay_staff_hint": "Mag-screen ng residente at pamahalaan ang masterlist"
     },
     "bhw": {
       "seeded_title": "Ang mga account ng Barangay Health Worker ay ginagawa ng administrator",
@@ -84,7 +98,8 @@
       "submitting": "Nagrerehistro…",
       "link": "Magrehistro",
       "have_account": "May account na?",
-      "pending": "Nagawa na ang iyong account. May barangay health worker na magbe-verify ng iyong pagkakakilanlan nang personal bago mo makita ang iyong rekord."
+      "pending": "Nagawa na ang iyong account. May barangay health worker na magbe-verify ng iyong pagkakakilanlan nang personal bago mo makita ang iyong rekord.",
+      "subtitle": "Ive-verify ka nang personal ng isang barangay health worker bago mabuksan ang iyong rekord."
     },
     "doctor": {
       "title": "Pagpaparehistro ng doktor",
@@ -97,6 +112,9 @@
     "pending": {
       "title": "Naghihintay ng verification",
       "body": "Ang iyong account ay naghihintay ng personal na verification mula sa isang barangay health worker."
+    },
+    "wizard": {
+      "step": "Hakbang {{current}} sa {{total}}"
     }
   },
   "masterlist": {
@@ -110,5 +128,8 @@
     "demo": {
       "enqueue_checkup": "Mag-enqueue ng demo check-up"
     }
+  },
+  "app": {
+    "name": "CareLink"
   }
 }

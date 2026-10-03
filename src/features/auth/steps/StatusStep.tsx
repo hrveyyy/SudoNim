@@ -1,4 +1,8 @@
 import { useTranslation } from 'react-i18next';
+import { LogIn, UserPlus } from 'lucide-react';
+import { ChoiceCard } from '@/features/auth/steps/ChoiceCard';
+import { StepBackButton } from '@/features/auth/steps/StepBackButton';
+import { StepIndicator } from '@/features/auth/steps/StepIndicator';
 
 /** Visitor_Status value: whether the visitor is new or returning. */
 export type visitor_status = 'new' | 'returning';
@@ -20,34 +24,38 @@ export function StatusStep({ onSelect, onBack }: StatusStepProps) {
   const { t } = useTranslation();
 
   return (
-    <section className="carelink-auth" aria-labelledby="status-step-title">
-      <h1 id="status-step-title">{t('auth.status.title')}</h1>
+    <section
+      aria-labelledby="status-step-title"
+      className="motion-safe:duration-300 motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-2"
+    >
+      <StepBackButton label={t('auth.status.back')} onClick={onBack} />
+      <StepIndicator current={1} total={2} />
 
-      <div className="carelink-landing" role="group" aria-labelledby="status-step-title">
-        <button
-          type="button"
-          className="carelink-landing__option"
-          data-status="new"
+      <h1 id="status-step-title" className="font-heading text-3xl font-bold tracking-tight">
+        {t('auth.status.title')}
+      </h1>
+      <p className="mt-2 text-muted-foreground">{t('auth.status.subtitle')}</p>
+
+      <div role="group" aria-labelledby="status-step-title" className="mt-6 space-y-3">
+        <ChoiceCard
+          id="status-new"
+          value="new"
+          icon={UserPlus}
+          label={t('auth.status.new')}
+          hint={t('auth.status.new_hint')}
+          accentClassName="bg-primary/10 text-primary"
           onClick={() => onSelect('new')}
-          style={{ minHeight: 44 }}
-        >
-          {t('auth.status.new')}
-        </button>
-
-        <button
-          type="button"
-          className="carelink-landing__option"
-          data-status="returning"
+        />
+        <ChoiceCard
+          id="status-returning"
+          value="returning"
+          icon={LogIn}
+          label={t('auth.status.returning')}
+          hint={t('auth.status.returning_hint')}
+          accentClassName="bg-teal/10 text-teal"
           onClick={() => onSelect('returning')}
-          style={{ minHeight: 44 }}
-        >
-          {t('auth.status.returning')}
-        </button>
+        />
       </div>
-
-      <button type="button" onClick={onBack} style={{ minHeight: 44 }}>
-        {t('auth.status.back')}
-      </button>
     </section>
   );
 }
