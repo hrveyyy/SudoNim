@@ -76,7 +76,7 @@ graph TD
     - Initial state shows StatusStep with nothing selected; status advance retains status; back controls preserve state; null-status guard resets to status; all six (status, role) outcomes resolve correctly; admin never rendered as a choice
     - _Requirements: 2.1, 2.3, 3.2, 3.4, 3.6, 4.1, 4.2, 4.3, 5.1, 5.2, 5.3_
 
-- [~] 5. Redesign the Landing page
+- [x] 5. Redesign the Landing page
   - Rewrite `src/features/auth/LandingScreen.tsx` to a single primary CTA to `/login` with no role options and no other sign-in/registration links
   - Harden the authenticated-redirect: stay on landing while loading or when session has no resolved profile/role; redirect to `roleHome(role)` only when a defined role resolves
   - Route all text through i18n
