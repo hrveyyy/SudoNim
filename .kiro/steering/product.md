@@ -49,8 +49,6 @@ Role names in code are exactly: `admin`, `barangay_staff`, `physician`, `citizen
 - Audit log and patient consent with "Who looked at my record".
 - SMS reminders for follow-ups; missed follow-ups surface in a "Needs a home visit" list.
 - Offline-first PWA for barangay staff.
-- SMS reminders for follow-ups; missed follow-ups surface in a "Needs a home visit" list.
-- Offline-first PWA for barangay staff.
 - English first, Filipino second.
 
 ## Business objectives and success measures

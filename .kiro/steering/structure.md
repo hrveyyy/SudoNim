@@ -52,8 +52,8 @@ carelink/
 ├─ supabase/
 │  ├─ migrations/                   # 0001_init.sql baseline, then incremental numbered files
 │  ├─ functions/
-│  │  ├─ qr-sign/  resolve-qr/  citizen-claim/  claim-code-issue/
-│  │  ├─ invite-staff/  send-reminders/  sms-webhook/
+ │  │  ├─ qr-sign/  resolve-qr/  citizen-claim/  claim-code-issue/
+ │  │  ├─ doctor-apply/  seed-bhw/  send-reminders/  sms-webhook/
 │  │  └─ _shared/                   # cors.ts, auth.ts, rateLimit.ts, hmac.ts
 │  ├─ seed.sql
 │  └─ config.toml

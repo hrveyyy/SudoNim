@@ -63,7 +63,7 @@ Prefer this stack over alternatives. Do not introduce new libraries when one bel
 
 ### Edge Functions (Deno, `supabase/functions/`)
 
-`qr-sign`, `resolve-qr`, `citizen-claim`, `claim-code-issue`, `doctor-apply`, `invite-staff`, `send-reminders`, `sms-webhook` (optional). Shared helpers live in `_shared/` (`cors.ts`, `auth.ts`, `rateLimit.ts`, `hmac.ts`). `citizen-claim` and `claim-code-issue` handle BHW-created accounts; `doctor-apply` handles PRC ID + document upload intake.
+`qr-sign`, `resolve-qr`, `citizen-claim`, `claim-code-issue`, `doctor-apply`, `seed-bhw`, `send-reminders`, `sms-webhook` (optional). Shared helpers live in `_shared/` (`cors.ts`, `auth.ts`, `rateLimit.ts`, `hmac.ts`). `citizen-claim` and `claim-code-issue` handle BHW-created accounts; `doctor-apply` handles PRC ID + document upload intake (`pending` status); `seed-bhw` handles admin-only BHW account creation bound to one barangay.
 
 ### Environment variables
 
@@ -78,7 +78,7 @@ Prefer this stack over alternatives. Do not introduce new libraries when one bel
 - Staff mutations (check-ups, referrals) enqueue to the outbox. Doctor actions call RPCs directly.
 - Conflict rules: check-ups, lab tests, notes, and referrals are append-only; household and patient edits are last-write-wins on `updated_at`; referral status changes are online-only and server-authoritative.
 - Realtime subscriptions: referral changes (staff), new referrals (doctor inbox), prescription status (citizen).
-- Dexie schema, outbox flush, and triggers (app start, `online` event, Background Sync, manual "Sync now") follow section 8 of the blueprint.
+- Dexie schema, outbox flush, and triggers: Dexie stores `households`, `patients`, `checkups`, `referrals`, and `outbox` tables; writes enqueue with client-generated UUIDs; flush runs on app start, `online` event, Background Sync (`sync-outbox` tag), and manual "Sync now"; flush order is parents-before-children; failures retry with exponential backoff and surface in the sync banner; conflicts resolve per the rules above.
 
 ## Security and privacy rules (always apply)
 
