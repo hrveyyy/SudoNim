@@ -112,7 +112,7 @@ export default function DoctorRegisterScreen() {
               {error && (
                 <Alert role="alert" variant="destructive">
                   <AlertCircle aria-hidden="true" className="size-4" />
-                  <AlertDescription>{error}</AlertDescription>
+                  <AlertDescription>{t(error)}</AlertDescription>
                 </Alert>
               )}
 

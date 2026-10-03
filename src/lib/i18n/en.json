@@ -29,7 +29,15 @@
     "field": {
       "email": "Email",
       "password": "Password",
-      "password_hint": "At least 8 characters."
+      "password_hint": "At least 8 characters.",
+      "surname": "Surname",
+      "first_name": "First name",
+      "sex": "Sex",
+      "sex_female": "Female",
+      "sex_male": "Male",
+      "birthdate": "Birthdate",
+      "barangay": "Barangay",
+      "select": "Select…"
     },
     "action": {
       "sign_out": "Sign out"
@@ -99,7 +107,8 @@
       "link": "Register",
       "have_account": "Already have an account?",
       "pending": "Your account was created. A barangay health worker will verify your identity in person before you can see your record.",
-      "subtitle": "A barangay health worker will verify you in person before your record opens."
+      "subtitle": "A barangay health worker will verify you in person before your record opens.",
+      "barangays_failed": "Couldn't load barangays. Check your connection and try again."
     },
     "doctor": {
       "title": "Doctor registration",
@@ -107,7 +116,8 @@
       "prc_id": "PRC license number",
       "submit": "Submit application",
       "submitting": "Submitting…",
-      "pending": "Your application was received. An administrator will review your PRC license and documents. You'll be able to sign in once approved."
+      "pending": "Your application was received. An administrator will review your PRC license and documents. You'll be able to sign in once approved.",
+      "confirm_email_first": "Confirm your email, then sign in to finish your application."
     },
     "pending": {
       "title": "Pending verification",

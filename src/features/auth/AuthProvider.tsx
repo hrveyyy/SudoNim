@@ -37,17 +37,26 @@ export interface auth_state {
     email: string,
     password: string,
     expectedRole: user_role,
-  ) => Promise<{ error: string | null; wrongPortal: boolean }>;
-  signUpCitizen: (
-    email: string,
-    password: string,
-  ) => Promise<{ error: string | null }>;
+  ) => Promise<{ error: string | null; wrongPortal: boolean; pending?: boolean }>;
+  signUpCitizen: (args: citizen_signup) => Promise<{ error: string | null }>;
   signUpDoctor: (
     email: string,
     password: string,
     prcId: string,
   ) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
+}
+
+/** Fields collected at citizen self-registration. */
+export interface citizen_signup {
+  email: string;
+  password: string;
+  surname: string;
+  first_name: string;
+  sex: 'male' | 'female';
+  /** yyyy-MM-dd. Used once by the sign-up trigger, then removed from metadata. */
+  birthdate: string;
+  barangay_id: string;
 }
 
 const AuthContext = createContext<auth_state | null>(null);
@@ -59,9 +68,7 @@ async function loadProfile(userId: string): Promise<auth_profile | null> {
     .eq('id', userId)
     .maybeSingle();
   if (error || !data) return null;
-  // The row shape matches auth_profile; cast through unknown because the
-  // placeholder Database type does not yet include the profiles table.
-  return data as unknown as auth_profile;
+  return data;
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -113,6 +120,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (error) return { error: error.message, wrongPortal: false };
         const userId = data.user?.id;
         const prof = userId ? await loadProfile(userId) : null;
+        // An unverified citizen has no profile yet. Keep the session so the
+        // app can show the pending-verification screen.
+        if (!prof && expectedRole === 'citizen') {
+          const intended: unknown = data.user?.user_metadata?.intended_role;
+          if (intended === 'citizen') return { error: null, wrongPortal: false, pending: true };
+        }
         if (!prof || prof.role !== expectedRole) {
           // Authenticated but using the wrong portal: sign back out so no
           // session lingers, and report it as a portal mismatch.
@@ -121,24 +134,43 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
         return { error: null, wrongPortal: false };
       },
-      async signUpCitizen(email, password) {
-        // Minimal self-registration. The citizen stays `unverified` until a
-        // BHW verifies in person (register_citizen / verify_citizen RPCs,
-        // added in a later migration). We do not create a profile here.
-        const { error } = await supabase.auth.signUp({ email, password });
+      async signUpCitizen(args) {
+        // The on_auth_user_created trigger (0007) turns this metadata into an
+        // `unverified` patient row and strips the birthdate afterwards. No
+        // profile exists until a BHW runs verify_citizen in person.
+        const { error } = await supabase.auth.signUp({
+          email: args.email,
+          password: args.password,
+          options: {
+            data: {
+              intended_role: 'citizen',
+              surname: args.surname,
+              first_name: args.first_name,
+              sex: args.sex,
+              birthdate: args.birthdate,
+              barangay_id: args.barangay_id,
+            },
+          },
+        });
         return { error: error ? error.message : null };
       },
       async signUpDoctor(email, password, prcId) {
-        // Doctor application: creates the auth user and stashes the PRC ID in
-        // user metadata for now. The real doctor-apply flow (PRC ID + document
-        // upload to a private bucket, pending admin approval) is the
-        // doctor-apply Edge Function in a later task.
-        const { error } = await supabase.auth.signUp({
+        const { data, error } = await supabase.auth.signUp({
           email,
           password,
-          options: { data: { prc_id: prcId, intended_role: 'physician' } },
+          options: { data: { intended_role: 'physician' } },
         });
-        return { error: error ? error.message : null };
+        if (error) return { error: error.message };
+        // doctor-apply needs the new user's JWT. With email confirmation on,
+        // there is no session yet and the application cannot be filed here.
+        if (!data.session) return { error: 'auth.doctor.confirm_email_first' };
+        const { error: fnError } = await supabase.functions.invoke('doctor-apply', {
+          body: { prc_id: prcId },
+        });
+        if (fnError) return { error: fnError.message };
+        // Not a physician until approved: leave the pending applicant signed out.
+        await supabase.auth.signOut();
+        return { error: null };
       },
       async signOut() {
         await supabase.auth.signOut();

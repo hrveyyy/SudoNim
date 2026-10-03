@@ -29,7 +29,15 @@
     "field": {
       "email": "Email",
       "password": "Password",
-      "password_hint": "Hindi bababa sa 8 character."
+      "password_hint": "Hindi bababa sa 8 character.",
+      "surname": "Apelyido",
+      "first_name": "Pangalan",
+      "sex": "Kasarian",
+      "sex_female": "Babae",
+      "sex_male": "Lalaki",
+      "birthdate": "Petsa ng kapanganakan",
+      "barangay": "Barangay",
+      "select": "Pumili…"
     },
     "action": {
       "sign_out": "Mag-sign out"
@@ -99,7 +107,8 @@
       "link": "Magrehistro",
       "have_account": "May account na?",
       "pending": "Nagawa na ang iyong account. May barangay health worker na magbe-verify ng iyong pagkakakilanlan nang personal bago mo makita ang iyong rekord.",
-      "subtitle": "Ive-verify ka nang personal ng isang barangay health worker bago mabuksan ang iyong rekord."
+      "subtitle": "Ive-verify ka nang personal ng isang barangay health worker bago mabuksan ang iyong rekord.",
+      "barangays_failed": "Hindi ma-load ang mga barangay. Suriin ang koneksyon at subukang muli."
     },
     "doctor": {
       "title": "Pagpaparehistro ng doktor",
@@ -107,7 +116,8 @@
       "prc_id": "PRC license number",
       "submit": "Isumite ang aplikasyon",
       "submitting": "Isinusumite…",
-      "pending": "Natanggap na ang iyong aplikasyon. Rerepasuhin ng administrator ang iyong PRC license at mga dokumento. Makaka-sign in ka na kapag naaprubahan."
+      "pending": "Natanggap na ang iyong aplikasyon. Rerepasuhin ng administrator ang iyong PRC license at mga dokumento. Makaka-sign in ka na kapag naaprubahan.",
+      "confirm_email_first": "Kumpirmahin ang iyong email, saka mag-sign in para tapusin ang aplikasyon."
     },
     "pending": {
       "title": "Naghihintay ng verification",
