@@ -21,7 +21,7 @@ carelink/
 │  │  ├─ providers.tsx              # QueryClient, Auth, I18n, Theme, Sync
 │  │  └─ guards/RequireRole.tsx
 │  ├─ features/
-│  │  ├─ auth/                      # single login, citizen self-register, doctor register + PRC docs, role redirect
+│  │  ├─ auth/                      # landing, staged login (new-vs-returning then role), citizen self-register, doctor register + PRC docs, admin URL-only, role redirect
 │  │  ├─ masterlist/                # table, search, filters, export, patient panel, register, verify, merge duplicates
 │  │  ├─ checkups/                  # form, live risk preview, result, normal/needs-referral tag
 │  │  ├─ patients/                  # record view, timeline, tests done, trend, pairing-key gate
@@ -106,7 +106,7 @@ Role-guarded route groups, lazy loaded per role.
 
 | Role | Routes |
 |---|---|
-| Public | `/login` (single email + password form; server routes by role, no role selector), `/register` (citizen self-register: name, sex, birthdate), `/register/doctor` (email + PRC ID + supporting documents, pending admin approval), `/activate`, `/q/:payload` |
+| Public | `/` (landing: single call to action into the login flow), `/login` (staged flow: new-vs-returning, then role selection citizen/physician/barangay_staff; role selection is internalized in the page), `/register` (citizen self-register: name, sex, birthdate), `/register/doctor` (email + PRC ID + supporting documents, pending admin approval), `/admin/login` (admin sign-in, URL-only, not linked), `/activate`, `/q/:payload` |
 | Barangay staff (`/staff/...`) | `masterlist`, `households/new`, `patients/:id`, `patients/new` (create account for unregistered resident), `checkups/new?patient=`, `id-cards`, `prescriptions/print` (assisted print), `referrals`, `referrals/:id`, `dashboard`, `reports`, `sync` |
 | Physician (`/doctor/...`) | `scan` (QR + pairing-key challenge), `patients`, `patients/:id`, `patients/:id/prescriptions/new`, `patients/:id/notes/new`, `prescriptions`, `prescriptions/:id`, `referrals`, `referrals/:id` |
 | Citizen (`/me/...`) | `/me`, `prescriptions`, `prescriptions/:id`, `visits`, `notes` (own visit notes/instructions), `access-history`, `consents` |
