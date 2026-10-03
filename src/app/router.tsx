@@ -12,6 +12,7 @@ const PendingScreen = lazy(() => import('@/features/auth/PendingScreen'));
 
 // Role-guarded screens.
 const MasterlistScreen = lazy(() => import('@/features/masterlist/MasterlistScreen'));
+const CitizenHomeScreen = lazy(() => import('@/features/citizen/CitizenHomeScreen'));
 
 function Lazy({ children }: { children: React.ReactNode }) {
   return <Suspense fallback={null}>{children}</Suspense>;
@@ -38,6 +39,16 @@ export const router = createBrowserRouter([
     element: (
       <RequireRole allow={['barangay_staff']}>
         <Lazy><MasterlistScreen /></Lazy>
+      </RequireRole>
+    ),
+  },
+
+  // Citizen (reads Supabase directly). Full route group grows in later tasks.
+  {
+    path: '/me',
+    element: (
+      <RequireRole allow={['citizen']}>
+        <Lazy><CitizenHomeScreen /></Lazy>
       </RequireRole>
     ),
   },

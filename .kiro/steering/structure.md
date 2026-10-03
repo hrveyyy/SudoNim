@@ -112,7 +112,7 @@ Role-guarded route groups, lazy loaded per role.
 | Citizen (`/me/...`) | `/me`, `prescriptions`, `prescriptions/:id`, `visits`, `notes` (own visit notes/instructions), `access-history`, `consents` |
 | Admin (`/admin/...`) | `doctor-approvals`, `bhw-seed`, `reports` (aggregate only, userID only), `audit` (pseudonymized) |
 
-Sign-in redirects: `barangay_staff` -> `/staff/masterlist`, `physician` -> `/doctor/scan`, `citizen` -> `/me`, `admin` -> `/admin/doctor-approvals`. Unverified citizens land on a pending-verification screen; rejected doctors see a rejection notice.
+Sign-in redirects: `barangay_staff` -> `/staff/masterlist`, `physician` -> `/doctor/scan`, `citizen` -> `/me`, `admin` -> `/admin/doctor-approvals`. Self-registered citizens go straight to `/me`; accounts without a profile (doctor applicants) land on `/pending`; rejected doctors see a rejection notice.
 
 ## Architectural decisions to preserve
 

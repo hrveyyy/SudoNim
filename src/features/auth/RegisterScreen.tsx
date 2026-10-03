@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AlertCircle, Loader2, MailCheck } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -19,13 +19,14 @@ const SELECT_CLASS =
 
 /**
  * Citizen self-registration: name, sex, birthdate, barangay, email, password.
- * The sign-up trigger (0007) creates an `unverified` patient row. The account is
- * `unverified` until a BHW verifies in person, so after sign-up we show a
- * pending-verification message rather than routing into the app.
+ * The sign-up trigger (0008) creates the patient row and citizen profile, so
+ * the account is active right away. With a session we route into the app;
+ * if the project requires email confirmation we ask the user to sign in.
  */
 export default function RegisterScreen() {
   const { t } = useTranslation();
   const { signUpCitizen } = useAuth();
+  const navigate = useNavigate();
 
   const [surname, setSurname] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -52,7 +53,7 @@ export default function RegisterScreen() {
     if (sex === '') return; // `required` on the select blocks this in practice
     setBusy(true);
     setError(null);
-    const { error } = await signUpCitizen({
+    const { error, signedIn } = await signUpCitizen({
       email: email.trim(),
       password,
       surname: surname.trim(),
@@ -64,6 +65,11 @@ export default function RegisterScreen() {
     setBusy(false);
     if (error) {
       setError(error);
+      return;
+    }
+    // Landing redirects to the role home once the profile resolves.
+    if (signedIn) {
+      navigate('/', { replace: true });
       return;
     }
     setDone(true);
@@ -81,7 +87,7 @@ export default function RegisterScreen() {
             <div className="space-y-5">
               <Alert role="status" variant="info">
                 <MailCheck aria-hidden="true" className="size-4" />
-                <AlertDescription>{t('auth.register.pending')}</AlertDescription>
+                <AlertDescription>{t('auth.register.created')}</AlertDescription>
               </Alert>
               <Button asChild variant="outline" className="w-full">
                 <Link to="/login">{t('auth.login.link')}</Link>

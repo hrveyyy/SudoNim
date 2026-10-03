@@ -92,7 +92,7 @@ export function SignInForm({ expectedRole, onBack }: SignInFormProps) {
       return;
     }
 
-    const { error, wrongPortal, pending } = await signInAs(email.trim(), password, expectedRole);
+    const { error, wrongPortal } = await signInAs(email.trim(), password, expectedRole);
 
     // Any non-success (wrong portal or generic error) is a failed attempt.
     if (wrongPortal || error) {
@@ -123,7 +123,7 @@ export function SignInForm({ expectedRole, onBack }: SignInFormProps) {
 
     // Success resets the counter for this email.
     lockouts.current.delete(key);
-    navigate(pending ? '/pending' : '/', { replace: true });
+    navigate('/', { replace: true });
   });
 
   const emailError = errors.email?.message;

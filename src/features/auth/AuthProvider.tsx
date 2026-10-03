@@ -37,8 +37,9 @@ export interface auth_state {
     email: string,
     password: string,
     expectedRole: user_role,
-  ) => Promise<{ error: string | null; wrongPortal: boolean; pending?: boolean }>;
-  signUpCitizen: (args: citizen_signup) => Promise<{ error: string | null }>;
+  ) => Promise<{ error: string | null; wrongPortal: boolean }>;
+  /** `signedIn` is false when the project requires email confirmation first. */
+  signUpCitizen: (args: citizen_signup) => Promise<{ error: string | null; signedIn: boolean }>;
   signUpDoctor: (
     email: string,
     password: string,
@@ -120,12 +121,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (error) return { error: error.message, wrongPortal: false };
         const userId = data.user?.id;
         const prof = userId ? await loadProfile(userId) : null;
-        // An unverified citizen has no profile yet. Keep the session so the
-        // app can show the pending-verification screen.
-        if (!prof && expectedRole === 'citizen') {
-          const intended: unknown = data.user?.user_metadata?.intended_role;
-          if (intended === 'citizen') return { error: null, wrongPortal: false, pending: true };
-        }
         if (!prof || prof.role !== expectedRole) {
           // Authenticated but using the wrong portal: sign back out so no
           // session lingers, and report it as a portal mismatch.
@@ -135,10 +130,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return { error: null, wrongPortal: false };
       },
       async signUpCitizen(args) {
-        // The on_auth_user_created trigger (0007) turns this metadata into an
-        // `unverified` patient row and strips the birthdate afterwards. No
-        // profile exists until a BHW runs verify_citizen in person.
-        const { error } = await supabase.auth.signUp({
+        // The on_auth_user_created trigger (0008) turns this metadata into a
+        // patient row plus a citizen profile and strips the birthdate. The
+        // account is active immediately; no BHW confirmation step.
+        const { data, error } = await supabase.auth.signUp({
           email: args.email,
           password: args.password,
           options: {
@@ -152,7 +147,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             },
           },
         });
-        return { error: error ? error.message : null };
+        if (error) return { error: error.message, signedIn: false };
+        return { error: null, signedIn: data.session !== null };
       },
       async signUpDoctor(email, password, prcId) {
         const { data, error } = await supabase.auth.signUp({

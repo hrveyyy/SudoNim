@@ -6,8 +6,8 @@ import { useAuth } from '@/features/auth/AuthProvider';
 import { AuthLayout } from '@/features/auth/AuthLayout';
 
 /**
- * Shown to a signed-in user who has no usable profile yet — e.g. an
- * `unverified` citizen awaiting in-person BHW verification.
+ * Fallback for a signed-in user with no profile row (e.g. a doctor applicant
+ * awaiting admin approval). Citizens get a profile at sign-up (0008).
  */
 export default function PendingScreen() {
   const { t } = useTranslation();

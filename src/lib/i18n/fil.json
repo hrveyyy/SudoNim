@@ -106,8 +106,8 @@
       "submitting": "Nagrerehistro…",
       "link": "Magrehistro",
       "have_account": "May account na?",
-      "pending": "Nagawa na ang iyong account. May barangay health worker na magbe-verify ng iyong pagkakakilanlan nang personal bago mo makita ang iyong rekord.",
-      "subtitle": "Ive-verify ka nang personal ng isang barangay health worker bago mabuksan ang iyong rekord.",
+      "created": "Nagawa na ang iyong account. Mag-sign in para mabuksan ang iyong health record.",
+      "subtitle": "Gumawa ng CareLink account para makita ang iyong health card, mga pagbisita, at mga reseta.",
       "barangays_failed": "Hindi ma-load ang mga barangay. Suriin ang koneksyon at subukang muli."
     },
     "doctor": {
@@ -120,11 +120,18 @@
       "confirm_email_first": "Kumpirmahin ang iyong email, saka mag-sign in para tapusin ang aplikasyon."
     },
     "pending": {
-      "title": "Naghihintay ng verification",
-      "body": "Ang iyong account ay naghihintay ng personal na verification mula sa isang barangay health worker."
+      "title": "Hindi pa aktibo ang account",
+      "body": "Hindi pa aktibo ang iyong account. Kung nag-apply ka bilang doktor, nirerepaso pa ng administrator ang iyong aplikasyon."
     },
     "wizard": {
       "step": "Hakbang {{current}} sa {{total}}"
+    }
+  },
+  "citizen": {
+    "home": {
+      "title": "Aking health record",
+      "greeting": "Maligayang pagdating, {{name}}",
+      "coming_soon": "Dito lalabas ang iyong health card, mga pagbisita, at mga reseta."
     }
   },
   "masterlist": {

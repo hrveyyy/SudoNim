@@ -106,8 +106,8 @@
       "submitting": "Registering…",
       "link": "Register",
       "have_account": "Already have an account?",
-      "pending": "Your account was created. A barangay health worker will verify your identity in person before you can see your record.",
-      "subtitle": "A barangay health worker will verify you in person before your record opens.",
+      "created": "Your account was created. Sign in to open your health record.",
+      "subtitle": "Create your CareLink account to see your health card, visits, and prescriptions.",
       "barangays_failed": "Couldn't load barangays. Check your connection and try again."
     },
     "doctor": {
@@ -120,11 +120,18 @@
       "confirm_email_first": "Confirm your email, then sign in to finish your application."
     },
     "pending": {
-      "title": "Pending verification",
-      "body": "Your account is awaiting in-person verification by a barangay health worker."
+      "title": "Account not active yet",
+      "body": "Your account isn't active yet. If you applied as a doctor, an administrator is still reviewing your application."
     },
     "wizard": {
       "step": "Step {{current}} of {{total}}"
+    }
+  },
+  "citizen": {
+    "home": {
+      "title": "My health record",
+      "greeting": "Welcome, {{name}}",
+      "coming_soon": "Your health card, visits, and prescriptions will appear here."
     }
   },
   "masterlist": {
