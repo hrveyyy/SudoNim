@@ -83,13 +83,13 @@ graph TD
   - Add unit tests for the three redirect guard states (loading/no-profile -> no redirect; resolved role -> roleHome)
   - _Requirements: 1.1, 1.2, 1.4, 1.5, 1.6, 1.7, 1.8_
 
-- [~] 6. Rewire the router and remove superseded screens
+- [x] 6. Rewire the router and remove superseded screens
   - Update `src/app/router.tsx`: `/login` -> `LoginPage`; remove `/login/staff` and `/login/doctor`; keep `/admin/login` -> `AdminLogin`, `/`, `/register`, `/register/doctor`, `/pending`, `/staff/masterlist`, and the `*` fallback; keep all auth screens lazy-loaded default exports
   - Point `AdminLogin` at `SignInForm` (`expectedRole="admin"`, no `onBack`); ensure the admin failure path shows the generic `auth.login.failed` without disclosing account existence
   - Delete `LoginScreen.tsx`, `portals/CitizenLogin.tsx`, `portals/StaffLogin.tsx`, `portals/DoctorLogin.tsx`; update `src/features/auth/index.ts` if its public API changes
   - _Requirements: 1.3, 6.1, 6.2, 6.3, 6.4, 7.1_
 
-- [~] 7. Update the steering documents to the new flow
+- [-] 7. Update the steering documents to the new flow
   - Edit `.kiro/steering/product.md` to supersede the single-`/login` / no-role-selector statement with the staged landing -> login -> status -> role description; keep BHW seeded-by-admin, admin-URL-only, and the role names
   - Edit `.kiro/steering/structure.md` Route map "Public" row to `/`, `/login`, `/register`, `/register/doctor`, `/admin/login`, `/activate`, `/q/:payload` (remove `/login/staff` and `/login/doctor`) and note login internalizes role selection
   - Ensure the two files do not contradict each other

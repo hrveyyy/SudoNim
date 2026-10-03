@@ -1,7 +1,18 @@
-import { LoginScreen } from '@/features/auth/LoginScreen';
+import { SignInForm } from '@/features/auth/SignInForm';
 
 // Admin portal is URL-only: it is deliberately NOT linked from the landing
-// page or any other screen. Reachable only by typing /admin/login.
+// page, the login wizard, or any other screen. Reachable only by typing
+// /admin/login. There is no back control (no onBack) because there is no
+// public entry point to return to.
+//
+// SignInForm shows the generic auth.login.failed on any auth failure, so the
+// admin failure path never discloses whether an admin account exists. On
+// success it navigates to '/', and the guard routes admin to
+// roleHome('admin') = '/admin/doctor-approvals'.
 export default function AdminLogin() {
-  return <LoginScreen expectedRole="admin" portalKey="admin" />;
+  return (
+    <main className="carelink-auth">
+      <SignInForm expectedRole="admin" />
+    </main>
+  );
 }
