@@ -18,7 +18,10 @@ import { supabase } from '@/lib/supabase';
  */
 
 /** Maps an outbox kind to its target table (for table inserts). */
-const KIND_TABLE: Record<Exclude<outbox_kind, 'rpc'>, string> = {
+/** Tables the offline layer writes/reads. Matches generated table names. */
+type sync_table = 'checkups' | 'patients' | 'households' | 'referrals';
+
+const KIND_TABLE: Record<Exclude<outbox_kind, 'rpc'>, sync_table> = {
   checkup: 'checkups',
   patient: 'patients',
   household: 'households',
