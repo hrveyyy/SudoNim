@@ -355,10 +355,28 @@
     },
     "seed": {
       "title": "Seed BHW",
-      "user_id": "Auth user ID",
+      "intro": "Create a barangay staff account. The account and its user ID are generated automatically.",
+      "email": "Email",
+      "user_id": "User ID",
+      "user_id_auto": "The user ID is generated automatically when the account is created.",
       "barangay": "Barangay",
       "full_name": "Full name",
-      "submit": "Create BHW"
+      "submit": "Create BHW",
+      "success_title": "BHW account created",
+      "temp_password": "Temporary password",
+      "temp_password_hint": "Shown only once. Give it to the BHW in person; they sign in at /login with this email and password.",
+      "copy": "Copy",
+      "copied": "Copied",
+      "create_another": "Create another BHW",
+      "errors": {
+        "unauthorized": "Your session expired. Sign in again.",
+        "forbidden": "Only an admin can create BHW accounts.",
+        "invalid_email": "Enter a valid email address.",
+        "invalid_barangay": "Choose a barangay from the list.",
+        "email_exists": "An account with this email already exists.",
+        "rate_limited": "Too many attempts. Wait a minute and try again.",
+        "failed": "Couldn't create the account. Try again."
+      }
     },
     "reports": {
       "title": "Aggregate reports",

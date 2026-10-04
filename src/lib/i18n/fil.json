@@ -355,10 +355,28 @@
     },
     "seed": {
       "title": "Mag-seed ng BHW",
-      "user_id": "Auth user ID",
+      "intro": "Gumawa ng account para sa barangay staff. Awtomatikong ginagawa ang account at ang user ID nito.",
+      "email": "Email",
+      "user_id": "User ID",
+      "user_id_auto": "Awtomatikong ginagawa ang user ID kapag nagawa na ang account.",
       "barangay": "Barangay",
       "full_name": "Buong pangalan",
-      "submit": "Gumawa ng BHW"
+      "submit": "Gumawa ng BHW",
+      "success_title": "Nagawa na ang BHW account",
+      "temp_password": "Pansamantalang password",
+      "temp_password_hint": "Isang beses lang ito ipapakita. Ibigay nang personal sa BHW; mag-sign in sila sa /login gamit ang email at password na ito.",
+      "copy": "Kopyahin",
+      "copied": "Nakopya",
+      "create_another": "Gumawa ng isa pang BHW",
+      "errors": {
+        "unauthorized": "Nag-expire ang session mo. Mag-sign in ulit.",
+        "forbidden": "Admin lang ang puwedeng gumawa ng BHW account.",
+        "invalid_email": "Maglagay ng tamang email address.",
+        "invalid_barangay": "Pumili ng barangay mula sa listahan.",
+        "email_exists": "May account na gamit ang email na ito.",
+        "rate_limited": "Masyadong maraming subok. Maghintay ng isang minuto at subukan ulit.",
+        "failed": "Hindi magawa ang account. Subukan ulit."
+      }
     },
     "reports": {
       "title": "Mga pinagsama-samang ulat",

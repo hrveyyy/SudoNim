@@ -80,7 +80,12 @@ supabase functions deploy resolve-qr
 supabase functions deploy citizen-claim
 supabase functions deploy claim-code-issue
 supabase functions deploy doctor-apply
+supabase functions deploy seed-bhw
 ```
+
+`seed-bhw` backs **Admin → Seed BHW**: the admin enters email + barangay, the
+function creates the auth user (ID generated automatically), binds it via the
+`seed_bhw` RPC, and shows a temporary password once.
 
 ### 5. Storage bucket for doctor documents
 
