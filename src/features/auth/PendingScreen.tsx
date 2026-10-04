@@ -19,7 +19,7 @@ export default function PendingScreen() {
         <CardHeader>
           <span
             aria-hidden="true"
-            className="mb-2 flex size-12 items-center justify-center rounded-lg bg-monitor/15 text-monitor"
+            className="mb-2 flex size-12 items-center justify-center rounded-lg bg-monitor-soft text-monitor-ink"
           >
             <Hourglass className="size-6" />
           </span>

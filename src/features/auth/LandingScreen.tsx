@@ -5,10 +5,15 @@ import { Button } from '@/components/ui/button';
 import { useAuth, roleHome } from '@/features/auth/AuthProvider';
 import { AuthLayout } from '@/features/auth/AuthLayout';
 
-const FEATURES: { icon: LucideIcon; key: string }[] = [
-  { icon: QrCode, key: 'auth.landing.feature_record' },
-  { icon: ClipboardCheck, key: 'auth.landing.feature_screening' },
-  { icon: ShieldCheck, key: 'auth.landing.feature_privacy' },
+// Tile tones mirror the prototype's feature cards (blue / green / teal).
+const FEATURES: { icon: LucideIcon; key: string; tone: string }[] = [
+  { icon: QrCode, key: 'auth.landing.feature_record', tone: 'bg-accent text-accent-foreground' },
+  {
+    icon: ClipboardCheck,
+    key: 'auth.landing.feature_screening',
+    tone: 'bg-screened-soft text-screened-ink',
+  },
+  { icon: ShieldCheck, key: 'auth.landing.feature_privacy', tone: 'bg-teal-soft text-teal-ink' },
 ];
 
 /**
@@ -38,18 +43,21 @@ export default function LandingScreen() {
       >
         <h1
           id="landing-title"
-          className="font-heading text-4xl font-bold leading-[1.1] tracking-tight sm:text-5xl"
+          className="bg-brand bg-clip-text font-heading text-[2.6rem] font-bold leading-[1.04] tracking-[-0.035em] text-transparent sm:text-5xl"
         >
           {t('auth.landing.title')}
         </h1>
-        <p className="mt-4 text-lg text-muted-foreground">{t('auth.landing.intro')}</p>
+        <p className="mt-4 text-lg leading-relaxed text-muted-foreground">{t('auth.landing.intro')}</p>
 
-        <ul className="mt-8 space-y-3">
-          {FEATURES.map(({ icon: Icon, key }) => (
-            <li key={key} className="flex items-center gap-3">
+        <ul className="mt-8 space-y-2.5">
+          {FEATURES.map(({ icon: Icon, key, tone }) => (
+            <li
+              key={key}
+              className="flex items-center gap-3 rounded-[14px] border bg-card px-3.5 py-3 shadow-soft"
+            >
               <span
                 aria-hidden="true"
-                className="flex size-10 shrink-0 items-center justify-center rounded-full bg-card text-primary shadow-sm ring-1 ring-border"
+                className={`flex size-10 shrink-0 items-center justify-center rounded-[11px] ${tone}`}
               >
                 <Icon className="size-5" />
               </span>

@@ -38,16 +38,16 @@ export function ChoiceCard({
       data-value={value}
       aria-labelledby={labelId}
       aria-describedby={hintId}
-      className="group flex min-h-touch w-full items-center gap-4 rounded-lg border bg-card p-4 text-left shadow-sm transition-colors hover:border-primary/50 hover:bg-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      className="group flex min-h-[88px] w-full items-center gap-4 rounded-[14px] border bg-card px-5 py-4 text-left shadow-soft transition-[border-color,box-shadow,transform] duration-150 hover:border-primary hover:shadow-lift motion-safe:hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       <span
         aria-hidden="true"
-        className={cn('flex size-11 shrink-0 items-center justify-center rounded-md', accentClassName)}
+        className={cn('flex size-12 shrink-0 items-center justify-center rounded-[13px]', accentClassName)}
       >
         <Icon className="size-5" />
       </span>
       <span className="min-w-0 flex-1">
-        <span id={labelId} className="block font-semibold leading-snug">
+        <span id={labelId} className="block text-[1.05rem] font-semibold leading-snug">
           {label}
         </span>
         <span id={hintId} className="mt-0.5 block text-sm text-muted-foreground">

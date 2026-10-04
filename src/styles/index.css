@@ -23,14 +23,21 @@
 
   h1,
   h2,
-  h3 {
-    @apply font-heading;
+  h3,
+  h4 {
+    @apply font-heading text-heading;
     line-height: 1.2;
   }
+  h1 {
+    letter-spacing: -0.03em;
+  }
+  h2 {
+    letter-spacing: -0.02em;
+  }
 
-  /* Visible focus for keyboard users (WCAG 2.1 AA). */
+  /* Visible focus for keyboard users (WCAG 2.1 AA): soft 3px brand ring. */
   :focus-visible {
-    outline: 2px solid hsl(var(--ring));
+    outline: 3px solid hsl(var(--ring) / 0.45);
     outline-offset: 2px;
   }
 }
@@ -64,7 +71,11 @@
   border-radius: var(--cl-radius);
   background: var(--cl-primary);
   color: #fff;
+  font-weight: 600;
   cursor: pointer;
+  transition:
+    filter 0.16s ease,
+    transform 0.16s ease;
 }
 :where(.carelink-app, .carelink-page, .carelink-sync-banner, .carelink-conflict-notice) button:hover:not(:disabled) {
   filter: brightness(1.05);
@@ -83,6 +94,17 @@
   background: var(--cl-surface);
   color: var(--cl-text);
   width: 100%;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+:where(.carelink-app, .carelink-page) input:hover {
+  border-color: var(--cl-primary);
+}
+:where(.carelink-app, .carelink-page) input:focus {
+  border-color: var(--cl-primary);
+  box-shadow: 0 0 0 3px hsl(var(--ring) / 0.3);
+  outline: none;
 }
 
 /* ---------------------------------------------------------------------------
@@ -97,6 +119,7 @@
   border-radius: var(--cl-radius);
   border: 1px solid var(--cl-border);
   background: var(--cl-surface);
+  box-shadow: var(--shadow-sm);
 }
 
 .carelink-sync-banner__status {

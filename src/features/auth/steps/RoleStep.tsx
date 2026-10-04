@@ -22,9 +22,9 @@ export interface RoleStepProps {
  * barangay staff = teal, hospital/doctor = blue. Text always carries the role.
  */
 const ROLES: { role: selectable_role; icon: LucideIcon; accent: string }[] = [
-  { role: 'citizen', icon: UserRound, accent: 'bg-screened/10 text-screened' },
+  { role: 'citizen', icon: UserRound, accent: 'bg-screened-soft text-screened-ink' },
   { role: 'physician', icon: Stethoscope, accent: 'bg-primary/10 text-primary' },
-  { role: 'barangay_staff', icon: HeartHandshake, accent: 'bg-teal/10 text-teal' },
+  { role: 'barangay_staff', icon: HeartHandshake, accent: 'bg-teal-soft text-teal-ink' },
 ];
 
 /**

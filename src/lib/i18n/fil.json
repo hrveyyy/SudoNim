@@ -131,7 +131,10 @@
     "saving": "Sine-save…",
     "toggle_language": "Palitan ang wika",
     "cancel": "Kanselahin",
-    "select": "Pumili…"
+    "select": "Pumili…",
+    "main_nav": "Pangunahing nabigasyon",
+    "skip_to_content": "Lumaktaw sa nilalaman",
+    "tagline": "Rekord pangkalusugan ng barangay"
   },
   "nav": {
     "masterlist": "Masterlist",

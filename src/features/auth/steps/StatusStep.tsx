@@ -52,7 +52,7 @@ export function StatusStep({ onSelect, onBack }: StatusStepProps) {
           icon={LogIn}
           label={t('auth.status.returning')}
           hint={t('auth.status.returning_hint')}
-          accentClassName="bg-teal/10 text-teal"
+          accentClassName="bg-teal-soft text-teal-ink"
           onClick={() => onSelect('returning')}
         />
       </div>

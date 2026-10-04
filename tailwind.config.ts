@@ -51,10 +51,30 @@ export default {
           foreground: 'hsl(var(--card-foreground))',
         },
         // CareLink brand / status colors (steering core palette).
-        teal: 'hsl(var(--teal))',
-        screened: 'hsl(var(--screened))',
-        monitor: 'hsl(var(--monitor))',
-        referral: 'hsl(var(--referral))',
+        heading: 'hsl(var(--heading))',
+        'border-strong': 'hsl(var(--border-strong))',
+        // Each status color has a fill (DEFAULT), a soft tint background and an
+        // AA-contrast ink for text placed on the tint.
+        teal: {
+          DEFAULT: 'hsl(var(--teal))',
+          soft: 'hsl(var(--teal-soft))',
+          ink: 'hsl(var(--teal-ink))',
+        },
+        screened: {
+          DEFAULT: 'hsl(var(--screened))',
+          soft: 'hsl(var(--screened-soft))',
+          ink: 'hsl(var(--screened-ink))',
+        },
+        monitor: {
+          DEFAULT: 'hsl(var(--monitor))',
+          soft: 'hsl(var(--monitor-soft))',
+          ink: 'hsl(var(--monitor-ink))',
+        },
+        referral: {
+          DEFAULT: 'hsl(var(--referral))',
+          soft: 'hsl(var(--referral-soft))',
+          ink: 'hsl(var(--referral-ink))',
+        },
 
         // Legacy `--cl-*` names used by the role screens (staff, doctor,
         // citizen, admin). Same palette as above; kept so those screens render
@@ -73,6 +93,13 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
         // Legacy radius for the role screens (see colors above).
         cl: 'var(--cl-radius)',
+      },
+      boxShadow: {
+        soft: 'var(--shadow-sm)',
+        lift: 'var(--shadow-md)',
+      },
+      backgroundImage: {
+        brand: 'var(--brand-gradient)',
       },
       minHeight: { touch: '44px' },
       minWidth: { touch: '44px' },

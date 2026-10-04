@@ -131,7 +131,10 @@
     "saving": "Saving…",
     "toggle_language": "Toggle language",
     "cancel": "Cancel",
-    "select": "Select…"
+    "select": "Select…",
+    "main_nav": "Main navigation",
+    "skip_to_content": "Skip to content",
+    "tagline": "Barangay health record"
   },
   "nav": {
     "masterlist": "Masterlist",
