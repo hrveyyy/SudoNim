@@ -37,7 +37,12 @@ export interface auth_state {
     email: string,
     password: string,
     expectedRole: user_role,
-  ) => Promise<{ error: string | null; wrongPortal: boolean }>;
+  ) => Promise<{
+    error: string | null;
+    wrongPortal: boolean;
+    /** Set when a doctor applicant signs in before approval (or after rejection). */
+    applicationStatus?: 'pending' | 'rejected';
+  }>;
   /** `signedIn` is false when the project requires email confirmation first. */
   signUpCitizen: (args: citizen_signup) => Promise<{ error: string | null; signedIn: boolean }>;
   signUpDoctor: (
@@ -121,6 +126,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (error) return { error: error.message, wrongPortal: false };
         const userId = data.user?.id;
         const prof = userId ? await loadProfile(userId) : null;
+        // A doctor applicant has no profile until approve_doctor runs. Tell
+        // them their application status instead of "wrong portal".
+        if (!prof && userId && expectedRole === 'physician') {
+          const { data: app } = await supabase
+            .from('doctor_applications')
+            .select('status')
+            .eq('user_id', userId)
+            .maybeSingle();
+          if (app && app.status !== 'approved') {
+            await supabase.auth.signOut();
+            return { error: null, wrongPortal: false, applicationStatus: app.status };
+          }
+        }
         if (!prof || prof.role !== expectedRole) {
           // Authenticated but using the wrong portal: sign back out so no
           // session lingers, and report it as a portal mismatch.
@@ -156,16 +174,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           password,
           options: { data: { intended_role: 'physician' } },
         });
-        if (error) return { error: error.message };
+
+        let hasSession = data.session !== null;
+        if (error) {
+          // A previous attempt may have created the account but failed to file
+          // the application. Sign in with the same password and retry the
+          // filing. Any other error (or a wrong password) is reported as is.
+          if (error.code !== 'user_already_exists') return { error: error.message };
+          const { data: signIn, error: signInError } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
+          if (signInError || !signIn.user) return { error: 'auth.doctor.already_registered' };
+          // Accounts that already have a role (citizen, approved doctor, staff)
+          // must not file a doctor application from here.
+          if (await loadProfile(signIn.user.id)) {
+            await supabase.auth.signOut();
+            return { error: 'auth.doctor.already_registered' };
+          }
+          hasSession = true;
+        }
+
         // doctor-apply needs the new user's JWT. With email confirmation on,
         // there is no session yet and the application cannot be filed here.
-        if (!data.session) return { error: 'auth.doctor.confirm_email_first' };
+        if (!hasSession) return { error: 'auth.doctor.confirm_email_first' };
+
+        // doctor-apply upserts on user_id, so retrying after a failure is safe.
         const { error: fnError } = await supabase.functions.invoke('doctor-apply', {
           body: { prc_id: prcId },
         });
-        if (fnError) return { error: fnError.message };
-        // Not a physician until approved: leave the pending applicant signed out.
+        // Not a physician until approved: leave the applicant signed out either way.
         await supabase.auth.signOut();
+        if (fnError) return { error: 'auth.doctor.apply_failed' };
         return { error: null };
       },
       async signOut() {

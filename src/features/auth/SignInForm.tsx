@@ -1,10 +1,10 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { AlertCircle, Loader2 } from 'lucide-react';
+import { AlertCircle, ClipboardCheck, Loader2 } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -79,8 +79,12 @@ export function SignInForm({ expectedRole, onBack }: SignInFormProps) {
     defaultValues: { email: '', password: '' },
   });
 
+  // Non-error outcome (doctor application awaiting review or rejected).
+  const [notice, setNotice] = useState<string | null>(null);
+
   const onSubmit = handleSubmit(async ({ email, password }) => {
     clearErrors('root');
+    setNotice(null);
 
     const key = lockout_key(email);
     const entry = lockouts.current.get(key);
@@ -92,7 +96,24 @@ export function SignInForm({ expectedRole, onBack }: SignInFormProps) {
       return;
     }
 
-    const { error, wrongPortal } = await signInAs(email.trim(), password, expectedRole);
+    const { error, wrongPortal, applicationStatus } = await signInAs(
+      email.trim(),
+      password,
+      expectedRole,
+    );
+
+    // Correct credentials, but the doctor application isn't approved yet.
+    // Not a failed attempt, so it doesn't count toward the lockout.
+    if (applicationStatus) {
+      lockouts.current.delete(key);
+      resetField('password');
+      setNotice(
+        applicationStatus === 'pending'
+          ? t('auth.doctor.awaiting_approval')
+          : t('auth.doctor.rejected'),
+      );
+      return;
+    }
 
     // Any non-success (wrong portal or generic error) is a failed attempt.
     if (wrongPortal || error) {
@@ -186,6 +207,13 @@ export function SignInForm({ expectedRole, onBack }: SignInFormProps) {
                 </p>
               )}
             </div>
+
+            {notice && (
+              <Alert role="status" variant="info">
+                <ClipboardCheck aria-hidden="true" className="size-4" />
+                <AlertDescription>{notice}</AlertDescription>
+              </Alert>
+            )}
 
             {formError && (
               <Alert role="alert" variant="destructive">

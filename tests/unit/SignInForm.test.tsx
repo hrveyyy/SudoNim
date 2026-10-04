@@ -141,6 +141,35 @@ describe('SignInForm auth outcomes', () => {
   });
 });
 
+describe('SignInForm doctor application status', () => {
+  it('tells a pending doctor applicant that an admin must approve, without navigating', async () => {
+    signInAsMock.mockResolvedValue({
+      error: null,
+      wrongPortal: false,
+      applicationStatus: 'pending',
+    });
+    renderForm(<SignInForm expectedRole="physician" />);
+    fillAndSubmit();
+
+    expect(await screen.findByText(en.auth.doctor.awaiting_approval)).toBeInTheDocument();
+    expect(screen.queryByText(en.auth.login.wrong_portal)).not.toBeInTheDocument();
+    expect(navigateMock).not.toHaveBeenCalled();
+  });
+
+  it('shows the rejection notice for a rejected doctor applicant', async () => {
+    signInAsMock.mockResolvedValue({
+      error: null,
+      wrongPortal: false,
+      applicationStatus: 'rejected',
+    });
+    renderForm(<SignInForm expectedRole="physician" />);
+    fillAndSubmit();
+
+    expect(await screen.findByText(en.auth.doctor.rejected)).toBeInTheDocument();
+    expect(navigateMock).not.toHaveBeenCalled();
+  });
+});
+
 describe('SignInForm lockout (Req 4.8)', () => {
   it('locks after 5 failures and blocks further sign-in calls', async () => {
     signInAsMock.mockResolvedValue({ error: 'bad', wrongPortal: false });

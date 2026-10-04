@@ -95,11 +95,6 @@
       "physician_hint": "Buksan ang rekord sa QR scan at pairing key",
       "barangay_staff_hint": "Mag-screen ng residente at pamahalaan ang masterlist"
     },
-    "bhw": {
-      "seeded_title": "Ang mga account ng Barangay Health Worker ay ginagawa ng administrator",
-      "seeded_body": "Hindi ka maaaring magrehistro bilang barangay health worker dito. Ang administrator ang gumagawa ng iyong account at nagtatalaga ng iyong barangay. Humingi ng detalye sa pag-sign in sa iyong administrator.",
-      "back": "Bumalik"
-    },
     "register": {
       "title": "Gumawa ng account",
       "submit": "Magrehistro",
@@ -117,7 +112,11 @@
       "submit": "Isumite ang aplikasyon",
       "submitting": "Isinusumite…",
       "pending": "Natanggap na ang iyong aplikasyon. Rerepasuhin ng administrator ang iyong PRC license at mga dokumento. Makaka-sign in ka na kapag naaprubahan.",
-      "confirm_email_first": "Kumpirmahin ang iyong email, saka mag-sign in para tapusin ang aplikasyon."
+      "confirm_email_first": "Kumpirmahin ang iyong email, saka mag-sign in para tapusin ang aplikasyon.",
+      "apply_failed": "Nagawa na ang iyong account, pero hindi naipadala ang iyong aplikasyon. Suriin ang koneksyon at isumite muli gamit ang parehong email at password.",
+      "already_registered": "Nakarehistro na ang email na ito. Mag-sign in na lang, o gumamit ng ibang email.",
+      "awaiting_approval": "Nirerepaso pa ang iyong aplikasyon bilang doktor. Kailangan muna itong aprubahan ng administrator bago ka makapag-sign in.",
+      "rejected": "Hindi naaprubahan ang iyong aplikasyon bilang doktor. Makipag-ugnayan sa administrator para sa detalye."
     },
     "pending": {
       "title": "Hindi pa aktibo ang account",

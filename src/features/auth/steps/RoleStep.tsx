@@ -28,8 +28,10 @@ const ROLES: { role: selectable_role; icon: LucideIcon; accent: string }[] = [
 ];
 
 /**
- * Role_Step: presents exactly three role choices (citizen, physician,
- * barangay_staff) as action buttons. The admin role is never offered here —
+ * Role_Step: presents the role choices as action buttons. Returning visitors
+ * see citizen, physician, and barangay_staff; new visitors see only citizen
+ * and physician, since BHW accounts are seeded by an admin and can't be set
+ * up here. The admin role is never offered here —
  * admin sign-in is reachable only via the unlinked /admin/login route. A back
  * control returns the visitor to the status step. All text is i18n-resolved.
  */
@@ -52,7 +54,7 @@ export function RoleStep({ onSelect, onBack, status }: RoleStepProps) {
       </p>
 
       <div role="group" aria-labelledby="role-step-title" className="mt-6 space-y-3">
-        {ROLES.map(({ role, icon, accent }) => (
+        {ROLES.filter(({ role }) => !(status === 'new' && role === 'barangay_staff')).map(({ role, icon, accent }) => (
           <ChoiceCard
             key={role}
             id={`role-${role}`}

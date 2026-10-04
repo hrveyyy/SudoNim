@@ -4,19 +4,16 @@ import { useAuth, roleHome } from '@/features/auth/AuthProvider';
 import { SignInForm } from '@/features/auth/SignInForm';
 import { StatusStep, type visitor_status } from '@/features/auth/steps/StatusStep';
 import { RoleStep, type selectable_role } from '@/features/auth/steps/RoleStep';
-import { BhwSeededNotice } from '@/features/auth/steps/BhwSeededNotice';
 import { AuthLayout } from '@/features/auth/AuthLayout';
 
 /**
  * One stage of the login wizard. The `signin` step carries the pinned role so
- * the sign-in form admits only that role; `bhw_seeded` is the new +
- * barangay_staff outcome.
+ * the sign-in form admits only that role.
  */
 type wizard_step =
   | { kind: 'status' }
   | { kind: 'role' }
-  | { kind: 'signin'; role: selectable_role }
-  | { kind: 'bhw_seeded' };
+  | { kind: 'signin'; role: selectable_role };
 
 /** Transient wizard state, held in component memory (not the URL). */
 interface login_wizard_state {
@@ -59,8 +56,8 @@ export default function LoginPage() {
   const backToStatus = () =>
     setState((prev) => ({ ...prev, step: { kind: 'status' } }));
 
-  // signin / bhw_seeded back: keep status (and role), return to the role step
-  // (Req 4 back control, Req 5.4).
+  // signin back: keep status (and role), return to the role step
+  // (Req 4 back control).
   const backToRole = () =>
     setState((prev) => ({ ...prev, step: { kind: 'role' } }));
 
@@ -70,7 +67,8 @@ export default function LoginPage() {
       setState((prev) => ({ ...prev, step: { kind: 'signin', role } }));
       return;
     }
-    // status === 'new'
+    // status === 'new'. RoleStep doesn't offer barangay_staff here: BHW
+    // accounts are seeded by an admin, never set up in the public flow.
     switch (role) {
       case 'citizen':
         navigate('/register');
@@ -79,7 +77,6 @@ export default function LoginPage() {
         navigate('/register/doctor');
         return;
       case 'barangay_staff':
-        setState((prev) => ({ ...prev, step: { kind: 'bhw_seeded' } }));
         return;
     }
   };
@@ -100,8 +97,6 @@ export default function LoginPage() {
         return <RoleStep onSelect={selectRole} onBack={backToStatus} status={state.status} />;
       case 'signin':
         return <SignInForm expectedRole={step.role} onBack={backToRole} />;
-      case 'bhw_seeded':
-        return <BhwSeededNotice onBack={backToRole} />;
     }
   })();
 

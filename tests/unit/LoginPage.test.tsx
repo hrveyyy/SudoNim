@@ -198,15 +198,19 @@ describe('LoginPage new outcomes (Req 5.1, 5.2, 5.3)', () => {
     expect(navigateMock).toHaveBeenCalledWith('/register/doctor');
   });
 
-  it('new + barangay_staff renders the BHW seeded notice and does not navigate', () => {
+  it('new visitors are not offered the barangay_staff role', () => {
     renderLogin(<LoginPage />);
     chooseStatus('new');
-    chooseRole('barangay_staff');
 
     expect(
-      screen.getByRole('heading', { name: en.auth.bhw.seeded_title }),
+      screen.getByRole('button', { name: en.auth.role.citizen }),
     ).toBeInTheDocument();
-    expect(navigateMock).not.toHaveBeenCalled();
+    expect(
+      screen.getByRole('button', { name: en.auth.role.physician }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: en.auth.role.barangay_staff }),
+    ).not.toBeInTheDocument();
   });
 });
 

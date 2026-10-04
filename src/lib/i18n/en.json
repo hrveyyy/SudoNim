@@ -95,11 +95,6 @@
       "physician_hint": "Open records by QR scan and pairing key",
       "barangay_staff_hint": "Screen residents and manage your masterlist"
     },
-    "bhw": {
-      "seeded_title": "Barangay Health Worker accounts are created by an administrator",
-      "seeded_body": "You can't register as a barangay health worker here. An administrator sets up your account and assigns your barangay. Ask your administrator for sign-in details.",
-      "back": "Back"
-    },
     "register": {
       "title": "Create your account",
       "submit": "Register",
@@ -117,7 +112,11 @@
       "submit": "Submit application",
       "submitting": "Submitting…",
       "pending": "Your application was received. An administrator will review your PRC license and documents. You'll be able to sign in once approved.",
-      "confirm_email_first": "Confirm your email, then sign in to finish your application."
+      "confirm_email_first": "Confirm your email, then sign in to finish your application.",
+      "apply_failed": "Your account was created, but we couldn't send your application. Check your connection and submit again with the same email and password.",
+      "already_registered": "This email is already registered. Sign in instead, or use a different email.",
+      "awaiting_approval": "Your doctor application is still being reviewed. An administrator must approve it before you can sign in.",
+      "rejected": "Your doctor application was not approved. Contact the administrator for details."
     },
     "pending": {
       "title": "Account not active yet",
