@@ -214,6 +214,23 @@ describe('LoginPage new outcomes (Req 5.1, 5.2, 5.3)', () => {
   });
 });
 
+describe('LoginPage resume from a register screen', () => {
+  it('opens on the Role step with "new" selected when returning from registration', () => {
+    render(
+      <I18nextProvider i18n={i18n}>
+        <MemoryRouter initialEntries={[{ pathname: '/login', state: { status: 'new' } }]}>
+          <LoginPage />
+        </MemoryRouter>
+      </I18nextProvider>,
+    );
+
+    expect(screen.getByRole('heading', { name: en.auth.role.title })).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: en.auth.role.barangay_staff }),
+    ).not.toBeInTheDocument();
+  });
+});
+
 describe('LoginPage status back (Req 2.5)', () => {
   it('Status back navigates to the landing page', () => {
     renderLogin(<LoginPage />);

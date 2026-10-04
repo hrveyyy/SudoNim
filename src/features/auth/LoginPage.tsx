@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth, roleHome } from '@/features/auth/AuthProvider';
 import { SignInForm } from '@/features/auth/SignInForm';
 import { StatusStep, type visitor_status } from '@/features/auth/steps/StatusStep';
@@ -33,10 +33,15 @@ interface login_wizard_state {
 export default function LoginPage() {
   const { session, profile, loading } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [state, setState] = useState<login_wizard_state>({
-    status: null,
-    step: { kind: 'status' },
+  // The register screens' back button returns here with `{ status: 'new' }`,
+  // so the visitor lands back on the role step instead of starting over.
+  const [state, setState] = useState<login_wizard_state>(() => {
+    const resume: unknown = (location.state as { status?: unknown } | null)?.status;
+    return resume === 'new'
+      ? { status: 'new', step: { kind: 'role' } }
+      : { status: null, step: { kind: 'status' } };
   });
 
   // Already signed in with a resolved profile -> skip the wizard and let the

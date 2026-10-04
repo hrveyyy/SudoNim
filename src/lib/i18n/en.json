@@ -100,7 +100,6 @@
       "submit": "Register",
       "submitting": "Registering…",
       "link": "Register",
-      "have_account": "Already have an account?",
       "created": "Your account was created. Sign in to open your health record.",
       "subtitle": "Create your CareLink account to see your health card, visits, and prescriptions.",
       "barangays_failed": "Couldn't load barangays. Check your connection and try again."

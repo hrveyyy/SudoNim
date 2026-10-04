@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AlertCircle, ClipboardCheck, Loader2, Stethoscope } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { AuthLayout } from '@/features/auth/AuthLayout';
+import { StepBackButton } from '@/features/auth/steps/StepBackButton';
 
 /**
  * Doctor application. Captures email + password + PRC ID now; the full intake
@@ -19,6 +20,9 @@ import { AuthLayout } from '@/features/auth/AuthLayout';
 export default function DoctorRegisterScreen() {
   const { t } = useTranslation();
   const { signUpDoctor } = useAuth();
+  const navigate = useNavigate();
+  // Back to the login wizard's role step, with "new" still selected.
+  const backToRoles = () => navigate('/login', { state: { status: 'new' } });
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -42,6 +46,7 @@ export default function DoctorRegisterScreen() {
 
   return (
     <AuthLayout>
+      {!done && <StepBackButton label={t('auth.role.back')} onClick={backToRoles} />}
       <Card className="motion-safe:duration-300 motion-safe:animate-in motion-safe:fade-in">
         <CardHeader>
           <span
@@ -124,15 +129,6 @@ export default function DoctorRegisterScreen() {
           )}
         </CardContent>
       </Card>
-
-      {!done && (
-        <p className="mt-6 text-center text-sm text-muted-foreground">
-          {t('auth.register.have_account')}{' '}
-          <Link to="/login" className="font-semibold text-primary underline-offset-4 hover:underline">
-            {t('auth.login.link')}
-          </Link>
-        </p>
-      )}
     </AuthLayout>
   );
 }

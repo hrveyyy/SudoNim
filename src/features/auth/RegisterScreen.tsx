@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { AuthLayout } from '@/features/auth/AuthLayout';
+import { StepBackButton } from '@/features/auth/steps/StepBackButton';
 import { supabase } from '@/lib/supabase';
 import { today_manila_iso } from '@/lib/dates';
 
@@ -27,6 +28,8 @@ export default function RegisterScreen() {
   const { t } = useTranslation();
   const { signUpCitizen } = useAuth();
   const navigate = useNavigate();
+  // Back to the login wizard's role step, with "new" still selected.
+  const backToRoles = () => navigate('/login', { state: { status: 'new' } });
 
   const [surname, setSurname] = useState('');
   const [firstName, setFirstName] = useState('');
@@ -77,6 +80,7 @@ export default function RegisterScreen() {
 
   return (
     <AuthLayout>
+      {!done && <StepBackButton label={t('auth.role.back')} onClick={backToRoles} />}
       <Card className="motion-safe:duration-300 motion-safe:animate-in motion-safe:fade-in">
         <CardHeader>
           <CardTitle>{t('auth.register.title')}</CardTitle>
@@ -208,15 +212,6 @@ export default function RegisterScreen() {
           )}
         </CardContent>
       </Card>
-
-      {!done && (
-        <p className="mt-6 text-center text-sm text-muted-foreground">
-          {t('auth.register.have_account')}{' '}
-          <Link to="/login" className="font-semibold text-primary underline-offset-4 hover:underline">
-            {t('auth.login.link')}
-          </Link>
-        </p>
-      )}
     </AuthLayout>
   );
 }
