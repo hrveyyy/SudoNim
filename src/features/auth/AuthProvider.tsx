@@ -29,22 +29,28 @@ export interface auth_state {
   profile: auth_profile | null;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
   /**
-   * Sign in through a role-specific portal. Authenticates, then checks the
-   * profile role matches `expectedRole`; on mismatch it signs the user back
-   * out and returns a wrong_portal error. This is a UX convenience — the real
+   * Role-pinned sign-in. Authenticates, then checks the server-side profile
+   * role matches `expectedRole`; on mismatch it signs the user back out, wipes
+   * local data and returns `wrongPortal`. This is a UX convenience — the real
    * boundary is RLS in the database.
    */
   signInAs: (
     email: string,
     password: string,
     expectedRole: user_role,
-  ) => Promise<{ error: string | null; wrongPortal: boolean; notice: login_notice }>;
-  signUpCitizen: (args: citizen_signup) => Promise<{ error: string | null }>;
+  ) => Promise<{
+    error: string | null;
+    wrongPortal: boolean;
+    /** Set when a doctor applicant signs in before approval (or after rejection). */
+    applicationStatus?: application_status;
+  }>;
+  /** `signedIn` is false when the project requires email confirmation first. */
+  signUpCitizen: (args: citizen_signup) => Promise<{ error: string | null; signedIn: boolean }>;
   /**
    * Doctor application: creates the account, submits the application through
    * the doctor-apply Edge Function, then signs out. `applicationSubmitted` is
    * false if the account was created but the application call failed; signing
-   * in on the doctor portal retries it.
+   * in as a doctor retries it. `error` may be an i18n key (`auth.doctor.*`).
    */
   signUpDoctor: (
     args: doctor_signup,
@@ -52,8 +58,8 @@ export interface auth_state {
   signOut: () => Promise<void>;
 }
 
-/** Shown on the doctor login when there is no physician profile yet. */
-export type login_notice = 'doctor_pending' | 'doctor_rejected' | null;
+/** Doctor application state shown at sign-in when there is no physician profile yet. */
+export type application_status = 'pending' | 'rejected';
 
 /** Fields collected at citizen self-registration. */
 export interface citizen_signup {
@@ -62,7 +68,7 @@ export interface citizen_signup {
   surname: string;
   first_name: string;
   sex: 'male' | 'female';
-  /** yyyy-MM-dd. */
+  /** yyyy-MM-dd. Used once by the sign-up trigger, then removed from metadata (0010). */
   birthdate: string;
   /** The barangay the citizen lives in (puts them in that BHW masterlist). */
   barangay_id: string;
@@ -106,14 +112,16 @@ async function submitDoctorApplication(meta: {
  * application stand? If none is on file (the call failed at sign-up), submit
  * it now from the details saved at sign-up.
  */
-async function doctorApplicationNotice(user: User): Promise<login_notice> {
+async function doctorApplicationStatus(user: User): Promise<application_status | null> {
   const { data } = await supabase
     .from('doctor_applications')
     .select('status')
     .eq('user_id', user.id)
     .maybeSingle();
-  if (data?.status === 'rejected') return 'doctor_rejected';
-  if (data) return 'doctor_pending';
+  if (data?.status === 'rejected') return 'rejected';
+  if (data?.status === 'pending') return 'pending';
+  // Approved accounts have a physician profile; no profile here is a mismatch.
+  if (data) return null;
 
   const meta = user.user_metadata ?? {};
   if (meta.intended_role !== 'physician' || typeof meta.prc_id !== 'string') return null;
@@ -122,7 +130,7 @@ async function doctorApplicationNotice(user: User): Promise<login_notice> {
     full_name: typeof meta.full_name === 'string' ? meta.full_name : null,
     facility_id: typeof meta.facility_id === 'string' ? meta.facility_id : null,
   });
-  return submitted ? 'doctor_pending' : null;
+  return submitted ? 'pending' : null;
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -175,30 +183,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       },
       async signInAs(email, password, expectedRole) {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) return { error: error.message, wrongPortal: false, notice: null };
+        if (error) return { error: error.message, wrongPortal: false };
         const user = data.user;
+        // Role comes from the server-side profile, never from user metadata.
         const prof = user ? await loadProfile(user.id) : null;
         if (prof && prof.role === expectedRole) {
-          return { error: null, wrongPortal: false, notice: null };
+          return { error: null, wrongPortal: false };
         }
         // A doctor without a physician profile is waiting on (or was refused)
         // admin approval; say so instead of "wrong portal".
-        const notice =
+        const applicationStatus =
           !prof && expectedRole === 'physician' && user
-            ? await doctorApplicationNotice(user)
+            ? await doctorApplicationStatus(user)
             : null;
         // Either way, sign back out so no session lingers.
         await supabase.auth.signOut();
         await wipe_local_data();
-        return { error: null, wrongPortal: notice === null, notice };
+        if (applicationStatus) return { error: null, wrongPortal: false, applicationStatus };
+        return { error: null, wrongPortal: true };
       },
       async signUpCitizen(args) {
-        // Self-registration collects name/sex/birthdate — the pairing-key basis
-        // is surname + birthdate. We stash these in user metadata; the server
-        // trigger handle_new_citizen (migration 0007) auto-creates the citizen
-        // profile + a `verified` patient row from this metadata on signup, so
-        // the account is usable immediately (no in-person BHW verification).
-        // Birthdate in metadata is not a public-facing field.
+        // The on_auth_user_created_citizen trigger (0007/0008, hardened in
+        // 0010) turns this metadata into a verified patient row plus a citizen
+        // profile and strips the birthdate. The account is active immediately;
+        // no BHW confirmation step.
         const { data, error } = await supabase.auth.signUp({
           email: args.email,
           password: args.password,
@@ -213,15 +221,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             },
           },
         });
-        if (error) return { error: error.message };
-        // With email confirmation off, Supabase signs the new user in right
-        // away. Sign them back out so the redirect lands on the sign-in page
-        // and they log in themselves.
-        if (data.session) {
+        if (error) return { error: error.message, signedIn: false };
+        if (!data.session) return { error: null, signedIn: false };
+        // GoTrue mints the sign-up session from the metadata it was sent, so
+        // that first JWT and user object still carry the birthdate (the DB row
+        // is already stripped by 0010). Refresh at once to get a clean session
+        // from the stored row; if that fails, drop the session entirely.
+        const { error: refreshError } = await supabase.auth.refreshSession();
+        if (refreshError) {
           await supabase.auth.signOut();
           await wipe_local_data();
+          return { error: null, signedIn: false };
         }
-        return { error: null };
+        // Signed in with email confirmation off: the caller routes into /me.
+        return { error: null, signedIn: true };
       },
       async signUpDoctor(args) {
         // The details are also saved in user metadata so the application can
@@ -238,12 +251,37 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             },
           },
         });
-        if (error) return { error: error.message, applicationSubmitted: false };
 
-        // With email confirmation off, sign-up returns a session, which the
-        // doctor-apply function needs. Without one, login submits it later.
+        let hasSession = data.session !== null;
+        if (error) {
+          // A previous attempt may have created the account but failed to file
+          // the application. Sign in with the same password and retry the
+          // filing. Any other error (or a wrong password) is reported as is.
+          if (error.code !== 'user_already_exists') {
+            return { error: error.message, applicationSubmitted: false };
+          }
+          const { data: signIn, error: signInError } = await supabase.auth.signInWithPassword({
+            email: args.email,
+            password: args.password,
+          });
+          if (signInError || !signIn.user) {
+            return { error: 'auth.doctor.already_registered', applicationSubmitted: false };
+          }
+          // Accounts that already have a role (citizen, approved doctor, staff)
+          // must not file a doctor application from here.
+          if (await loadProfile(signIn.user.id)) {
+            await supabase.auth.signOut();
+            await wipe_local_data();
+            return { error: 'auth.doctor.already_registered', applicationSubmitted: false };
+          }
+          hasSession = true;
+        }
+
+        // doctor-apply needs the new user's JWT. Without a session (email
+        // confirmation on), signing in as a doctor submits it later.
         let applicationSubmitted = false;
-        if (data.session) {
+        if (hasSession) {
+          // doctor-apply upserts on user_id, so retrying after a failure is safe.
           applicationSubmitted = await submitDoctorApplication({
             prc_id: args.prc_id,
             full_name: args.full_name || null,

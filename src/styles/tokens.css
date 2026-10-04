@@ -1,6 +1,11 @@
 /* CareLink design tokens — light and dark themes.
- * Colors and fonts come from the product/tech steering. Simple for now;
- * shadcn/ui tokens can layer on later. */
+ * Colors and fonts come from the product/tech steering.
+ *
+ * Two layers:
+ *  - `--cl-*` hex tokens used by the plain-CSS screens (sync banner, masterlist).
+ *  - shadcn/ui HSL tokens (`--primary`, `--background`, ...) consumed by
+ *    Tailwind via tailwind.config.ts. Both are derived from the same palette.
+ * Dark mode follows the OS preference. */
 
 :root {
   /* Brand (light) */
@@ -26,6 +31,32 @@
   --cl-radius: 10px;
   --cl-gap: 12px;
   --cl-touch: 44px; /* minimum touch target */
+
+  /* shadcn/ui tokens (HSL triplets), light */
+  --background: 216 38% 97%; /* #f6f8fb */
+  --foreground: 211 32% 13%; /* #16202b */
+  --card: 0 0% 100%;
+  --card-foreground: 211 32% 13%;
+  --primary: 212 77% 46%; /* #1b6fd1 */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 213 30% 94%;
+  --secondary-foreground: 211 32% 13%;
+  --muted: 213 30% 94%;
+  --muted-foreground: 215 14% 39%; /* #566273 */
+  --accent: 212 70% 95%;
+  --accent-foreground: 212 77% 30%;
+  --destructive: 2 66% 53%; /* #d6403a */
+  --destructive-foreground: 0 0% 100%;
+  --border: 213 25% 87%; /* #d7dee7 */
+  --input: 213 25% 87%;
+  --ring: 212 77% 46%;
+  --radius: 0.75rem;
+
+  /* Status / role colors */
+  --teal: 180 83% 33%; /* #0e9a9a */
+  --screened: 147 57% 43%; /* #2fae68 */
+  --monitor: 40 91% 47%; /* #e39a0b */
+  --referral: 2 66% 53%; /* #d6403a */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -42,5 +73,29 @@
     --cl-text-muted: #9aa7b6;
     --cl-border: #2a3645;
     --cl-focus: var(--cl-primary);
+
+    /* shadcn/ui tokens, dark */
+    --background: 212 30% 8%; /* #0f151c */
+    --foreground: 213 31% 93%; /* #e8edf3 */
+    --card: 211 32% 13%; /* #16202b */
+    --card-foreground: 213 31% 93%;
+    --primary: 214 74% 53%; /* #2f7be0 */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 212 25% 17%;
+    --secondary-foreground: 213 31% 93%;
+    --muted: 212 25% 17%;
+    --muted-foreground: 212 16% 66%; /* #9aa7b6 */
+    --accent: 214 40% 20%;
+    --accent-foreground: 213 31% 93%;
+    --destructive: 2 83% 65%; /* #f0645e */
+    --destructive-foreground: 212 30% 8%;
+    --border: 213 24% 22%; /* #2a3645 */
+    --input: 213 24% 22%;
+    --ring: 214 74% 53%;
+
+    --teal: 179 63% 47%; /* #2cc3c0 */
+    --screened: 149 56% 46%; /* #34b873 */
+    --monitor: 39 86% 58%; /* #f0b13a */
+    --referral: 2 83% 65%; /* #f0645e */
   }
 }

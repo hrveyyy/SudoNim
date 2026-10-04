@@ -4,9 +4,7 @@ import { RequireRole } from '@/app/guards/RequireRole';
 
 // Public screens.
 const LandingScreen = lazy(() => import('@/features/auth/LandingScreen'));
-const CitizenLogin = lazy(() => import('@/features/auth/portals/CitizenLogin'));
-const StaffLogin = lazy(() => import('@/features/auth/portals/StaffLogin'));
-const DoctorLogin = lazy(() => import('@/features/auth/portals/DoctorLogin'));
+const LoginPage = lazy(() => import('@/features/auth/LoginPage'));
 const AdminLogin = lazy(() => import('@/features/auth/portals/AdminLogin'));
 const RegisterScreen = lazy(() => import('@/features/auth/RegisterScreen'));
 const DoctorRegisterScreen = lazy(() => import('@/features/auth/DoctorRegisterScreen'));
@@ -86,10 +84,12 @@ function admin(node: React.ReactNode) {
 export const router = createBrowserRouter([
   { path: '/', element: <L><LandingScreen /></L> },
 
-  // Public auth.
-  { path: '/login', element: <L><CitizenLogin /></L> },
-  { path: '/login/staff', element: <L><StaffLogin /></L> },
-  { path: '/login/doctor', element: <L><DoctorLogin /></L> },
+  // Login wizard (one auth mechanism; role selection is internalized).
+  // Old per-role portal URLs redirect to it.
+  { path: '/login', element: <L><LoginPage /></L> },
+  { path: '/login/staff', element: <Navigate to="/login" replace /> },
+  { path: '/login/doctor', element: <Navigate to="/login" replace /> },
+  // Admin portal: URL-only, not linked anywhere.
   { path: '/admin/login', element: <L><AdminLogin /></L> },
   { path: '/register', element: <L><RegisterScreen /></L> },
   { path: '/register/doctor', element: <L><DoctorRegisterScreen /></L> },
@@ -133,5 +133,6 @@ export const router = createBrowserRouter([
   { path: '/admin/reports', element: admin(<AdminReportsScreen />) },
   { path: '/admin/audit', element: admin(<AuditScreen />) },
 
+  // Fallback -> landing.
   { path: '*', element: <Navigate to="/" replace /> },
 ]);

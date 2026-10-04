@@ -32,7 +32,7 @@ export function QrCard({ payload, size = 220 }: QrCardProps) {
   return (
     <div
       style={{ width: size, height: size }}
-      // eslint-disable-next-line react/no-danger -- SVG produced locally by the qrcode lib
+      // SVG produced locally by the qrcode lib from a signed, PHI-free payload.
       dangerouslySetInnerHTML={{ __html: svg }}
       role="img"
       aria-label="Patient QR code"
