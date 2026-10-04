@@ -8,11 +8,22 @@ import { RiskChip } from '@/components/RiskChip';
 import { VitalsBox } from '@/components/VitalsBox';
 import { patientName } from '@/lib/format';
 import { formatDate } from '@/lib/dates';
+import { callRpc } from '@/lib/rpc';
 import type { patients_row, checkups_row } from '@/types/rows';
 
+/** A visit note as BHWs see it: instructions + follow-up, never the clinical note. */
+interface StaffNote {
+  id: string;
+  created_at: string;
+  patient_instructions: string | null;
+  has_follow_up: boolean;
+  follow_up_date: string | null;
+}
+
 /**
- * Staff patient record: identity, verify action, and the append-only check-up
- * timeline with risk chips. Links to new check-up and referral creation.
+ * Staff patient record: identity, verify action, the append-only check-up
+ * timeline with risk chips, and doctors' visit notes (patient instructions and
+ * follow-up only). Links to new check-up and referral creation.
  */
 export default function PatientRecordScreen() {
   const { t } = useTranslation();
@@ -38,6 +49,19 @@ export default function PatientRecordScreen() {
         .select('*')
         .eq('patient_id', id!)
         .order('checkup_date', { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  // Doctors' notes, through the staff-safe function (migration 0009).
+  const { data: notes = [] } = useQuery({
+    queryKey: ['staff_notes', id],
+    enabled: !!id,
+    queryFn: async (): Promise<StaffNote[]> => {
+      const { data, error } = await callRpc<StaffNote[]>('staff_patient_notes', {
+        p_patient_id: id!,
+      });
       if (error) throw error;
       return data ?? [];
     },
@@ -115,6 +139,32 @@ export default function PatientRecordScreen() {
                 diastolic={c.diastolic}
                 fasting_glucose={c.fasting_glucose}
               />
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <h2 className="mb-2 mt-6 font-heading text-lg font-semibold">{t('nav.notes')}</h2>
+      {notes.length === 0 ? (
+        <p className="text-text-muted">{t('notes.empty')}</p>
+      ) : (
+        <ul className="flex flex-col gap-3">
+          {notes.map((n) => (
+            <li key={n.id} className="rounded-cl border border-border bg-surface p-3">
+              <p className="text-sm text-text-muted">{formatDate(n.created_at)}</p>
+              {n.patient_instructions && (
+                <p className="mt-1">
+                  <span className="font-semibold">{t('notes.patient_instructions')}: </span>
+                  {n.patient_instructions}
+                </p>
+              )}
+              {n.has_follow_up && (
+                <p className="mt-1 text-sm">
+                  {n.follow_up_date
+                    ? t('notes.follow_up_on', { date: formatDate(n.follow_up_date) })
+                    : t('notes.follow_up_needed')}
+                </p>
+              )}
             </li>
           ))}
         </ul>

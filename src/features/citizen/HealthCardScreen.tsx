@@ -48,7 +48,7 @@ export default function HealthCardScreen() {
       {isLoading ? (
         <p>{t('common.loading')}</p>
       ) : !patient ? (
-        <p className="text-text-muted">{t('auth.pending.body')}</p>
+        <p className="text-text-muted">{t('citizen.health_card.no_record')}</p>
       ) : (
         <div className="flex flex-col items-start gap-4">
           {error && <p className="text-sm text-needs-referral-red">{error}</p>}

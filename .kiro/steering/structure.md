@@ -106,13 +106,13 @@ Role-guarded route groups, lazy loaded per role.
 
 | Role | Routes |
 |---|---|
-| Public | `/login` (single email + password form; server routes by role, no role selector), `/register` (citizen self-register: name, sex, birthdate), `/register/doctor` (email + PRC ID + supporting documents, pending admin approval), `/activate`, `/q/:payload` |
+| Public | `/login` (single email + password form; server routes by role, no role selector), `/register` (citizen self-register: name, sex, birthdate, barangay), `/register/doctor` (email + PRC ID + supporting documents, pending admin approval), `/activate`, `/q/:payload` |
 | Barangay staff (`/staff/...`) | `masterlist`, `households/new`, `patients/:id`, `patients/new` (create account for unregistered resident), `checkups/new?patient=`, `id-cards`, `prescriptions/print` (assisted print), `referrals`, `referrals/:id`, `dashboard`, `reports`, `sync` |
 | Physician (`/doctor/...`) | `scan` (QR + pairing-key challenge), `patients`, `patients/:id`, `patients/:id/prescriptions/new`, `patients/:id/notes/new`, `prescriptions`, `prescriptions/:id`, `referrals`, `referrals/:id` |
 | Citizen (`/me/...`) | `/me`, `prescriptions`, `prescriptions/:id`, `visits`, `notes` (own visit notes/instructions), `access-history`, `consents` |
 | Admin (`/admin/...`) | `doctor-approvals`, `bhw-seed`, `reports` (aggregate only, userID only), `audit` (pseudonymized) |
 
-Sign-in redirects: `barangay_staff` -> `/staff/masterlist`, `physician` -> `/doctor/scan`, `citizen` -> `/me`, `admin` -> `/admin/doctor-approvals`. Unverified citizens land on a pending-verification screen; rejected doctors see a rejection notice.
+Sign-in redirects: `barangay_staff` -> `/staff/masterlist`, `physician` -> `/doctor/scan`, `citizen` -> `/me`, `admin` -> `/admin/doctor-approvals`. Self-registered citizens are usable immediately and go straight to `/me` (no pending-verification screen). The `/pending` screen remains only for signed-in users without a usable profile (e.g. an edge case); rejected doctors see a rejection notice.
 
 ## Architectural decisions to preserve
 

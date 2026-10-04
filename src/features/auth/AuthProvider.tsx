@@ -6,7 +6,8 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import type { Session } from '@supabase/supabase-js';
+import type { Session, User } from '@supabase/supabase-js';
+import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase';
 import { wipe_local_data } from '@/lib/db';
 
@@ -37,15 +38,22 @@ export interface auth_state {
     email: string,
     password: string,
     expectedRole: user_role,
-  ) => Promise<{ error: string | null; wrongPortal: boolean }>;
+  ) => Promise<{ error: string | null; wrongPortal: boolean; notice: login_notice }>;
   signUpCitizen: (args: citizen_signup) => Promise<{ error: string | null }>;
+  /**
+   * Doctor application: creates the account, submits the application through
+   * the doctor-apply Edge Function, then signs out. `applicationSubmitted` is
+   * false if the account was created but the application call failed; signing
+   * in on the doctor portal retries it.
+   */
   signUpDoctor: (
-    email: string,
-    password: string,
-    prcId: string,
-  ) => Promise<{ error: string | null }>;
+    args: doctor_signup,
+  ) => Promise<{ error: string | null; applicationSubmitted: boolean }>;
   signOut: () => Promise<void>;
 }
+
+/** Shown on the doctor login when there is no physician profile yet. */
+export type login_notice = 'doctor_pending' | 'doctor_rejected' | null;
 
 /** Fields collected at citizen self-registration. */
 export interface citizen_signup {
@@ -56,6 +64,18 @@ export interface citizen_signup {
   sex: 'male' | 'female';
   /** yyyy-MM-dd. */
   birthdate: string;
+  /** The barangay the citizen lives in (puts them in that BHW masterlist). */
+  barangay_id: string;
+}
+
+/** Fields collected at doctor registration. */
+export interface doctor_signup {
+  email: string;
+  password: string;
+  prc_id: string;
+  full_name: string;
+  /** The hospital the doctor works at (their referral inbox). */
+  facility_id: string;
 }
 
 const AuthContext = createContext<auth_state | null>(null);
@@ -67,12 +87,46 @@ async function loadProfile(userId: string): Promise<auth_profile | null> {
     .eq('id', userId)
     .maybeSingle();
   if (error || !data) return null;
-  // The row shape matches auth_profile; cast through unknown because the
-  // placeholder Database type does not yet include the profiles table.
+  // The generated type has role as the user_role enum string; same shape.
   return data as unknown as auth_profile;
 }
 
+/** Submits (or resubmits) a doctor application from the sign-up details. */
+async function submitDoctorApplication(meta: {
+  prc_id: string;
+  full_name: string | null;
+  facility_id: string | null;
+}): Promise<boolean> {
+  const { error } = await supabase.functions.invoke('doctor-apply', { body: meta });
+  return !error;
+}
+
+/**
+ * For a signed-in doctor with no physician profile yet: where does their
+ * application stand? If none is on file (the call failed at sign-up), submit
+ * it now from the details saved at sign-up.
+ */
+async function doctorApplicationNotice(user: User): Promise<login_notice> {
+  const { data } = await supabase
+    .from('doctor_applications')
+    .select('status')
+    .eq('user_id', user.id)
+    .maybeSingle();
+  if (data?.status === 'rejected') return 'doctor_rejected';
+  if (data) return 'doctor_pending';
+
+  const meta = user.user_metadata ?? {};
+  if (meta.intended_role !== 'physician' || typeof meta.prc_id !== 'string') return null;
+  const submitted = await submitDoctorApplication({
+    prc_id: meta.prc_id,
+    full_name: typeof meta.full_name === 'string' ? meta.full_name : null,
+    facility_id: typeof meta.facility_id === 'string' ? meta.facility_id : null,
+  });
+  return submitted ? 'doctor_pending' : null;
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const queryClient = useQueryClient();
   const [loading, setLoading] = useState(true);
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<auth_profile | null>(null);
@@ -98,6 +152,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setProfile(await loadProfile(newSession.user.id));
       } else {
         setProfile(null);
+        // Drop cached query results so the next user on a shared device never
+        // sees the previous user's data.
+        queryClient.clear();
       }
     });
 
@@ -105,7 +162,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       active = false;
       sub.subscription.unsubscribe();
     };
-  }, []);
+  }, [queryClient]);
 
   const value = useMemo<auth_state>(
     () => ({
@@ -118,24 +175,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       },
       async signInAs(email, password, expectedRole) {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) return { error: error.message, wrongPortal: false };
-        const userId = data.user?.id;
-        const prof = userId ? await loadProfile(userId) : null;
-        if (!prof || prof.role !== expectedRole) {
-          // Authenticated but using the wrong portal: sign back out so no
-          // session lingers, and report it as a portal mismatch.
-          await supabase.auth.signOut();
-          return { error: null, wrongPortal: true };
+        if (error) return { error: error.message, wrongPortal: false, notice: null };
+        const user = data.user;
+        const prof = user ? await loadProfile(user.id) : null;
+        if (prof && prof.role === expectedRole) {
+          return { error: null, wrongPortal: false, notice: null };
         }
-        return { error: null, wrongPortal: false };
+        // A doctor without a physician profile is waiting on (or was refused)
+        // admin approval; say so instead of "wrong portal".
+        const notice =
+          !prof && expectedRole === 'physician' && user
+            ? await doctorApplicationNotice(user)
+            : null;
+        // Either way, sign back out so no session lingers.
+        await supabase.auth.signOut();
+        await wipe_local_data();
+        return { error: null, wrongPortal: notice === null, notice };
       },
       async signUpCitizen(args) {
         // Self-registration collects name/sex/birthdate — the pairing-key basis
-        // is surname + birthdate. We stash these in user metadata; the account
-        // stays `unverified` until a BHW verifies in person and links/creates
-        // the patient row (verify_citizen / register_citizen). No profile is
-        // created here. Birthdate in metadata is not a public-facing field.
-        const { error } = await supabase.auth.signUp({
+        // is surname + birthdate. We stash these in user metadata; the server
+        // trigger handle_new_citizen (migration 0007) auto-creates the citizen
+        // profile + a `verified` patient row from this metadata on signup, so
+        // the account is usable immediately (no in-person BHW verification).
+        // Birthdate in metadata is not a public-facing field.
+        const { data, error } = await supabase.auth.signUp({
           email: args.email,
           password: args.password,
           options: {
@@ -145,22 +209,51 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               first_name: args.first_name,
               sex: args.sex,
               birthdate: args.birthdate,
+              barangay_id: args.barangay_id,
             },
           },
         });
-        return { error: error ? error.message : null };
+        if (error) return { error: error.message };
+        // With email confirmation off, Supabase signs the new user in right
+        // away. Sign them back out so the redirect lands on the sign-in page
+        // and they log in themselves.
+        if (data.session) {
+          await supabase.auth.signOut();
+          await wipe_local_data();
+        }
+        return { error: null };
       },
-      async signUpDoctor(email, password, prcId) {
-        // Doctor application: creates the auth user and stashes the PRC ID in
-        // user metadata for now. The real doctor-apply flow (PRC ID + document
-        // upload to a private bucket, pending admin approval) is the
-        // doctor-apply Edge Function in a later task.
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: { data: { prc_id: prcId, intended_role: 'physician' } },
+      async signUpDoctor(args) {
+        // The details are also saved in user metadata so the application can
+        // be resubmitted on login if the doctor-apply call below fails.
+        const { data, error } = await supabase.auth.signUp({
+          email: args.email,
+          password: args.password,
+          options: {
+            data: {
+              intended_role: 'physician',
+              prc_id: args.prc_id,
+              full_name: args.full_name,
+              facility_id: args.facility_id,
+            },
+          },
         });
-        return { error: error ? error.message : null };
+        if (error) return { error: error.message, applicationSubmitted: false };
+
+        // With email confirmation off, sign-up returns a session, which the
+        // doctor-apply function needs. Without one, login submits it later.
+        let applicationSubmitted = false;
+        if (data.session) {
+          applicationSubmitted = await submitDoctorApplication({
+            prc_id: args.prc_id,
+            full_name: args.full_name || null,
+            facility_id: args.facility_id || null,
+          });
+          // The doctor can't use the app until approved; don't leave a session.
+          await supabase.auth.signOut();
+          await wipe_local_data();
+        }
+        return { error: null, applicationSubmitted };
       },
       async signOut() {
         await supabase.auth.signOut();

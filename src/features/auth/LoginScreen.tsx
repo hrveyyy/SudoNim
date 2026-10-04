@@ -28,7 +28,11 @@ export function LoginScreen({ expectedRole, portalKey, registerTo }: LoginScreen
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [pendingNotice, setPendingNotice] = useState(false);
   const [busy, setBusy] = useState(false);
+
+  // Shown after a successful self-registration redirect.
+  const justRegistered = (location.state as { registered?: boolean } | null)?.registered === true;
 
   // Already signed in -> go to role home (or where they were headed).
   if (!loading && session && profile) {
@@ -40,8 +44,17 @@ export function LoginScreen({ expectedRole, portalKey, registerTo }: LoginScreen
     e.preventDefault();
     setBusy(true);
     setError(null);
-    const { error, wrongPortal } = await signInAs(email.trim(), password, expectedRole);
+    setPendingNotice(false);
+    const { error, wrongPortal, notice } = await signInAs(email.trim(), password, expectedRole);
     setBusy(false);
+    if (notice === 'doctor_pending') {
+      setPendingNotice(true);
+      return;
+    }
+    if (notice === 'doctor_rejected') {
+      setError(t('auth.login.doctor_rejected'));
+      return;
+    }
     if (wrongPortal) {
       setError(t('auth.login.wrong_portal'));
       return;
@@ -59,6 +72,18 @@ export function LoginScreen({ expectedRole, portalKey, registerTo }: LoginScreen
       <p className="carelink-auth__portal" data-role={expectedRole}>
         {t(`auth.portal.${portalKey}`)}
       </p>
+
+      {justRegistered && (
+        <p role="status" className="carelink-auth__notice">
+          {t('auth.register.created_sign_in')}
+        </p>
+      )}
+
+      {pendingNotice && (
+        <p role="status" className="carelink-auth__notice">
+          {t('auth.login.doctor_pending')}
+        </p>
+      )}
 
       <form onSubmit={onSubmit} className="carelink-auth__form">
         <label htmlFor="email">{t('auth.field.email')}</label>

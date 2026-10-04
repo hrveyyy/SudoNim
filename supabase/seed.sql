@@ -151,13 +151,8 @@ insert into id_cards (id, patient_id, qr_version, issued_by) values
    '44444444-4444-4444-4444-444444444444')
 on conflict (patient_id, qr_version) do nothing;
 
--- A 180-day grant so the demo doctor can see the record without re-pairing ---
-insert into access_grants (id, patient_id, grantee_user_id, source, expires_at) values
-  ('ff000001-0000-0000-0000-000000000001',
-   'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
-   '88888888-8888-8888-8888-888888888888', 'referral',
-   now() + interval '180 days')
-on conflict (id) do nothing;
+-- No seeded access grant: every doctor record open needs the pairing key
+-- (scan the QR, then enter the patient's surname + birthdate).
 
 -- A prescription + items (demo; immutable after issue) -----------------------
 insert into prescriptions (

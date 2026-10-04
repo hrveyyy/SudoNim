@@ -27,8 +27,13 @@ export function userClient(req: Request): SupabaseClient {
 }
 
 export async function requireUser(req: Request): Promise<{ id: string; email?: string }> {
+  // Pass the caller's JWT explicitly. The client has no stored session here,
+  // so getUser() must be given the token from the Authorization header.
+  const authorization = req.headers.get('Authorization') ?? '';
+  const token = authorization.replace(/^Bearer\s+/i, '').trim();
+  if (!token) throw new Error('unauthorized');
   const client = userClient(req);
-  const { data, error } = await client.auth.getUser();
+  const { data, error } = await client.auth.getUser(token);
   if (error || !data.user) throw new Error('unauthorized');
   return { id: data.user.id, email: data.user.email ?? undefined };
 }

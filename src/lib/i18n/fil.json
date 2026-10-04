@@ -33,6 +33,9 @@
       "first_name": "Pangalan",
       "sex": "Kasarian",
       "birthdate": "Kapanganakan",
+      "full_name": "Buong pangalan",
+      "barangay": "Barangay",
+      "hospital": "Ospital",
       "show": "Ipakita",
       "hide": "Itago",
       "show_password": "Ipakita ang password",
@@ -51,7 +54,9 @@
       "submitting": "Nagsi-sign in…",
       "link": "Mag-sign in",
       "no_account": "Wala pang account?",
-      "wrong_portal": "Hindi maaaring mag-sign in dito ang account na ito. Gamitin ang tamang portal mula sa home page."
+      "wrong_portal": "Hindi maaaring mag-sign in dito ang account na ito. Gamitin ang tamang portal mula sa home page.",
+      "doctor_pending": "Sinusuri pa ang iyong aplikasyon bilang doktor. Makaka-sign in ka kapag inaprubahan ito ng administrator.",
+      "doctor_rejected": "Hindi naaprubahan ang iyong aplikasyon bilang doktor. Makipag-ugnayan sa administrator."
     },
     "portal": {
       "citizen": "Mamamayan / Pasyente",
@@ -73,7 +78,7 @@
       "submitting": "Nagrerehistro…",
       "link": "Magrehistro",
       "have_account": "May account na?",
-      "pending": "Nagawa na ang iyong account. May barangay health worker na magbe-verify ng iyong pagkakakilanlan nang personal bago mo makita ang iyong rekord.",
+      "created_sign_in": "Nagawa na ang iyong account. Mangyaring mag-sign in.",
       "pairing_note": "Ang iyong apelyido at kapanganakan ang magse-set ng iyong access key. Hihingin ito ng doktor pagkatapos i-scan ang iyong QR code."
     },
     "doctor": {
@@ -82,18 +87,20 @@
       "prc_id": "PRC license number",
       "submit": "Isumite ang aplikasyon",
       "submitting": "Isinusumite…",
-      "pending": "Natanggap na ang iyong aplikasyon. Rerepasuhin ng administrator ang iyong PRC license at mga dokumento. Makaka-sign in ka na kapag naaprubahan."
+      "pending": "Natanggap na ang iyong aplikasyon. Rerepasuhin ng administrator ang iyong PRC license at mga dokumento. Makaka-sign in ka na kapag naaprubahan.",
+      "apply_retry": "Nagawa na ang iyong account, pero hindi pa naisumite ang iyong aplikasyon. Mag-sign in sa doctor portal para tapusin ang pagsumite."
     },
     "pending": {
-      "title": "Naghihintay ng verification",
-      "body": "Ang iyong account ay naghihintay ng personal na verification mula sa isang barangay health worker."
+      "title": "Hindi pa aktibo ang account",
+      "body": "Hindi pa aktibo ang iyong account. Kung nag-apply ka bilang doktor, kailangan pa itong aprubahan ng administrator."
     }
   },
   "common": {
     "loading": "Naglo-load…",
     "saving": "Sine-save…",
     "toggle_language": "Palitan ang wika",
-    "cancel": "Kanselahin"
+    "cancel": "Kanselahin",
+    "select": "Pumili…"
   },
   "nav": {
     "masterlist": "Masterlist",
@@ -163,7 +170,7 @@
     "no_reason": "Walang ibinigay na dahilan",
     "new": { "title": "Bagong referral", "submit": "Ipadala ang referral" },
     "detail": { "title": "Referral" },
-    "field": { "reason": "Dahilan" },
+    "field": { "reason": "Dahilan", "facility": "Ospital na tatanggap" },
     "advance_to": "Markahan bilang {{status}}",
     "cancel": "Kanselahin ang referral",
     "status": {
@@ -244,10 +251,16 @@
     "clinical_note": "Klinikal na tala (doktor + pasyente lamang)",
     "follow_up": "Magtakda ng follow-up",
     "follow_up_date": "Petsa ng follow-up",
+    "follow_up_on": "Follow-up sa {{date}}",
+    "follow_up_needed": "Kailangan ng follow-up",
     "empty": "Wala pang tala."
   },
   "citizen": {
-    "health_card": { "title": "Aking health card", "reset_qr": "I-reset ang aking QR" },
+    "health_card": {
+      "title": "Aking health card",
+      "reset_qr": "I-reset ang aking QR",
+      "no_record": "Wala pang health record na naka-link sa account na ito."
+    },
     "visits": { "title": "Aking mga pagbisita", "empty": "Wala pang pagbisita." },
     "access": { "title": "Sino ang tumingin sa aking rekord", "empty": "Walang naitalang access." },
     "consents": { "title": "Mga pahintulot", "empty": "Wala pang pahintulot.", "revoke": "Bawiin", "grant": "Ibigay" }
@@ -262,7 +275,11 @@
       "status": "Status"
     },
     "seed": { "title": "Mag-seed ng BHW", "user_id": "Auth user ID", "barangay": "Barangay", "full_name": "Buong pangalan", "submit": "Gumawa ng BHW" },
-    "reports": { "title": "Mga pinagsama-samang ulat" },
+    "reports": {
+      "title": "Mga pinagsama-samang ulat",
+      "checkups": "Mga check-up",
+      "load_failed": "Hindi ma-load ang ulat. Subukan ulit."
+    },
     "audit": { "title": "Audit log", "empty": "Walang audit entry.", "action": "Aksyon", "actor": "User ID", "when": "Kailan" }
   }
 }

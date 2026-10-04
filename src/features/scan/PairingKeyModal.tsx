@@ -32,13 +32,21 @@ export function PairingKeyModal({ patientCode, onSuccess, onCancel }: PairingKey
     });
     setBusy(false);
     if (error) {
-      // Lockout vs mismatch both surface as a generic failure message.
-      setError(
-        error.message.includes('locked') ? t('scan.pairing.locked') : t('scan.pairing.failed'),
-      );
+      setError(t('scan.pairing.failed'));
       return;
     }
-    onSuccess(data as string);
+    // Migration 0008 returns {status, patient_id}. The older function returned
+    // the patient id directly; accept both so this works before and after.
+    if (typeof data === 'string') {
+      onSuccess(data);
+      return;
+    }
+    const result = data as unknown as { status?: string; patient_id?: string } | null;
+    if (result?.status === 'ok' && result.patient_id) {
+      onSuccess(result.patient_id);
+      return;
+    }
+    setError(result?.status === 'locked' ? t('scan.pairing.locked') : t('scan.pairing.failed'));
   };
 
   return (

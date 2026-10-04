@@ -127,6 +127,17 @@ input {
   color: var(--cl-text-muted);
 }
 
+.carelink-auth__notice {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  border-radius: var(--cl-radius);
+  border: 1px solid var(--cl-screened-green);
+  border-left: 4px solid var(--cl-screened-green);
+  background: var(--cl-surface);
+  text-align: center;
+  font-size: 0.95rem;
+}
+
 /* ---------------------------------------------------------------------------
  * Sync banner
  * ------------------------------------------------------------------------- */

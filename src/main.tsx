@@ -1,11 +1,10 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from '@/app/App';
-import { registerSyncTriggers } from '@/features/sync';
 import '@/styles/index.css';
 
-// Wire the offline-first flush triggers (app start, online event, Background Sync).
-registerSyncTriggers();
+// Offline sync is started by <StaffSync /> (src/app/StaffSync.tsx), only for
+// signed-in barangay staff. It no longer runs for every visitor at load.
 
 const rootEl = document.getElementById('root');
 if (!rootEl) throw new Error('root element not found');

@@ -33,6 +33,9 @@
       "first_name": "First name",
       "sex": "Sex",
       "birthdate": "Birthdate",
+      "full_name": "Full name",
+      "barangay": "Barangay",
+      "hospital": "Hospital",
       "show": "Show",
       "hide": "Hide",
       "show_password": "Show password",
@@ -51,7 +54,9 @@
       "submitting": "Signing in…",
       "link": "Sign in",
       "no_account": "No account yet?",
-      "wrong_portal": "This account can't sign in here. Please use the correct portal from the home page."
+      "wrong_portal": "This account can't sign in here. Please use the correct portal from the home page.",
+      "doctor_pending": "Your doctor application is still being reviewed. You can sign in once an administrator approves it.",
+      "doctor_rejected": "Your doctor application was not approved. Please contact the administrator."
     },
     "portal": {
       "citizen": "Citizen / Patient",
@@ -73,7 +78,7 @@
       "submitting": "Registering…",
       "link": "Register",
       "have_account": "Already have an account?",
-      "pending": "Your account was created. A barangay health worker will verify your identity in person before you can see your record.",
+      "created_sign_in": "Your account was created. Please sign in.",
       "pairing_note": "Your surname and birthdate set up your access key. A doctor will ask for them after scanning your QR code."
     },
     "doctor": {
@@ -82,18 +87,20 @@
       "prc_id": "PRC license number",
       "submit": "Submit application",
       "submitting": "Submitting…",
-      "pending": "Your application was received. An administrator will review your PRC license and documents. You'll be able to sign in once approved."
+      "pending": "Your application was received. An administrator will review your PRC license and documents. You'll be able to sign in once approved.",
+      "apply_retry": "Your account was created, but your application couldn't be submitted yet. Sign in on the doctor portal to finish submitting it."
     },
     "pending": {
-      "title": "Pending verification",
-      "body": "Your account is awaiting in-person verification by a barangay health worker."
+      "title": "Account not active yet",
+      "body": "Your account isn't active yet. If you applied as a doctor, an administrator still needs to approve your application."
     }
   },
   "common": {
     "loading": "Loading…",
     "saving": "Saving…",
     "toggle_language": "Toggle language",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "select": "Select…"
   },
   "nav": {
     "masterlist": "Masterlist",
@@ -163,7 +170,7 @@
     "no_reason": "No reason given",
     "new": { "title": "New referral", "submit": "Send referral" },
     "detail": { "title": "Referral" },
-    "field": { "reason": "Reason" },
+    "field": { "reason": "Reason", "facility": "Receiving hospital" },
     "advance_to": "Mark as {{status}}",
     "cancel": "Cancel referral",
     "status": {
@@ -244,10 +251,16 @@
     "clinical_note": "Clinical note (doctor + patient only)",
     "follow_up": "Set a follow-up",
     "follow_up_date": "Follow-up date",
+    "follow_up_on": "Follow-up on {{date}}",
+    "follow_up_needed": "Follow-up needed",
     "empty": "No notes yet."
   },
   "citizen": {
-    "health_card": { "title": "My health card", "reset_qr": "Reset my QR" },
+    "health_card": {
+      "title": "My health card",
+      "reset_qr": "Reset my QR",
+      "no_record": "No health record is linked to this account yet."
+    },
     "visits": { "title": "My visits", "empty": "No visits yet." },
     "access": { "title": "Who viewed my record", "empty": "No access recorded yet." },
     "consents": { "title": "Consents", "empty": "No consents yet.", "revoke": "Revoke", "grant": "Grant" }
@@ -262,7 +275,11 @@
       "status": "Status"
     },
     "seed": { "title": "Seed BHW", "user_id": "Auth user ID", "barangay": "Barangay", "full_name": "Full name", "submit": "Create BHW" },
-    "reports": { "title": "Aggregate reports" },
+    "reports": {
+      "title": "Aggregate reports",
+      "checkups": "Check-ups",
+      "load_failed": "Couldn't load the report. Try again."
+    },
     "audit": { "title": "Audit log", "empty": "No audit entries.", "action": "Action", "actor": "User ID", "when": "When" }
   }
 }

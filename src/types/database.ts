@@ -514,7 +514,7 @@ export type Database = {
       }
       patients: {
         Row: {
-          barangay_id: string
+          barangay_id: string | null
           birthdate: string
           created_at: string
           first_name: string
@@ -530,7 +530,7 @@ export type Database = {
           verification_status: Database["public"]["Enums"]["citizen_verification_status"]
         }
         Insert: {
-          barangay_id: string
+          barangay_id?: string | null
           birthdate: string
           created_at?: string
           first_name: string
@@ -546,7 +546,7 @@ export type Database = {
           verification_status?: Database["public"]["Enums"]["citizen_verification_status"]
         }
         Update: {
-          barangay_id?: string
+          barangay_id?: string | null
           birthdate?: string
           created_at?: string
           first_name?: string

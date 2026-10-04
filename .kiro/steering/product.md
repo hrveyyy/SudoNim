@@ -29,16 +29,16 @@ One shared patient record that follows the patient.
 
 | Role | Purpose |
 |---|---|
-| `barangay_staff` | Seeded by admin (no self-registration). Registers households and patients, creates accounts for unregistered residents, verifies self-registered citizens in person, records check-ups, creates referrals, issues activation codes, prints QR ID cards and prescriptions on request, views the dashboard and monthly reports. Own barangay only, with patient names. |
+| `barangay_staff` | Seeded by admin (no self-registration). Registers households and patients, creates accounts for unregistered residents, records check-ups, creates referrals, issues activation codes, prints QR ID cards and prescriptions on request, views the dashboard and monthly reports. Own barangay only, with patient names. (Self-registered citizens are usable immediately and do not require BHW verification; BHW verification applies only to accounts the BHW creates for unregistered residents, if used.) |
 | `physician` | Self-registers with email + PRC ID + supporting documents, activated only after admin approval. Opens records by QR scan **plus pairing-key challenge** (surname + birthdate `YYYYMMDD`), records check-ups, manages referrals for their facility, writes per-visit notes and e-prescriptions (license number required). |
-| `citizen` | Self-registers with name, sex, birthdate (account is `unverified` until BHW verifies in person). Own record only. Downloads health card, sees prescriptions, visits, and access history, confirms each access via pairing key, views/prints prescriptions, resets own QR. |
+| `citizen` | Self-registers with name, sex, birthdate, and barangay (the barangay puts them in that BHW's masterlist). Residents without a phone or internet are registered in person by a BHW instead. The account is usable immediately (a server trigger creates a `verified` patient record on signup — no in-person BHW verification required). Own record only. Downloads health card, sees prescriptions, visits, and access history, confirms each access via pairing key, views/prints prescriptions, resets own QR. |
 | `admin` | Read-only except doctor approvals and BHW seeding. Generates aggregate reports and views audit logs (userID only, no names; doctor-approval queue is the sole exception and is audit-logged). Does not edit facilities or risk rules. |
 
 Role names in code are exactly: `admin`, `barangay_staff`, `physician`, `citizen`. There is no pharmacist role.
 
 ## Key features
 
-- Masterlist grouped by household: search, filters, sorting, CSV and print export, works offline. Self-registered citizens appear as `unverified` until BHW verifies; dedup key is normalized surname + firstname + birthdate + sex + barangay, with BHW merge.
+- Masterlist grouped by household: search, filters, sorting, CSV and print export, works offline. Self-registered citizens are `verified` on signup (no BHW verification step); accounts the BHW creates for unregistered residents may still be `unverified` until confirmed. Dedup key is normalized surname + firstname + birthdate + sex + barangay, with BHW merge.
 - Check-up form with live risk preview (client) and authoritative risk computation (server). Passing screens are tagged `normal`; others `needs referral` / `monitor`.
 - Referral workflow: `sent` -> `received` -> `seen` -> `follow_up_set` -> `closed` (or `cancelled`).
 - Signed QR codes with no personal data inside plus a mandatory server-verified **pairing-key challenge** (surname + birthdate `YYYYMMDD`) on every physician record open; 12-hour scan grants tied to that physician. Failed pairing attempts are rate-limited and audit-logged without storing the birthdate.

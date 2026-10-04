@@ -46,7 +46,8 @@ export interface outbox_item {
 
 /** Local sync metadata (single-row-per-key store). */
 export interface meta_row {
-  key: 'last_sync_at' | 'device_id';
+  /** sync_owner = the staff user whose data is cached on this device. */
+  key: 'last_sync_at' | 'device_id' | 'sync_owner';
   value: string;
 }
 

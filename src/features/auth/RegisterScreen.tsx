@@ -1,31 +1,47 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { supabase } from '@/lib/supabase';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { PasswordField } from '@/features/auth/PasswordField';
+import type { barangays_row } from '@/types/rows';
 
 /**
  * Citizen self-registration. Collects name, sex, and birthdate (the pairing-key
- * basis is surname + birthdate) plus email + password. The account is
- * `unverified` until a BHW verifies in person, so after sign-up we show a
- * pending-verification message rather than routing into the app.
+ * basis is surname + birthdate) plus email + password. A DB trigger
+ * (0007_citizen_self_register) auto-creates the profile + verified patient row,
+ * so the citizen can sign in immediately — after sign-up we redirect to the
+ * login page (no in-person BHW verification required).
  */
 export default function RegisterScreen() {
   const { t } = useTranslation();
   const { signUpCitizen } = useAuth();
+  const navigate = useNavigate();
 
   const [surname, setSurname] = useState('');
   const [firstName, setFirstName] = useState('');
   const [sex, setSex] = useState<'male' | 'female'>('female');
   const [birthdate, setBirthdate] = useState('');
+  const [barangayId, setBarangayId] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [done, setDone] = useState(false);
   const [busy, setBusy] = useState(false);
+
+  // Barangay list, readable before sign-in (migration 0008).
+  const { data: barangays = [] } = useQuery({
+    queryKey: ['barangays', 'public'],
+    queryFn: async (): Promise<Pick<barangays_row, 'id' | 'name'>[]> => {
+      const { data, error } = await supabase.from('barangays').select('id, name').order('name');
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!barangayId) return;
     setBusy(true);
     setError(null);
     const { error } = await signUpCitizen({
@@ -35,32 +51,16 @@ export default function RegisterScreen() {
       first_name: firstName.trim(),
       sex,
       birthdate,
+      barangay_id: barangayId,
     });
     setBusy(false);
     if (error) {
       setError(error);
       return;
     }
-    setDone(true);
+    // Account is usable immediately — send them to the login page to sign in.
+    navigate('/login', { replace: true, state: { registered: true } });
   };
-
-  if (done) {
-    return (
-      <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center p-6">
-        <h1 className="mb-3 text-center font-heading text-2xl font-bold">
-          {t('auth.register.title')}
-        </h1>
-        <p role="status" className="rounded-cl border border-border bg-surface p-4 text-center">
-          {t('auth.register.pending')}
-        </p>
-        <p className="mt-4 text-center text-text-muted">
-          <Link to="/login" className="text-primary">
-            {t('auth.login.link')}
-          </Link>
-        </p>
-      </main>
-    );
-  }
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center p-6">
@@ -121,6 +121,26 @@ export default function RegisterScreen() {
           required
         />
 
+        <label htmlFor="barangay" className="text-sm text-text-muted">
+          {t('auth.field.barangay')}
+        </label>
+        <select
+          id="barangay"
+          className="min-h-touch rounded-cl border border-border bg-surface px-3"
+          value={barangayId}
+          onChange={(e) => setBarangayId(e.target.value)}
+          required
+        >
+          <option value="" disabled>
+            {t('common.select')}
+          </option>
+          {barangays.map((b) => (
+            <option key={b.id} value={b.id}>
+              {b.name}
+            </option>
+          ))}
+        </select>
+
         <label htmlFor="email" className="text-sm text-text-muted">
           {t('auth.field.email')}
         </label>
@@ -153,7 +173,7 @@ export default function RegisterScreen() {
 
         <button
           type="submit"
-          disabled={busy}
+          disabled={busy || !barangayId}
           className="mt-1 min-h-touch rounded-cl bg-primary px-4 font-semibold text-white disabled:opacity-50"
         >
           {busy ? t('auth.register.submitting') : t('auth.register.submit')}
