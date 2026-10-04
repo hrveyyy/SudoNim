@@ -36,10 +36,10 @@
       "full_name": "Full name",
       "barangay": "Barangay",
       "hospital": "Hospital",
-      "show": "Show",
-      "hide": "Hide",
-      "show_password": "Show password",
-      "hide_password": "Hide password"
+      "password_hint": "At least 8 characters.",
+      "sex_female": "Female",
+      "sex_male": "Male",
+      "select": "Select…"
     },
     "sex": {
       "male": "Male",
@@ -53,33 +53,31 @@
       "submit": "Sign in",
       "submitting": "Signing in…",
       "link": "Sign in",
-      "no_account": "No account yet?",
       "wrong_portal": "This account can't sign in here. Please use the correct portal from the home page.",
-      "doctor_pending": "Your doctor application is still being reviewed. You can sign in once an administrator approves it.",
-      "doctor_rejected": "Your doctor application was not approved. Please contact the administrator."
+      "failed": "We couldn't sign you in. Check your email and password and try again.",
+      "locked": "Too many attempts. Try again in {{minutes}} minutes.",
+      "as_role": "Signing in as {{role}}"
     },
     "portal": {
-      "citizen": "Citizen / Patient",
-      "staff": "Barangay Health Worker",
-      "doctor": "Doctor",
       "admin": "Administrator"
     },
     "landing": {
       "title": "Welcome to CareLink",
-      "subtitle": "Choose how you want to sign in.",
-      "citizen_hint": "View your health card, prescriptions, and record access.",
-      "staff_hint": "Screen residents and manage your barangay masterlist.",
-      "doctor_hint": "Open patient records by QR scan and pairing key.",
-      "back": "Back to home"
+      "intro": "One shared health record that follows the patient, from the barangay health center to the hospital.",
+      "cta": "Get started",
+      "feature_record": "One health record, opened with your QR card",
+      "feature_screening": "Free screening at your barangay health center",
+      "feature_privacy": "You see who opened your record, and when",
+      "disclaimer": "CareLink is a screening and care-coordination aid, not a diagnostic tool."
     },
     "register": {
       "title": "Create your account",
       "submit": "Register",
       "submitting": "Registering…",
-      "link": "Register",
-      "have_account": "Already have an account?",
-      "created_sign_in": "Your account was created. Please sign in.",
-      "pairing_note": "Your surname and birthdate set up your access key. A doctor will ask for them after scanning your QR code."
+      "pairing_note": "Your surname and birthdate set up your access key. A doctor will ask for them after scanning your QR code.",
+      "created": "Your account was created. Sign in to open your health record.",
+      "subtitle": "Create your CareLink account to see your health card, visits, and prescriptions.",
+      "barangays_failed": "Couldn't load barangays. Check your connection and try again."
     },
     "doctor": {
       "title": "Doctor registration",
@@ -88,11 +86,44 @@
       "submit": "Submit application",
       "submitting": "Submitting…",
       "pending": "Your application was received. An administrator will review your PRC license and documents. You'll be able to sign in once approved.",
-      "apply_retry": "Your account was created, but your application couldn't be submitted yet. Sign in on the doctor portal to finish submitting it."
+      "apply_retry": "Your account was created, but your application could not be submitted yet. Sign in as a doctor to finish submitting it.",
+      "already_registered": "This email is already registered. Sign in instead, or use a different email.",
+      "awaiting_approval": "Your doctor application is still being reviewed. An administrator must approve it before you can sign in.",
+      "rejected": "Your doctor application was not approved. Contact the administrator for details.",
+      "hospitals_failed": "Could not load the hospital list. Check your connection and try again."
     },
     "pending": {
       "title": "Account not active yet",
-      "body": "Your account isn't active yet. If you applied as a doctor, an administrator still needs to approve your application."
+      "body": "Your account isn't active yet. If you applied as a doctor, an administrator is still reviewing your application."
+    },
+    "error": {
+      "email_required": "Email is required.",
+      "email_invalid": "Enter a valid email address.",
+      "password_required": "Password is required."
+    },
+    "status": {
+      "title": "Are you new to CareLink?",
+      "new": "New to CareLink",
+      "returning": "I already have an account",
+      "back": "Back",
+      "subtitle": "We will point you to the right place.",
+      "new_hint": "Create an account or apply for access",
+      "returning_hint": "Sign in with your email and password"
+    },
+    "role": {
+      "title": "Choose your role",
+      "citizen": "Citizen / Patient",
+      "physician": "Doctor",
+      "barangay_staff": "Barangay Health Worker",
+      "back": "Back",
+      "subtitle_new": "Tell us who you are so we can set up the right account.",
+      "subtitle_returning": "Choose the account you want to sign in to.",
+      "citizen_hint": "Your health card, prescriptions, and visits",
+      "physician_hint": "Open records by QR scan and pairing key",
+      "barangay_staff_hint": "Screen residents and manage your masterlist"
+    },
+    "wizard": {
+      "step": "Step {{current}} of {{total}}"
     }
   },
   "common": {
@@ -128,15 +159,27 @@
     "empty": "No patients found.",
     "search_placeholder": "Search name or code",
     "filter_label": "Verification filter",
-    "filter": { "all": "All", "verified": "Verified", "unverified": "Unverified" },
+    "filter": {
+      "all": "All",
+      "verified": "Verified",
+      "unverified": "Unverified"
+    },
     "new_patient": "New patient",
     "export_csv": "Export CSV",
     "export_confirm": "This export contains patient names. Continue?",
     "open": "Open",
-    "col": { "name": "Name", "code": "Code", "status": "Status", "actions": "Actions" }
+    "col": {
+      "name": "Name",
+      "code": "Code",
+      "status": "Status",
+      "actions": "Actions"
+    }
   },
   "patients": {
-    "new": { "title": "Register resident", "submit": "Register" },
+    "new": {
+      "title": "Register resident",
+      "submit": "Register"
+    },
     "record": {
       "title": "Patient record",
       "verify": "Verify in person",
@@ -147,7 +190,10 @@
     }
   },
   "checkups": {
-    "new": { "title": "New check-up", "submit": "Save check-up" },
+    "new": {
+      "title": "New check-up",
+      "submit": "Save check-up"
+    },
     "preview": "Risk preview",
     "preview_note": "Preview only. The server computes the official result.",
     "field": {
@@ -168,9 +214,17 @@
     "title": "Referrals",
     "empty": "No referrals yet.",
     "no_reason": "No reason given",
-    "new": { "title": "New referral", "submit": "Send referral" },
-    "detail": { "title": "Referral" },
-    "field": { "reason": "Reason", "facility": "Receiving hospital" },
+    "new": {
+      "title": "New referral",
+      "submit": "Send referral"
+    },
+    "detail": {
+      "title": "Referral"
+    },
+    "field": {
+      "reason": "Reason",
+      "facility": "Receiving hospital"
+    },
     "advance_to": "Mark as {{status}}",
     "cancel": "Cancel referral",
     "status": {
@@ -202,7 +256,10 @@
   },
   "reports": {
     "title": "Monthly report",
-    "col": { "outcome": "Outcome", "count": "Count" }
+    "col": {
+      "outcome": "Outcome",
+      "count": "Count"
+    }
   },
   "prescriptions": {
     "title": "Prescription",
@@ -216,7 +273,12 @@
     "empty": "No prescriptions yet.",
     "view": "View",
     "print": "Print",
-    "new": { "title": "New prescription", "submit": "Issue prescription", "add_item": "Add medicine", "follow_up": "Follow-up date" },
+    "new": {
+      "title": "New prescription",
+      "submit": "Issue prescription",
+      "add_item": "Add medicine",
+      "follow_up": "Follow-up date"
+    },
     "item": {
       "drug": "Medicine",
       "strength": "Strength",
@@ -246,7 +308,10 @@
     "open_record": "Open record"
   },
   "notes": {
-    "new": { "title": "Visit note", "submit": "Save note" },
+    "new": {
+      "title": "Visit note",
+      "submit": "Save note"
+    },
     "patient_instructions": "Instructions for the patient",
     "clinical_note": "Clinical note (doctor + patient only)",
     "follow_up": "Set a follow-up",
@@ -261,9 +326,20 @@
       "reset_qr": "Reset my QR",
       "no_record": "No health record is linked to this account yet."
     },
-    "visits": { "title": "My visits", "empty": "No visits yet." },
-    "access": { "title": "Who viewed my record", "empty": "No access recorded yet." },
-    "consents": { "title": "Consents", "empty": "No consents yet.", "revoke": "Revoke", "grant": "Grant" }
+    "visits": {
+      "title": "My visits",
+      "empty": "No visits yet."
+    },
+    "access": {
+      "title": "Who viewed my record",
+      "empty": "No access recorded yet."
+    },
+    "consents": {
+      "title": "Consents",
+      "empty": "No consents yet.",
+      "revoke": "Revoke",
+      "grant": "Grant"
+    }
   },
   "admin": {
     "approvals": {
@@ -274,12 +350,27 @@
       "prc": "PRC",
       "status": "Status"
     },
-    "seed": { "title": "Seed BHW", "user_id": "Auth user ID", "barangay": "Barangay", "full_name": "Full name", "submit": "Create BHW" },
+    "seed": {
+      "title": "Seed BHW",
+      "user_id": "Auth user ID",
+      "barangay": "Barangay",
+      "full_name": "Full name",
+      "submit": "Create BHW"
+    },
     "reports": {
       "title": "Aggregate reports",
       "checkups": "Check-ups",
       "load_failed": "Couldn't load the report. Try again."
     },
-    "audit": { "title": "Audit log", "empty": "No audit entries.", "action": "Action", "actor": "User ID", "when": "When" }
+    "audit": {
+      "title": "Audit log",
+      "empty": "No audit entries.",
+      "action": "Action",
+      "actor": "User ID",
+      "when": "When"
+    }
+  },
+  "app": {
+    "name": "CareLink"
   }
 }

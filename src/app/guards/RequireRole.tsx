@@ -26,7 +26,7 @@ export function RequireRole({
   }
 
   if (!profile) {
-    // Signed in but no profile row yet (e.g. unverified citizen).
+    // Signed in but no profile row (e.g. doctor applicant awaiting approval).
     return <Navigate to="/pending" replace />;
   }
 

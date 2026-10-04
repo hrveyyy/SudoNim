@@ -86,8 +86,9 @@ export function is_permanent(error: unknown): boolean {
 async function send(item: outbox_item): Promise<void> {
   if (item.kind === 'rpc') {
     if (!item.rpc_name) throw new Error('rpc item missing rpc_name');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- generated
-    // RPC types are not available on the placeholder Database type yet.
+    // rpc_name/payload come from the outbox row, so they can't be narrowed to
+    // one generated RPC signature here.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- see above
     const { error } = await supabase.rpc(item.rpc_name as any, item.payload as any);
     if (error) throw error;
     return;

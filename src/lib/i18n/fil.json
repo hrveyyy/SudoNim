@@ -32,14 +32,14 @@
       "surname": "Apelyido",
       "first_name": "Pangalan",
       "sex": "Kasarian",
-      "birthdate": "Kapanganakan",
+      "birthdate": "Petsa ng kapanganakan",
       "full_name": "Buong pangalan",
       "barangay": "Barangay",
       "hospital": "Ospital",
-      "show": "Ipakita",
-      "hide": "Itago",
-      "show_password": "Ipakita ang password",
-      "hide_password": "Itago ang password"
+      "password_hint": "Hindi bababa sa 8 character.",
+      "sex_female": "Babae",
+      "sex_male": "Lalaki",
+      "select": "Pumili…"
     },
     "sex": {
       "male": "Lalaki",
@@ -53,33 +53,31 @@
       "submit": "Mag-sign in",
       "submitting": "Nagsi-sign in…",
       "link": "Mag-sign in",
-      "no_account": "Wala pang account?",
       "wrong_portal": "Hindi maaaring mag-sign in dito ang account na ito. Gamitin ang tamang portal mula sa home page.",
-      "doctor_pending": "Sinusuri pa ang iyong aplikasyon bilang doktor. Makaka-sign in ka kapag inaprubahan ito ng administrator.",
-      "doctor_rejected": "Hindi naaprubahan ang iyong aplikasyon bilang doktor. Makipag-ugnayan sa administrator."
+      "failed": "Hindi ka namin ma-sign in. Suriin ang iyong email at password at subukang muli.",
+      "locked": "Masyadong maraming pagsubok. Subukang muli pagkalipas ng {{minutes}} minuto.",
+      "as_role": "Nagsi-sign in bilang {{role}}"
     },
     "portal": {
-      "citizen": "Mamamayan / Pasyente",
-      "staff": "Barangay Health Worker",
-      "doctor": "Doktor",
       "admin": "Administrator"
     },
     "landing": {
       "title": "Maligayang pagdating sa CareLink",
-      "subtitle": "Piliin kung paano ka mag-sign in.",
-      "citizen_hint": "Tingnan ang iyong health card, reseta, at access sa rekord.",
-      "staff_hint": "Mag-screen ng residente at pamahalaan ang masterlist ng barangay.",
-      "doctor_hint": "Buksan ang rekord ng pasyente sa pamamagitan ng QR scan at pairing key.",
-      "back": "Bumalik sa home"
+      "intro": "Isang ibinabahaging rekord ng kalusugan na sumusunod sa pasyente, mula sa barangay health center hanggang sa ospital.",
+      "cta": "Magsimula",
+      "feature_record": "Isang rekord ng kalusugan, binubuksan gamit ang iyong QR card",
+      "feature_screening": "Libreng screening sa iyong barangay health center",
+      "feature_privacy": "Makikita mo kung sino ang nagbukas ng iyong rekord, at kailan",
+      "disclaimer": "Ang CareLink ay pantulong sa screening at koordinasyon ng pangangalaga, hindi kasangkapan sa pag-diagnose."
     },
     "register": {
       "title": "Gumawa ng account",
       "submit": "Magrehistro",
       "submitting": "Nagrerehistro…",
-      "link": "Magrehistro",
-      "have_account": "May account na?",
-      "created_sign_in": "Nagawa na ang iyong account. Mangyaring mag-sign in.",
-      "pairing_note": "Ang iyong apelyido at kapanganakan ang magse-set ng iyong access key. Hihingin ito ng doktor pagkatapos i-scan ang iyong QR code."
+      "pairing_note": "Ang iyong apelyido at kapanganakan ang magse-set ng iyong access key. Hihingin ito ng doktor pagkatapos i-scan ang iyong QR code.",
+      "created": "Nagawa na ang iyong account. Mag-sign in para mabuksan ang iyong health record.",
+      "subtitle": "Gumawa ng CareLink account para makita ang iyong health card, mga pagbisita, at mga reseta.",
+      "barangays_failed": "Hindi ma-load ang mga barangay. Suriin ang koneksyon at subukang muli."
     },
     "doctor": {
       "title": "Pagpaparehistro ng doktor",
@@ -88,11 +86,44 @@
       "submit": "Isumite ang aplikasyon",
       "submitting": "Isinusumite…",
       "pending": "Natanggap na ang iyong aplikasyon. Rerepasuhin ng administrator ang iyong PRC license at mga dokumento. Makaka-sign in ka na kapag naaprubahan.",
-      "apply_retry": "Nagawa na ang iyong account, pero hindi pa naisumite ang iyong aplikasyon. Mag-sign in sa doctor portal para tapusin ang pagsumite."
+      "apply_retry": "Nagawa na ang iyong account, pero hindi pa naipapasa ang iyong aplikasyon. Mag-sign in bilang doktor para matapos itong ipasa.",
+      "already_registered": "Nakarehistro na ang email na ito. Mag-sign in na lang, o gumamit ng ibang email.",
+      "awaiting_approval": "Nirerepaso pa ang iyong aplikasyon bilang doktor. Kailangan muna itong aprubahan ng administrator bago ka makapag-sign in.",
+      "rejected": "Hindi naaprubahan ang iyong aplikasyon bilang doktor. Makipag-ugnayan sa administrator para sa detalye.",
+      "hospitals_failed": "Hindi ma-load ang listahan ng mga ospital. Suriin ang iyong koneksyon at subukang muli."
     },
     "pending": {
       "title": "Hindi pa aktibo ang account",
-      "body": "Hindi pa aktibo ang iyong account. Kung nag-apply ka bilang doktor, kailangan pa itong aprubahan ng administrator."
+      "body": "Hindi pa aktibo ang iyong account. Kung nag-apply ka bilang doktor, nirerepaso pa ng administrator ang iyong aplikasyon."
+    },
+    "error": {
+      "email_required": "Kailangan ang email.",
+      "email_invalid": "Maglagay ng wastong email address.",
+      "password_required": "Kailangan ang password."
+    },
+    "status": {
+      "title": "Bago ka ba sa CareLink?",
+      "new": "Bago sa CareLink",
+      "returning": "May account na ako",
+      "back": "Bumalik",
+      "subtitle": "Ituturo ka namin sa tamang lugar.",
+      "new_hint": "Gumawa ng account o mag-apply para sa access",
+      "returning_hint": "Mag-sign in gamit ang iyong email at password"
+    },
+    "role": {
+      "title": "Piliin ang iyong tungkulin",
+      "citizen": "Mamamayan / Pasyente",
+      "physician": "Doktor",
+      "barangay_staff": "Barangay Health Worker",
+      "back": "Bumalik",
+      "subtitle_new": "Sabihin sa amin kung sino ka para maihanda ang tamang account.",
+      "subtitle_returning": "Piliin ang account na gusto mong pasukan.",
+      "citizen_hint": "Ang iyong health card, mga reseta, at mga pagbisita",
+      "physician_hint": "Buksan ang rekord sa QR scan at pairing key",
+      "barangay_staff_hint": "Mag-screen ng residente at pamahalaan ang masterlist"
+    },
+    "wizard": {
+      "step": "Hakbang {{current}} sa {{total}}"
     }
   },
   "common": {
@@ -128,15 +159,27 @@
     "empty": "Walang nahanap na pasyente.",
     "search_placeholder": "Maghanap ng pangalan o code",
     "filter_label": "Filter ng verification",
-    "filter": { "all": "Lahat", "verified": "Verified", "unverified": "Hindi pa verified" },
+    "filter": {
+      "all": "Lahat",
+      "verified": "Verified",
+      "unverified": "Hindi pa verified"
+    },
     "new_patient": "Bagong pasyente",
     "export_csv": "I-export CSV",
     "export_confirm": "May pangalan ng pasyente ang export na ito. Ituloy?",
     "open": "Buksan",
-    "col": { "name": "Pangalan", "code": "Code", "status": "Status", "actions": "Aksyon" }
+    "col": {
+      "name": "Pangalan",
+      "code": "Code",
+      "status": "Status",
+      "actions": "Aksyon"
+    }
   },
   "patients": {
-    "new": { "title": "Irehistro ang residente", "submit": "Irehistro" },
+    "new": {
+      "title": "Irehistro ang residente",
+      "submit": "Irehistro"
+    },
     "record": {
       "title": "Rekord ng pasyente",
       "verify": "I-verify nang personal",
@@ -147,7 +190,10 @@
     }
   },
   "checkups": {
-    "new": { "title": "Bagong check-up", "submit": "I-save ang check-up" },
+    "new": {
+      "title": "Bagong check-up",
+      "submit": "I-save ang check-up"
+    },
     "preview": "Preview ng risk",
     "preview_note": "Preview lamang. Ang server ang kukompyut ng opisyal na resulta.",
     "field": {
@@ -168,9 +214,17 @@
     "title": "Mga referral",
     "empty": "Wala pang referral.",
     "no_reason": "Walang ibinigay na dahilan",
-    "new": { "title": "Bagong referral", "submit": "Ipadala ang referral" },
-    "detail": { "title": "Referral" },
-    "field": { "reason": "Dahilan", "facility": "Ospital na tatanggap" },
+    "new": {
+      "title": "Bagong referral",
+      "submit": "Ipadala ang referral"
+    },
+    "detail": {
+      "title": "Referral"
+    },
+    "field": {
+      "reason": "Dahilan",
+      "facility": "Ospital na tatanggap"
+    },
     "advance_to": "Markahan bilang {{status}}",
     "cancel": "Kanselahin ang referral",
     "status": {
@@ -202,7 +256,10 @@
   },
   "reports": {
     "title": "Buwanang ulat",
-    "col": { "outcome": "Resulta", "count": "Bilang" }
+    "col": {
+      "outcome": "Resulta",
+      "count": "Bilang"
+    }
   },
   "prescriptions": {
     "title": "Reseta",
@@ -216,7 +273,12 @@
     "empty": "Wala pang reseta.",
     "view": "Tingnan",
     "print": "I-print",
-    "new": { "title": "Bagong reseta", "submit": "Mag-isyu ng reseta", "add_item": "Magdagdag ng gamot", "follow_up": "Petsa ng follow-up" },
+    "new": {
+      "title": "Bagong reseta",
+      "submit": "Mag-isyu ng reseta",
+      "add_item": "Magdagdag ng gamot",
+      "follow_up": "Petsa ng follow-up"
+    },
     "item": {
       "drug": "Gamot",
       "strength": "Lakas",
@@ -246,7 +308,10 @@
     "open_record": "Buksan ang rekord"
   },
   "notes": {
-    "new": { "title": "Tala ng pagbisita", "submit": "I-save ang tala" },
+    "new": {
+      "title": "Tala ng pagbisita",
+      "submit": "I-save ang tala"
+    },
     "patient_instructions": "Panuto para sa pasyente",
     "clinical_note": "Klinikal na tala (doktor + pasyente lamang)",
     "follow_up": "Magtakda ng follow-up",
@@ -261,9 +326,20 @@
       "reset_qr": "I-reset ang aking QR",
       "no_record": "Wala pang health record na naka-link sa account na ito."
     },
-    "visits": { "title": "Aking mga pagbisita", "empty": "Wala pang pagbisita." },
-    "access": { "title": "Sino ang tumingin sa aking rekord", "empty": "Walang naitalang access." },
-    "consents": { "title": "Mga pahintulot", "empty": "Wala pang pahintulot.", "revoke": "Bawiin", "grant": "Ibigay" }
+    "visits": {
+      "title": "Aking mga pagbisita",
+      "empty": "Wala pang pagbisita."
+    },
+    "access": {
+      "title": "Sino ang tumingin sa aking rekord",
+      "empty": "Walang naitalang access."
+    },
+    "consents": {
+      "title": "Mga pahintulot",
+      "empty": "Wala pang pahintulot.",
+      "revoke": "Bawiin",
+      "grant": "Ibigay"
+    }
   },
   "admin": {
     "approvals": {
@@ -274,12 +350,27 @@
       "prc": "PRC",
       "status": "Status"
     },
-    "seed": { "title": "Mag-seed ng BHW", "user_id": "Auth user ID", "barangay": "Barangay", "full_name": "Buong pangalan", "submit": "Gumawa ng BHW" },
+    "seed": {
+      "title": "Mag-seed ng BHW",
+      "user_id": "Auth user ID",
+      "barangay": "Barangay",
+      "full_name": "Buong pangalan",
+      "submit": "Gumawa ng BHW"
+    },
     "reports": {
       "title": "Mga pinagsama-samang ulat",
       "checkups": "Mga check-up",
       "load_failed": "Hindi ma-load ang ulat. Subukan ulit."
     },
-    "audit": { "title": "Audit log", "empty": "Walang audit entry.", "action": "Aksyon", "actor": "User ID", "when": "Kailan" }
+    "audit": {
+      "title": "Audit log",
+      "empty": "Walang audit entry.",
+      "action": "Aksyon",
+      "actor": "User ID",
+      "when": "Kailan"
+    }
+  },
+  "app": {
+    "name": "CareLink"
   }
 }

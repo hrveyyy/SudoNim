@@ -1,8 +1,11 @@
 import { format, parseISO } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 
-/** CareLink operates in Philippine time. */
+/** CareLink operates in Philippine time. Mirrors `today_manila()` on the server. */
 export const MANILA_TZ = 'Asia/Manila';
+
+/** Alias of MANILA_TZ (name used by the auth screens). */
+export const APP_TIME_ZONE = MANILA_TZ;
 
 /** Format an ISO timestamp in Asia/Manila. */
 export function formatManila(iso: string, pattern = 'yyyy-MM-dd HH:mm'): string {
@@ -15,9 +18,14 @@ export function formatDate(dateStr: string, pattern = 'MMM d, yyyy'): string {
   return format(parseISO(dateStr), pattern);
 }
 
+/** Today's date in Manila as `yyyy-MM-dd` (for `<input type="date">` bounds). */
+export function today_manila_iso(now: Date = new Date()): string {
+  return formatInTimeZone(now, MANILA_TZ, 'yyyy-MM-dd');
+}
+
 /** Today's date in Asia/Manila as yyyy-MM-dd (client-side convenience). */
 export function todayManila(): string {
-  return formatInTimeZone(new Date(), MANILA_TZ, 'yyyy-MM-dd');
+  return today_manila_iso();
 }
 
 /** Compact birthdate as YYYYMMDD (used only inside the pairing-key input). */

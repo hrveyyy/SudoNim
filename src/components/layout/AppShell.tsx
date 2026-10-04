@@ -17,7 +17,7 @@ export interface AppShellProps {
  */
 export function AppShell({ title, nav, children }: AppShellProps) {
   return (
-    <div className="min-h-screen bg-bg text-text-main">
+    <div className="carelink-app min-h-screen bg-bg text-text-main">
       <div className="flex">
         <SideNav items={nav} />
         <div className="flex min-h-screen flex-1 flex-col">

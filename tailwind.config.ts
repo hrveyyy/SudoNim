@@ -1,42 +1,82 @@
 import type { Config } from 'tailwindcss';
+import animate from 'tailwindcss-animate';
 
 /**
- * CareLink Tailwind config. Brand colors are driven by CSS variables in
- * styles/tokens.css so light/dark themes work without duplicating palettes.
- * Fonts: Bricolage Grotesque (headings), Figtree (body) with system fallbacks.
+ * Tailwind + shadcn/ui theme. Colors resolve to the HSL tokens in
+ * src/styles/tokens.css so light/dark themes stay token-driven.
+ * Dark mode follows the OS (`media`), matching the existing tokens.
  */
 export default {
-  content: ['./index.html', './src/**/*.{ts,tsx}'],
   darkMode: 'media',
+  content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
+    container: {
+      center: true,
+      padding: '1.25rem',
+      screens: { '2xl': '1400px' },
+    },
     extend: {
+      fontFamily: {
+        heading: ['"Bricolage Grotesque"', 'system-ui', '-apple-system', '"Segoe UI"', 'sans-serif'],
+        sans: ['Figtree', 'system-ui', '-apple-system', '"Segoe UI"', 'sans-serif'],
+      },
       colors: {
-        // Reference the token variables so themes flow through automatically.
-        primary: 'var(--cl-primary)',
-        teal: 'var(--cl-teal)',
-        'screened-green': 'var(--cl-screened-green)',
-        'monitor-amber': 'var(--cl-monitor-amber)',
-        'needs-referral-red': 'var(--cl-needs-referral-red)',
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+        accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
+        // CareLink brand / status colors (steering core palette).
+        teal: 'hsl(var(--teal))',
+        screened: 'hsl(var(--screened))',
+        monitor: 'hsl(var(--monitor))',
+        referral: 'hsl(var(--referral))',
+
+        // Legacy `--cl-*` names used by the role screens (staff, doctor,
+        // citizen, admin). Same palette as above; kept so those screens render
+        // unchanged. Prefer the shadcn names above in new code.
         bg: 'var(--cl-bg)',
         surface: 'var(--cl-surface)',
         'text-main': 'var(--cl-text)',
         'text-muted': 'var(--cl-text-muted)',
-        border: 'var(--cl-border)',
-      },
-      fontFamily: {
-        heading: ['Bricolage Grotesque', 'system-ui', 'sans-serif'],
-        body: ['Figtree', 'system-ui', 'sans-serif'],
+        'screened-green': 'var(--cl-screened-green)',
+        'monitor-amber': 'var(--cl-monitor-amber)',
+        'needs-referral-red': 'var(--cl-needs-referral-red)',
       },
       borderRadius: {
+        lg: 'var(--radius)',
+        md: 'calc(var(--radius) - 2px)',
+        sm: 'calc(var(--radius) - 4px)',
+        // Legacy radius for the role screens (see colors above).
         cl: 'var(--cl-radius)',
       },
-      minHeight: {
-        touch: '44px',
-      },
-      minWidth: {
-        touch: '44px',
-      },
+      minHeight: { touch: '44px' },
+      minWidth: { touch: '44px' },
     },
   },
-  plugins: [],
+  plugins: [animate],
 } satisfies Config;
